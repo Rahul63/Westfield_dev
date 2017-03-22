@@ -15,7 +15,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
+        let defaults = UserDefaults.standard
+        let defaultValues = ["":"UserDetail"]
+        defaults.register(defaults: defaultValues)
+        //defaults.registerDefaults(defaultValues)
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let signInVc = storyBoard.instantiateViewController(withIdentifier: "LogInVC") as! LogInViewController
         self.window?.rootViewController = signInVc

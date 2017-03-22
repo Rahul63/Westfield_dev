@@ -9,7 +9,7 @@
 import AVFoundation
 import UIKit
 
-class ChatViewController: UIViewController {
+class ChatViewController: UIViewController,watsonChatCellDelegate {
 
     // MARK: - Constants
     private struct Constants {
@@ -41,6 +41,7 @@ class ChatViewController: UIViewController {
         self.headerView.backgroundColor = UIColor(netHex:0xd89c54)
         setupSimulator()
         chatTextField.chatViewController = self
+        
 
         chatTableView.autoresizingMask = UIViewAutoresizing.flexibleHeight;
         chatTableView.rowHeight = UITableViewAutomaticDimension
@@ -52,6 +53,19 @@ class ChatViewController: UIViewController {
         let gestureTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
         gestureTap.cancelsTouchesInView = false
         chatTableView.addGestureRecognizer(gestureTap)
+        
+        
+        
+//        let recentsItem = self.tabBarController!.tabBar.items![0] as UITabBarItem
+//        let recentsItemImage = UIImage(named:"advice_icon.png")!.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+//        let recentsItemImageSelected = UIImage(named: "advice_icon")!.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+//        recentsItem.image = recentsItemImage
+//        recentsItem.selectedImage = recentsItemImageSelected
+        
+        
+        
+        
+        
     }
 
     // MARK: - Actions
@@ -71,6 +85,7 @@ class ChatViewController: UIViewController {
     
     @IBAction func SignOutButtonPressed(_ sender: Any) {
         
+       // UserDefaults.standard.setValue("", forKey: "UserDetail")
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let logInVc = storyBoard.instantiateViewController(withIdentifier: "LogInVC") as! LogInViewController
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -131,6 +146,22 @@ class ChatViewController: UIViewController {
 
         #endif
     }
+    
+    
+    
+    func loadUrlLink(url : String){
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let detailVc = storyBoard.instantiateViewController(withIdentifier: "WatsonChatDetailViewController") as! WatsonChatDetailViewController
+        detailVc.urlStr = url
+        
+        self.navigationController?.pushViewController(detailVc, animated: true)
+        
+//            let vc = UIAlertController(title: "", message: url, preferredStyle: UIAlertControllerStyle.alert)
+//            vc.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+       // self.present(detailVc, animated: false, completion: nil)
+
+    }
 
 }
 // MARK: - UITableViewDataSource
@@ -153,6 +184,7 @@ extension ChatViewController: UITableViewDataSource {
         case MessageType.Watson:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: WatsonChatViewCell.self),
                                                      for: indexPath) as! WatsonChatViewCell
+            cell.delegate = self
             cell.configure(withMessage: message)
             return cell
 

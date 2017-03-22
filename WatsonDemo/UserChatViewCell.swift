@@ -32,8 +32,11 @@ class UserChatViewCell: UITableViewCell {
     func configure(withMessage message: Message) {
         self.message = message
 
-        if let text = message.text,
+        if var text = message.text,
             text.characters.count > 0 {
+//            print("My final text..>text")
+//            text = text.replacingOccurrences(of: "<br>", with: "\n")
+            
             messageLabel.text = text
         }
 

@@ -8,18 +8,37 @@
 
 import UIKit
 
-class LogInViewController: UIViewController {
+class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
 
     @IBOutlet weak var userNameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var signInButton: UIButton!
+    
+    var logIndata : NSArray = []
+    //var userValue = []()
+    
+    lazy var logInService: MiscellaneousService = MiscellaneousService(delegate:self)
+    
+    // var logInService = MiscellaneousService(delegate: MiscellaneousServiceDelegate.self as! MiscellaneousServiceDelegate) //= MiscellaneousService(delegate:self as! MiscellaneousServiceDelegate)
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//         userValue = UserDefaults.standard.value(forKey: "UserDetail") as? NSArray
+//        if userValue.count>0 {
+//            self.logInUser()
+//        }
+        
         self.signInButton.layer.cornerRadius = 3.0
         self.view.backgroundColor = UIColor(netHex:0xd89c54)
 
+        self.userNameField.text = "a"
+        self.passwordField.text = "b"
         // Do any additional setup after loading the view.
     }
+    
+    
+    
     @IBAction func SignButtonPressed(_ sender: Any) {
         
         if self.userNameField.text == "" && self.passwordField.text == "" {
@@ -27,15 +46,56 @@ class LogInViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }else{
-            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            let BaseTabVc = storyBoard.instantiateViewController(withIdentifier: "tabbarVC") as! UITabBarController
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.window?.rootViewController = BaseTabVc
+            
+            self.validateSigningUser(userName: self.userNameField.text!, password: self.passwordField.text!)
             
         }
         
     }
     
+    func validateSigningUser(userName:String, password:String) {
+        logInService.serviceCallforLogin(withText: userName, and: password)
+    }
+    
+    func didReceiveMessage(withText text: Any){
+        
+        print("myValue>>>\(text)")
+        self.logIndata = text as! NSArray
+        
+       // guard let count = self.logIndata.count else { return <#return value#> }
+        
+        if self.logIndata.count>0{
+            UserDefaults.standard.setValue(self.logIndata, forKey: "UserDetail")
+            
+            self.logInUser()
+        }else{
+            self.logInError()
+        }
+        
+    }
+    
+    
+    func logInError() {
+        let alert = UIAlertController(title: "Alert", message: "Username and password do not match. Please try again", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func logInUser() {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let BaseTabVc = storyBoard.instantiateViewController(withIdentifier: "tabbarVC") as! UITabBarController
+        // UITabBar.appearance().tintColor = UIColor.lightGrayColor()
+        UITabBar.appearance().barTintColor = UIColor(netHex:0xd89c54)
+        
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.red], for:.selected)
+        
+        
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for:.normal)
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.window?.rootViewController = BaseTabVc
+        
+    }
     
     
     

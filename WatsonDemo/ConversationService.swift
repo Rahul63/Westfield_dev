@@ -66,26 +66,50 @@ class ConversationService {
     }
 
     func sendMessage(withText text: String) {
-        if firstName == nil && text != "Hi" {
+        print("Send Msg called")
+        if firstName == nil && text == "-1" {
             firstName = text
+            
+            context = ""
         }
-
+        print("Send Msg called with text..\(text)")
+        
+       // let requestParameters = [workspace_id: '25dfa8a0-0263-471b-8980-317e68c30488',
+                                // input: {'text': 'Turn on the lights'}]
+        
         let requestParameters =
             [Key.input: text,
-             Key.workspaceID: GlobalConstants.sriniCheedallaWorkspaceID,
-             Key.firstName: firstName,
-             Key.lastName: Constants.lastName,
-             Key.nName: Constants.nName,
-             Key.cValue1: value1,
-             Key.cValue2: value2,
-             Key.cValue3: value3,
+//             Key.workspaceID: GlobalConstants.newConversationWorkspaceID, //changed
+//             Key.firstName: firstName,
+//             Key.lastName: Constants.lastName,
+//             Key.nName: Constants.nName,
+//             Key.cValue1: value1,
+//             Key.cValue2: value2,
+//             Key.cValue3: value3,
              Key.context: context
         ]
 
-        var request = URLRequest(url: URL(string: GlobalConstants.sriniCheedallNodeRedWorkflowUrl)!)
+//        conversation.message({
+//            workspace_id: '25dfa8a0-0263-471b-8980-317e68c30488',
+//            input: {'text': 'Turn on the lights'},
+//            context: context
+//        }  
+        
+        print("Send Msg called with Request.Para.\(requestParameters)")
+        var request = URLRequest(url: URL(string: GlobalConstants.wcsWorkflowURL)!)
+        
+        //var request = URLRequest(url: URL(string: GlobalConstants.wcsWorkflowURL)!)
         request.httpMethod = Constants.httpMethodPost
+        let useCred = String(format: "%@:%@",GlobalConstants.wcsUserName,GlobalConstants.wcsPassword)
+        let credData = useCred.data(using: String.Encoding.utf8)
+        let final64V = credData?.base64EncodedString()
+        //request.setValue("Basic Auth\(final64V)", forHTTPHeaderField: "Authorization")
+        //request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = requestParameters.stringFromHttpParameters().data(using: .utf8)
-
+        
+        print("Send Msg called with BODYYYYYYYYY>>>>>>>>>>.\(requestParameters.stringFromHttpParameters())")
+        
+        print("Send Msg called with request Body..\(request)")
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             // check for fundamental networking error
             DispatchQueue.main.async { [weak self] in
@@ -104,6 +128,7 @@ class ConversationService {
                 if let data = responseString?.data(using: String.Encoding.utf8) {
                     do {
                         if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject] {
+                            print("JSON Value...\(json)")
                             self?.parseJson(json: json)
                         }
                     } catch {
@@ -129,7 +154,7 @@ class ConversationService {
 
         // Look for the option params in the brackets
         let nsString = text as NSString
-        let regex = try! NSRegularExpression(pattern: "\\[.*\\]")
+        let regex = try! NSRegularExpression(pattern: "wcs:input>")
         var options: [String]?
         if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
             var optionsString = nsString.substring(with: result.range)
@@ -209,7 +234,7 @@ class ConversationService {
 
                 // check for http errors
                 if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != Constants.statusCodeOK {
-                    print("Failed with status code: \(httpStatus.statusCode)")
+                    //print("Failed with status code: \(httpStatus.description)")
                 }
 
                 let xmlString = String(data: data, encoding: .utf8)
@@ -231,7 +256,7 @@ class ConversationService {
                 lastName = lastName.replacingOccurrences(of: "</WX:lastName", with: "")
 
                 self?.value3 = firstName + " " + lastName
-                self?.sendMessage(withText: "Hi")
+                self?.sendMessage(withText: "-1")
             }
         }
 
@@ -254,3 +279,26 @@ class ConversationService {
         return ""
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//var request = URLRequest(url: url!)
+//request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")  // the request is JSON
+//request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")        // the expected response is also JSON
+//request.httpMethod = "POST"
+//
+//let dictionary = ["email": usr, "userPwd": pwdCode]
+//request.httpBody = try! JSONSerialization.data(withJSONObject: dictionary)
+//
+//let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//    guard let data = data, error == nil else {
