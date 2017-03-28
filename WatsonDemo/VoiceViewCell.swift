@@ -26,9 +26,9 @@ class VoiceViewCell: UITableViewCell {
     @IBAction func swithToggled(_ sender: Any) {
         
         if voiceOnOffSwitch.isOn {
-            self.delegate?.SendMessageWithSwitchValue(with: "on")
-        }else{
             self.delegate?.SendMessageWithSwitchValue(with: "off")
+        }else{
+            self.delegate?.SendMessageWithSwitchValue(with: "on")
         }
         
         

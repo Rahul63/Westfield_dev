@@ -26,6 +26,8 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     var distributionSelectData = ["":""]
     var revValue: String?
     var idDvalue: String?
+    var isFromVoiceUpdate : Bool?
+    
     
     var idValue = ""
     
@@ -42,6 +44,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         super.viewDidLoad()
         //self.headerView.backgroundColor = UIColor(netHex:0xd89c54)
         let userDataId = UserDefaults.standard.value(forKey: "UserDetail") as! NSArray
+        isFromVoiceUpdate = false
         
         print("myUservalue\(userData)")
         
@@ -148,6 +151,16 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
             if (voiceCell == nil) {
                 voiceCell = (tableView.dequeueReusableCell(withIdentifier: "VoiceViewCell") as? VoiceViewCell)!
             }
+            
+            if (self.userData != nil) {
+                let tempData = self.userData[0]
+                if (tempData.voiceValue == "on") {
+                    voiceCell.voiceOnOffSwitch.isOn = false
+                }else{
+                    voiceCell.voiceOnOffSwitch.isOn = true
+                }
+            }
+            
             voiceCell.delegate = self
             voiceCell.selectionStyle = UITableViewCellSelectionStyle.none
             
@@ -333,8 +346,13 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     
     func SendMessageWithSwitchValue(with valueOnOff:String){
-        
+        print(valueOnOff)
+        isFromVoiceUpdate = true
+        let tempData = self.userData[0]
+        profileService.serviceCallforUserUpdate(withText: tempData.firstName, and: tempData.lastName, and: tempData.phoneNumber, and: tempData.email, and: idValue, and: valueOnOff)
     }
+    
+    
     
     
     @IBAction func helpButtonPressed(_ sender: Any) {
@@ -396,16 +414,23 @@ func pressed(sender: UIButton!) {
     func didReceiveMessage(withText text: Any){
         print("\(text)")
         
-        let userDataValue : NSMutableArray = []
-        userDataValue.add(text)
+        if isFromVoiceUpdate! {
+            isFromVoiceUpdate = false
+            //
+        }else{
+            let userDataValue : NSMutableArray = []
+            userDataValue.add(text)
+            
+            //let userDataValue = ((text as AnyObject).mutablecopy())! as! NSMutableArray
+            
+            self.userData = ProfileModel.createDataForPeopleView(userDataValue)
+            
+            // self.userData = (text as? [String : String])!
+            settingsTableView.reloadData()
+            self.getDistributionListDetail()
+        }
         
-        //let userDataValue = ((text as AnyObject).mutablecopy())! as! NSMutableArray
         
-        self.userData = ProfileModel.createDataForPeopleView(userDataValue)
-        
-       // self.userData = (text as? [String : String])!
-        settingsTableView.reloadData()
-        self.getDistributionListDetail()
         
     }
     
