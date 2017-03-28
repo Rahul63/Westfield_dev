@@ -14,6 +14,9 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var signInButton: UIButton!
     
+    let button = KGRadioButton(frame: CGRect(x: 20, y: 170, width: 25, height: 25))
+    let label2 = UILabel(frame: CGRect(x: 90, y: 160, width: 200, height: 70))
+    
     var logIndata : NSArray = []
     //var userValue = []()
     
@@ -24,9 +27,15 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        button.addTarget(self, action: #selector(manualAction(sender:)), for: .touchUpInside)
+//        button.outerCircleColor = UIColor.red
+//        self.view.addSubview(button)
+//        label2.text = "Not Selected"
+//        self.view.addSubview(label2)
+        
 //         userValue = UserDefaults.standard.value(forKey: "UserDetail") as? NSArray
 //        if userValue.count>0 {
-//            self.logInUser()
+           //self.logInUser()
 //        }
         
         self.signInButton.layer.cornerRadius = 3.0
@@ -35,6 +44,15 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         self.userNameField.text = "a"
         self.passwordField.text = "b"
         // Do any additional setup after loading the view.
+    }
+    
+    func manualAction (sender: KGRadioButton) {
+        sender.isSelected = !sender.isSelected
+        if sender.isSelected {
+            label2.text = "Selected"
+        } else{
+            label2.text = "Not Selected"
+        }
     }
     
     
@@ -76,7 +94,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     
     
     func logInError() {
-        let alert = UIAlertController(title: "Alert", message: "Username and password do not match. Please try again", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Error", message: "The username or password you entered is not correct.  Please try again.", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
@@ -87,7 +105,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         // UITabBar.appearance().tintColor = UIColor.lightGrayColor()
         UITabBar.appearance().barTintColor = UIColor(netHex:0xd89c54)
         
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.red], for:.selected)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.blue], for:.selected)
         
         
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for:.normal)

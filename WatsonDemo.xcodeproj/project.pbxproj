@@ -46,6 +46,7 @@
 		B4D160FF1DDBF1FC00D436F1 /* SpeechToTextV1.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B4D160FC1DDBF1EE00D436F1 /* SpeechToTextV1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B4D161021DDBF2C600D436F1 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D161011DDBF2C600D436F1 /* Dictionary+Extension.swift */; };
 		B4F56E881DF722550068A426 /* UIImage+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F56E871DF722550068A426 /* UIImage+Assets.swift */; };
+		B78234BA1E88F682000C5338 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78234B91E88F682000C5338 /* Settings.swift */; };
 		B7873FD11E7BD58000935479 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7873FD01E7BD58000935479 /* UserDetailViewController.swift */; };
 		B78A6F6D1E7927540081CFE1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78A6F6C1E7927540081CFE1 /* SettingsViewController.swift */; };
 		B78A6F701E79483C0081CFE1 /* UserViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78A6F6F1E79483C0081CFE1 /* UserViewCell.swift */; };
@@ -61,6 +62,13 @@
 		B79E42EE1E72BDB500EBEAA9 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79E42ED1E72BDB500EBEAA9 /* LogInViewController.swift */; };
 		B7A50BEA1E826F5E00D82A84 /* WatsonChatDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BE91E826F5E00D82A84 /* WatsonChatDetailViewController.swift */; };
 		B7A50BEC1E82812C00D82A84 /* MiscellaneousService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BEB1E82812C00D82A84 /* MiscellaneousService.swift */; };
+		B7A50BEE1E83E7E500D82A84 /* DistributionListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BED1E83E7E500D82A84 /* DistributionListService.swift */; };
+		B7A50BF01E84C35700D82A84 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BEF1E84C35700D82A84 /* RadioButton.swift */; };
+		B7A50BF21E852C8400D82A84 /* DistDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BF11E852C8400D82A84 /* DistDetailViewController.swift */; };
+		B7A50BF41E852CC100D82A84 /* AddDistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BF31E852CC100D82A84 /* AddDistViewController.swift */; };
+		B7B5F6171E8A5C40000335B3 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5F6141E8A5C40000335B3 /* CustomTabBarController.swift */; };
+		B7B5F6181E8A5C40000335B3 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5F6151E8A5C40000335B3 /* CustomTabBar.swift */; };
+		B7B5F6191E8A5C40000335B3 /* CustomTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5F6161E8A5C40000335B3 /* CustomTabBarItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -118,6 +126,7 @@
 		B4D160FC1DDBF1EE00D436F1 /* SpeechToTextV1.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpeechToTextV1.framework; sourceTree = "<group>"; };
 		B4D161011DDBF2C600D436F1 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		B4F56E871DF722550068A426 /* UIImage+Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Assets.swift"; sourceTree = "<group>"; };
+		B78234B91E88F682000C5338 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		B7873FD01E7BD58000935479 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		B78A6F6C1E7927540081CFE1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B78A6F6F1E79483C0081CFE1 /* UserViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewCell.swift; sourceTree = "<group>"; };
@@ -133,6 +142,13 @@
 		B79E42ED1E72BDB500EBEAA9 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		B7A50BE91E826F5E00D82A84 /* WatsonChatDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatsonChatDetailViewController.swift; sourceTree = "<group>"; };
 		B7A50BEB1E82812C00D82A84 /* MiscellaneousService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiscellaneousService.swift; sourceTree = "<group>"; };
+		B7A50BED1E83E7E500D82A84 /* DistributionListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributionListService.swift; sourceTree = "<group>"; };
+		B7A50BEF1E84C35700D82A84 /* RadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
+		B7A50BF11E852C8400D82A84 /* DistDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistDetailViewController.swift; sourceTree = "<group>"; };
+		B7A50BF31E852CC100D82A84 /* AddDistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDistViewController.swift; sourceTree = "<group>"; };
+		B7B5F6141E8A5C40000335B3 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		B7B5F6151E8A5C40000335B3 /* CustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		B7B5F6161E8A5C40000335B3 /* CustomTabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +183,8 @@
 				B78A6F6C1E7927540081CFE1 /* SettingsViewController.swift */,
 				B7873FD01E7BD58000935479 /* UserDetailViewController.swift */,
 				B7A50BE91E826F5E00D82A84 /* WatsonChatDetailViewController.swift */,
+				B7A50BF11E852C8400D82A84 /* DistDetailViewController.swift */,
+				B7A50BF31E852CC100D82A84 /* AddDistViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -210,6 +228,10 @@
 				B79D3A231E814CCA0035133B /* ActiveBuilder.swift */,
 				B79D3A241E814CCA0035133B /* RegexParser.swift */,
 				B79D3A251E814CCA0035133B /* StringTrimExtension.swift */,
+				B7A50BEF1E84C35700D82A84 /* RadioButton.swift */,
+				B7B5F6141E8A5C40000335B3 /* CustomTabBarController.swift */,
+				B7B5F6151E8A5C40000335B3 /* CustomTabBar.swift */,
+				B7B5F6161E8A5C40000335B3 /* CustomTabBarItem.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -229,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				B48B18721DDA8768008CE7C2 /* Message.swift */,
+				B78234B91E88F682000C5338 /* Settings.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -240,6 +263,7 @@
 				B4D160FA1DDBF19D00D436F1 /* SpeechToTextService.swift */,
 				B48B18781DDB7025008CE7C2 /* TextToSpeechService.swift */,
 				B7A50BEB1E82812C00D82A84 /* MiscellaneousService.swift */,
+				B7A50BED1E83E7E500D82A84 /* DistributionListService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -393,13 +417,16 @@
 				B47B68C01DF423FF00AB6421 /* GradientView.swift in Sources */,
 				B78A6F721E7948500081CFE1 /* VoiceViewCell.swift in Sources */,
 				B48B18701DDA139F008CE7C2 /* ChatTextField.swift in Sources */,
+				B78234BA1E88F682000C5338 /* Settings.swift in Sources */,
 				B48B18791DDB7025008CE7C2 /* TextToSpeechService.swift in Sources */,
 				B4562FF21DF8D7E500171C0B /* VideoViewCell.swift in Sources */,
 				B79D3A201E8146840035133B /* AttributedLable.swift in Sources */,
+				B7A50BF01E84C35700D82A84 /* RadioButton.swift in Sources */,
 				B47B68C21DF5D03D00AB6421 /* ButtonsView.swift in Sources */,
 				B40FDFEA1DE3EF6900BE07EB /* MapViewCell.swift in Sources */,
 				B79D3A261E814CCA0035133B /* ActiveType.swift in Sources */,
 				B78A6F701E79483C0081CFE1 /* UserViewCell.swift in Sources */,
+				B7A50BF41E852CC100D82A84 /* AddDistViewController.swift in Sources */,
 				B4D160FB1DDBF19D00D436F1 /* SpeechToTextService.swift in Sources */,
 				B79D3A2A1E814CCA0035133B /* StringTrimExtension.swift in Sources */,
 				B78A6F6D1E7927540081CFE1 /* SettingsViewController.swift in Sources */,
@@ -407,7 +434,9 @@
 				B40FDFE61DDF89BF00BE07EB /* CustomButton.swift in Sources */,
 				B4395A001DE50DD400F2C075 /* CustomView.swift in Sources */,
 				B4CBCF951DD91EA70003074A /* AppDelegate.swift in Sources */,
+				B7B5F6191E8A5C40000335B3 /* CustomTabBarItem.swift in Sources */,
 				B78A6F761E7948B60081CFE1 /* DistListViewCell.swift in Sources */,
+				B7A50BF21E852C8400D82A84 /* DistDetailViewController.swift in Sources */,
 				B48B186E1DDA0BAB008CE7C2 /* ChatInputAccessoryView.swift in Sources */,
 				B48B18731DDA8768008CE7C2 /* Message.swift in Sources */,
 				B48B187F1DDB8D80008CE7C2 /* GlobalConstants.swift in Sources */,
@@ -416,12 +445,15 @@
 				B4F56E881DF722550068A426 /* UIImage+Assets.swift in Sources */,
 				B48B18811DDB908E008CE7C2 /* ConversationService.swift in Sources */,
 				B7A50BEC1E82812C00D82A84 /* MiscellaneousService.swift in Sources */,
+				B7B5F6181E8A5C40000335B3 /* CustomTabBar.swift in Sources */,
 				B4CBCF971DD91EA70003074A /* OverviewViewController.swift in Sources */,
 				B79E42EE1E72BDB500EBEAA9 /* LogInViewController.swift in Sources */,
 				B79D3A281E814CCA0035133B /* ActiveBuilder.swift in Sources */,
+				B7A50BEE1E83E7E500D82A84 /* DistributionListService.swift in Sources */,
 				B7A50BEA1E826F5E00D82A84 /* WatsonChatDetailViewController.swift in Sources */,
 				B79D3A271E814CCA0035133B /* ActiveLabel.swift in Sources */,
 				B78A6F741E7948930081CFE1 /* DistributionViewCell.swift in Sources */,
+				B7B5F6171E8A5C40000335B3 /* CustomTabBarController.swift in Sources */,
 				B79D3A291E814CCA0035133B /* RegexParser.swift in Sources */,
 				B7873FD11E7BD58000935479 /* UserDetailViewController.swift in Sources */,
 				B48B18641DD96A66008CE7C2 /* WatsonChatViewCell.swift in Sources */,

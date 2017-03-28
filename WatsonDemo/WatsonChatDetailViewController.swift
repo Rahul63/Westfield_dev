@@ -23,7 +23,7 @@ class WatsonChatDetailViewController: UIViewController,UIWebViewDelegate {
 
     @IBAction func backButtonPressed(_ sender: Any) {
         
-        navigationController?.popViewController(animated: true)
+        _=self.navigationController?.popViewController(animated: true)
         
         self.dismiss(animated: false, completion: nil)
         

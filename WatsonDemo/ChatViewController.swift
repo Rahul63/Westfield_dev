@@ -8,6 +8,7 @@
 
 import AVFoundation
 import UIKit
+import UserNotifications
 
 class ChatViewController: UIViewController,watsonChatCellDelegate {
 
@@ -37,6 +38,17 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        NotificationCenter.default.addObserver(self, selector: #selector(updateChatField), name: NSNotification.Name(rawValue: "ChatfieldShouldRefresh"), object: nil)
+//        if #available(iOS 10.0, *) {
+//            UNUserNotificationCenter.current().requestAuthorization(
+//                options: [.alert,.sound,.badge],
+//                completionHandler: { (granted,error) in
+//                    self.isGrantedNotificationAccess = granted
+//            }
+//            )
+//        } else {
+//            // Fallback on earlier versions
+//        }
         
         self.headerView.backgroundColor = UIColor(netHex:0xd89c54)
         setupSimulator()
@@ -50,9 +62,9 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         // We need to send some dummy text to keep off the conversation
         conversationService.getValues()
 
-        let gestureTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
-        gestureTap.cancelsTouchesInView = false
-        chatTableView.addGestureRecognizer(gestureTap)
+//        let gestureTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
+//        gestureTap.cancelsTouchesInView = false
+//        chatTableView.addGestureRecognizer(gestureTap)
         
         
         
@@ -67,6 +79,14 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         
         
     }
+    
+//    func updateChatField(notification: NSNotification) {
+//        NSLog("Object is %@", notification.value(forKey: "object") as! String!)
+//    }
+    
+//    func updateChatField()  {
+//        //
+//    }
 
     // MARK: - Actions
     @IBAction func micButtonTapped() {
@@ -147,9 +167,18 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         #endif
     }
     
+    func SendMessageWithButtonValue(with value:String){
+        print(value)
+        
+        let userMessage = Message(type: MessageType.User, text: value, options: nil)
+        self.appendChat(withMessage: userMessage)
+
+        
+    }
     
     
-    func loadUrlLink(url : String){
+    
+    func loadUrlLink(url : String?){
         
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let detailVc = storyBoard.instantiateViewController(withIdentifier: "WatsonChatDetailViewController") as! WatsonChatDetailViewController
@@ -182,8 +211,12 @@ extension ChatViewController: UITableViewDataSource {
             return cell
 
         case MessageType.Watson:
+            //var cell : WatsonChatViewCell!
+            
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: WatsonChatViewCell.self),
-                                                     for: indexPath) as! WatsonChatViewCell
+                                                         for: indexPath) as! WatsonChatViewCell
+            
             cell.delegate = self
             cell.configure(withMessage: message)
             return cell

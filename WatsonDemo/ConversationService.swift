@@ -45,6 +45,7 @@ class ConversationService {
         static let lastName = "lname"
         static let nName = "nname"
         static let workspaceID = "workspace_id"
+        static let idV = "id"
     }
 
     // MARK: - Map
@@ -85,7 +86,7 @@ class ConversationService {
 //             Key.nName: Constants.nName,
 //             Key.cValue1: value1,
 //             Key.cValue2: value2,
-//             Key.cValue3: value3,
+             Key.idV: "1",
              Key.context: context
         ]
 
@@ -154,16 +155,16 @@ class ConversationService {
 
         // Look for the option params in the brackets
         let nsString = text as NSString
-        let regex = try! NSRegularExpression(pattern: "wcs:input>")
-        var options: [String]?
-        if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
-            var optionsString = nsString.substring(with: result.range)
-            text = text.replacingOccurrences(of: optionsString, with: "")
-            optionsString = optionsString.replacingOccurrences(of: "[", with: "")
-            optionsString = optionsString.replacingOccurrences(of: "]", with: "")
-            optionsString = optionsString.replacingOccurrences(of: ", ", with: ",")
-            options = optionsString.components(separatedBy: ",")
-        }
+//        let regex = try! NSRegularExpression(pattern: "wcs:input>")
+//        var options: [String]?
+//        if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
+//            var optionsString = nsString.substring(with: result.range)
+//            text = text.replacingOccurrences(of: optionsString, with: "")
+//            optionsString = optionsString.replacingOccurrences(of: "[", with: "")
+//            optionsString = optionsString.replacingOccurrences(of: "]", with: "")
+//            optionsString = optionsString.replacingOccurrences(of: ", ", with: ",")
+//            options = optionsString.components(separatedBy: ",")
+//        }
 
         #if DEBUG
             //                      options = ["4 PM today", "9:30 AM tomorrow", "1 PM tomorrow", "checking", "savings", "savings"]
@@ -200,7 +201,7 @@ class ConversationService {
 //            text = "I would suggest starting with the basics"
             text = "Let me show you a short video to see the effects of distracted driving"
         #endif
-        self.delegate?.didReceiveMessage(withText: text, options: options)
+        self.delegate?.didReceiveMessage(withText: text, options: nil)
         if let mapUrlString = mapUrlString, let mapUrl = URL(string: mapUrlString) {
             self.delegate?.didReceiveMap(withUrl: mapUrl)
         }
@@ -220,51 +221,53 @@ class ConversationService {
     }
 
     func getValues() {
-        var request = URLRequest(url: URL(string: GlobalConstants.valuesCall)!)
-        request.httpMethod = Constants.httpMethodGet
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // check for fundamental networking error
-            DispatchQueue.main.async { [weak self] in
-
-                guard let data = data, error == nil else {
-                    print("error=\(error)")
-                    return
-                }
-
-                // check for http errors
-                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != Constants.statusCodeOK {
-                    //print("Failed with status code: \(httpStatus.description)")
-                }
-
-                let xmlString = String(data: data, encoding: .utf8)
-
-                self?.value1 = (self?.findMatch(pattern: "policyNumber>.*<", text: xmlString!))!
-                self?.value1 = self?.value1?.replacingOccurrences(of: "policyNumber>", with: "")
-                self?.value1 = self?.value1?.replacingOccurrences(of: "<", with: "")
-
-                self?.value2 = (self?.findMatch(pattern: "causeOfLoss>.*<", text: xmlString!))!
-                self?.value2 = self?.value2?.replacingOccurrences(of: "causeOfLoss>", with: "")
-                self?.value2 = self?.value2?.replacingOccurrences(of: "<", with: "")
-
-                var firstName = (self?.findMatch(pattern: "firstName>.*<", text: xmlString!))!
-                firstName = firstName.replacingOccurrences(of: "firstName>", with: "")
-                firstName = firstName.replacingOccurrences(of: "<", with: "")
-
-                var lastName = (self?.findMatch(pattern: "lastName>.*</WX:lastName", text: xmlString!))!
-                lastName = lastName.replacingOccurrences(of: "lastName>", with: "")
-                lastName = lastName.replacingOccurrences(of: "</WX:lastName", with: "")
-
-                self?.value3 = firstName + " " + lastName
-                self?.sendMessage(withText: "-1")
-            }
-        }
-
-        /// Delay conversation request so as to give the keyboard time to dismiss and chat table view to scroll bottom
-        let when = DispatchTime.now()
-        DispatchQueue.main.asyncAfter(deadline: when + 0.3) {
-            task.resume()
-        }
+        
+        self.sendMessage(withText: "-1")
+//        var request = URLRequest(url: URL(string: GlobalConstants.valuesCall)!)
+//        request.httpMethod = Constants.httpMethodGet
+//
+//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//            // check for fundamental networking error
+//            DispatchQueue.main.async { [weak self] in
+//
+//                guard let data = data, error == nil else {
+//                    print("error=\(error)")
+//                    return
+//                }
+//
+//                // check for http errors
+//                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != Constants.statusCodeOK {
+//                    //print("Failed with status code: \(httpStatus.description)")
+//                }
+//
+//                let xmlString = String(data: data, encoding: .utf8)
+//
+//                self?.value1 = (self?.findMatch(pattern: "policyNumber>.*<", text: xmlString!))!
+//                self?.value1 = self?.value1?.replacingOccurrences(of: "policyNumber>", with: "")
+//                self?.value1 = self?.value1?.replacingOccurrences(of: "<", with: "")
+//
+//                self?.value2 = (self?.findMatch(pattern: "causeOfLoss>.*<", text: xmlString!))!
+//                self?.value2 = self?.value2?.replacingOccurrences(of: "causeOfLoss>", with: "")
+//                self?.value2 = self?.value2?.replacingOccurrences(of: "<", with: "")
+//
+//                var firstName = (self?.findMatch(pattern: "firstName>.*<", text: xmlString!))!
+//                firstName = firstName.replacingOccurrences(of: "firstName>", with: "")
+//                firstName = firstName.replacingOccurrences(of: "<", with: "")
+//
+//                var lastName = (self?.findMatch(pattern: "lastName>.*</WX:lastName", text: xmlString!))!
+//                lastName = lastName.replacingOccurrences(of: "lastName>", with: "")
+//                lastName = lastName.replacingOccurrences(of: "</WX:lastName", with: "")
+//
+//                self?.value3 = firstName + " " + lastName
+//                
+//            }
+//        }
+//
+//        /// Delay conversation request so as to give the keyboard time to dismiss and chat table view to scroll bottom
+//        let when = DispatchTime.now()
+//        DispatchQueue.main.asyncAfter(deadline: when + 0.3) {
+//            task.resume()
+//        }
     }
 
     func findMatch(pattern: String, text: String) -> String {

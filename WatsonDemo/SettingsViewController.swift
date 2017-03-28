@@ -1,3 +1,4 @@
+
 //
 //  SettingsViewController.swift
 //  WatsonDemo
@@ -11,22 +12,44 @@ import Contacts
 import ContactsUI
 
 
-class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,CNContactViewControllerDelegate {
+class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,CNContactViewControllerDelegate,DistributionServiceDelegate,MiscellaneousServiceDelegate,voiceCellDelegate {
+    lazy var profileService: MiscellaneousService = MiscellaneousService(delegate:self)
+    lazy var distributionService: DistributionListService = DistributionListService(delegate:self)
 
     @IBOutlet weak var settingsTableView: UITableView!
     var store = CNContactStore()
     var helpView = UIView()
     var helpViewBG = UIView()
     var results : [CNContact] = []
-    var userData : NSArray = []
+    var userData : [ProfileModel]!
+    var distributionListData : NSArray = []
+    var distributionSelectData = ["":""]
+    var revValue: String?
+    var idDvalue: String?
+    
+    var idValue = ""
+    
+    private struct Constants {
+        static let lastName = "Smith"
+        static let httpMethodGet = "GET"
+        static let httpMethodPost = "POST"
+        static let nName = "Jane"
+        static let statusCodeOK = 200
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        userData = UserDefaults.standard.value(forKey: "UserDetail") as! NSArray
+        //self.headerView.backgroundColor = UIColor(netHex:0xd89c54)
+        let userDataId = UserDefaults.standard.value(forKey: "UserDetail") as! NSArray
         
         print("myUservalue\(userData)")
+        
+        let dict2 = userDataId[0] as? Dictionary<String,AnyObject>
+        
+        idValue = (dict2?["_id"] as? String!)!
+        
+        //self.serviceCallforGettingProfile(With: idValue)
         
         self.navigationController?.navigationBar.isHidden = true
         self.settingsTableView.contentInset = UIEdgeInsets.zero
@@ -35,10 +58,25 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         var frame = CGRect.zero
         frame.size.height = 1
         self.settingsTableView.tableHeaderView = UIView(frame: frame)
+        //self.getDistributionListDetail()
         // Do any additional setup after loading the view.
     }
     
     
+    
+    func getDistributionListDetail()  {
+        distributionService.serviceCallforDistributionList(With: idValue)
+    }
+    
+    
+    
+    func didReceiveDistributionList(withText text: Any, andId Id:String, andRev rev : String ){
+        print("distributionList...\(text)")
+         revValue = rev
+         idDvalue = Id
+        self.distributionListData = text as! NSArray
+        settingsTableView.reloadData()
+    }
     
     
     func numberOfSections(in tableView: UITableView) -> Int{
@@ -51,27 +89,14 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         // #warning Incomplete implementation, return the number of rows
         
         if section==2 {
-            return 2
+            return self.distributionListData.count+1
         }else{
            return 1
         }
         
     }
     
-//    {
-//    "_id" = 1;
-//    "_rev" = "11-edf57fd4a37ede649a8bfe56942273f1";
-//    firsttimeuser = "";
-//    password = pass;
-//    policynumber = 3;
-//    preferredfirstname = kamal2;
-//    preferredlastname = sleiman4;
-//    progressId = kjdksadjkadj;
-//    providesCellPhones = "";
-//    settingsId = lsafjdslkfdsflf;
-//    type = profile;
-//    username = user;
-//    }
+
     
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var userCell: UserViewCell!
@@ -85,16 +110,33 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
             }
             userCell.selectionStyle = UITableViewCellSelectionStyle.none
             
-            if userData.count>0 {
+            if (self.userData != nil) {
+                
+                let tempData = self.userData[0]
+                
+                userCell.fullNameLbl.text = String(format: "%@ %@",tempData.firstName,tempData.lastName)//self.userData
+                //let dict = self.userData[0] as? Dictionary<String,AnyObject>
+                userCell.firstNameLbl.text = tempData.firstName
+                userCell.policyNumLbl.text = tempData.policyNumber
+                userCell.phoneLbl.text = tempData.phoneNumber
+                userCell.emailLbl.text = tempData.email
+                
+//                if ((self.userData["preferredfirstname"]) != nil) {
+//                    userCell.fullNameLbl.text = String(format: "%@ %@", (self.userData["preferredfirstname"])!,(self.userData["preferredlastname"])!)
+//                    userCell.firstNameLbl.text = self.userData["preferredfirstname"]
+//                }
+//                
+//                if ((self.userData["policynumber"]) != nil) {
+//                    userCell.policyNumLbl.text = String(format: "Policy : %@", (self.userData["policynumber"])!)
+//                }
+//                if ((self.userData["cellphonenumber"]) != nil) {
+//                    userCell.phoneLbl.text = self.userData["cellphonenumber"]!
+//                }
+//                if ((self.userData["email"]) != nil) {
+//                    userCell.emailLbl.text  = self.userData["email"]!
+//                }
                 
                 
-                let dict = self.userData[0] as? Dictionary<String,AnyObject>
-                
-                userCell.fullNameLbl.text = String(format: "%@ %@", (dict?["preferredfirstname"]as?String)!,(dict?["preferredlastname"]as?String)!)
-                userCell.firstNameLbl.text = dict?["preferredfirstname"] as? String!
-                userCell.policyNumLbl.text = String(format: "Policy : %@", (dict?["policynumber"]as?String)!)
-                userCell.phoneLbl.text = dict?["providesCellPhones"] as? String!
-                userCell.emailLbl.text  = ""
             }
             
             //userCell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
@@ -106,6 +148,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
             if (voiceCell == nil) {
                 voiceCell = (tableView.dequeueReusableCell(withIdentifier: "VoiceViewCell") as? VoiceViewCell)!
             }
+            voiceCell.delegate = self
             voiceCell.selectionStyle = UITableViewCellSelectionStyle.none
             
             return voiceCell
@@ -116,7 +159,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
                     distCell = (tableView.dequeueReusableCell(withIdentifier: "DistributionViewCell") as? DistributionViewCell)!
                 }
                 distCell.selectionStyle = UITableViewCellSelectionStyle.none
-                distCell.AddDistributionBtn.addTarget(self, action: #selector(self.addContactPressed(_:)) , for: .touchUpInside)
+                //distCell.AddDistributionBtn.addTarget(self, action: #selector(self.addContactPressed(_:)) , for: .touchUpInside)
                // userCell.accessoryType = UITableViewCellAccessoryType.detailDisclosureButton
                 
                 return distCell
@@ -125,6 +168,14 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
                     distListCell = (tableView.dequeueReusableCell(withIdentifier: "DistListViewCell") as? DistListViewCell)!
                 }
                 distListCell.selectionStyle = UITableViewCellSelectionStyle.none
+                let distDict = self.distributionListData[indexPath.row-1] as? Dictionary<String,AnyObject>
+                if ((distDict?["firstname"]as?String) != nil) {
+                    distListCell.nameLabel.text = String(format: "%@ %@", (distDict?["firstname"]as?String)!,"")//(distDict?["lastname"]as?String)!)
+                    //userCell.firstNameLbl.text = distDict?["preferredfirstname"] as? String!
+                }
+                distListCell.phoneLabel.text =  distDict?["cellphone"] as? String!
+                distListCell.emailLabel.text =  distDict?["email"] as? String!
+                
                 
                 return distListCell
                 
@@ -169,9 +220,6 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         controller.delegate = self
         
         
-        
-        
-        
         // enable actions
         controller.allowsActions = true
         
@@ -205,13 +253,6 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
         
         
-        
-        
-       // self.present(controller, animated: true, completion: nil)
-        //
-        
-//        navigationController?
-//            .pushViewController(controller, animated: true)
     }
     
     
@@ -232,10 +273,13 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+        profileService.serviceCallforGettingProfile(With: idValue)
+        
+//        UserDefaults.standard.setValue(self.firstNameFld.text, forKey: "frstName")
+//        UserDefaults.standard.setValue(self.lastNameFld, forKey: "lastName")
         
         
-        
-        
+       
         
         
         
@@ -288,10 +332,15 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     
     
+    func SendMessageWithSwitchValue(with valueOnOff:String){
+        
+    }
+    
+    
     @IBAction func helpButtonPressed(_ sender: Any) {
         
         let screenSize: CGRect = UIScreen.main.bounds
-        helpView = UIView(frame: CGRect(x: 10, y: screenSize.height/2-75, width: screenSize.width - 20, height: 150))
+        helpView = UIView(frame: CGRect(x: 10, y: screenSize.height/2-50, width: screenSize.width - 20, height: 100))
         helpView.layer.cornerRadius = 10
         helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
         helpViewBG.backgroundColor = UIColor.gray
@@ -310,7 +359,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         label.numberOfLines = 0
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.textAlignment = .left
-        label.text = "Use the right arrow '>' to edit either your profile or distribution list details. You can turn the voice of Max off or and use the text feature. The distribution list will let you send to a group of your choice"
+        label.text = "Use the right arrow '>' to edit your profile or distribution list details. You can also turn the voice of Max on or off."
         label.sizeToFit()
         label.textColor = UIColor.black
         helpView.addSubview(label)
@@ -342,7 +391,71 @@ func pressed(sender: UIButton!) {
         
         
     }
+    
+    
+    func didReceiveMessage(withText text: Any){
+        print("\(text)")
+        
+        let userDataValue : NSMutableArray = []
+        userDataValue.add(text)
+        
+        //let userDataValue = ((text as AnyObject).mutablecopy())! as! NSMutableArray
+        
+        self.userData = ProfileModel.createDataForPeopleView(userDataValue)
+        
+       // self.userData = (text as? [String : String])!
+        settingsTableView.reloadData()
+        self.getDistributionListDetail()
+        
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        if indexPath.section==2 {
+            if indexPath.row>0 {
+                let distDict = self.distributionListData[indexPath.row-1] as? Dictionary<String,AnyObject>
+                self.distributionSelectData = distDict! as! [String : String]
+                
+                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                let distDetailVc = storyBoard.instantiateViewController(withIdentifier: "DistDetailViewController") as! DistDetailViewController
+                distDetailVc.distributionData = distDict! as! [String : String]
+                self.navigationController?.pushViewController(distDetailVc, animated: true)
+                
+                
+                
+                
+                
+            }
+            
+        }
+    }
+    
+    
 
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "UserViewCell" {
+            let nextScene =  segue.destination as! UserDetailViewController
+            nextScene.userDataValue = self.userData
+            nextScene.idValue = self.idValue
+        }
+        if segue.identifier == "AddDistView" {
+            let nextScene2 =  segue.destination as! AddDistViewController
+            nextScene2.distListData = self.distributionListData.mutableCopy() as! NSMutableArray
+            nextScene2.idValue = self.idValue
+            nextScene2.idDvalue = self.idDvalue!
+            nextScene2.revValue = self.revValue!
+        }
+        
+        
+    }
+    
+    func parseJsonProfile(json: [String:AnyObject]) {
+        
+        //self.value = json["docs"] as! [String]
+        //let text = json["docs"] as! NSArray
+       // self.delegate?.didReceiveDistributionList(withText: text)
+        
+    }
     
 
     override func didReceiveMemoryWarning() {
