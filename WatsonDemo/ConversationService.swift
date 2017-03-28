@@ -78,6 +78,10 @@ class ConversationService {
        // let requestParameters = [workspace_id: '25dfa8a0-0263-471b-8980-317e68c30488',
                                 // input: {'text': 'Turn on the lights'}]
         
+        let userDataId = UserDefaults.standard.value(forKey: "UserDetail") as! NSArray
+        let dict2 = userDataId[0] as? Dictionary<String,AnyObject>
+        let idValue = (dict2?["_id"] as? String!)!
+        
         let requestParameters =
             [Key.input: text,
 //             Key.workspaceID: GlobalConstants.newConversationWorkspaceID, //changed
@@ -86,7 +90,7 @@ class ConversationService {
 //             Key.nName: Constants.nName,
 //             Key.cValue1: value1,
 //             Key.cValue2: value2,
-             Key.idV: "1",
+             Key.idV: idValue,
              Key.context: context
         ]
 
