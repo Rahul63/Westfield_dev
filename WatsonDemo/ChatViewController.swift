@@ -168,7 +168,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     }
     
     func SendMessageWithButtonValue(with value:String){
-        print(value)
+       // print(value)
         
         let userMessage = Message(type: MessageType.User, text: value, options: nil)
         self.appendChat(withMessage: userMessage)
@@ -285,9 +285,30 @@ extension ChatViewController: ConversationServiceDelegate {
     
     internal func didReceiveMessage(withText text: String, options: [String]?) {
         guard text.characters.count > 0 else { return }
-
-        self.textToSpeechService.synthesizeSpeech(withText: text)
-        self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
+        
+        var opt = [String]()
+        
+        
+        //var newTxt = "Welcome back! Let's begin training on Blocking Apps.\",\"Rahul, can you believe the average cell phone user picks up their phone 35 times a day? 58% of cell phone users can’t even go an hour without picking up their cell! Imagine all that lost time and productivity.\",\"Are your employees using cell phones on your jobs?"
+        
+        let rangeN = text.range(of:"\",\"", options:.regularExpression)
+        if (rangeN != nil) {
+            let textN = text.replacingOccurrences(of: "\",\"", with: "n&n")
+            opt = textN.components(separatedBy: "n&n")
+            print("my Watson message>>>>>>>>>>>>>>>>>>>\(textN)")
+            print("my Watson message>>>>>>>>>>>>>>>>>>>\(opt)")
+            for item in 0..<opt.count{
+                // self.textToSpeechService.synthesizeSpeech(withText: text)
+                self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil))
+            }
+            
+        }else{
+            // self.textToSpeechService.synthesizeSpeech(withText: text)
+            self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
+        }
+        
+        
+        
         if let _ = options {
             self.appendChat(withMessage: Message(type: MessageType.User, text: "", options: options))
         }

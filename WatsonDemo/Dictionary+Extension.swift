@@ -25,7 +25,7 @@ extension Dictionary {
         }
         parametersString = parametersString.substring(to: parametersString.index(before: parametersString.endIndex))
         
-        print("Parameters...\(parametersString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)")
+        //print("Parameters...\(parametersString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)")
         
         return parametersString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
     }

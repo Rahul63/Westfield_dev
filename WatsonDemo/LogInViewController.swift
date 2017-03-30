@@ -9,11 +9,12 @@
 import UIKit
 
 class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
-
     @IBOutlet weak var userNameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var activeTextfield : UITextField!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     let button = KGRadioButton(frame: CGRect(x: 20, y: 170, width: 25, height: 25))
     let label2 = UILabel(frame: CGRect(x: 90, y: 160, width: 200, height: 70))
     
@@ -26,6 +27,8 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.registerForKeyboardNotifications()
+       // NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
         
 //        button.addTarget(self, action: #selector(manualAction(sender:)), for: .touchUpInside)
 //        button.outerCircleColor = UIColor.red
@@ -41,8 +44,8 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         self.signInButton.layer.cornerRadius = 3.0
         self.view.backgroundColor = UIColor(netHex:0xd89c54)
 
-        self.userNameField.text = "a"
-        self.passwordField.text = "b"
+//        self.userNameField.text = "a"
+//        self.passwordField.text = "b"
         // Do any additional setup after loading the view.
     }
     
@@ -53,6 +56,12 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         } else{
             label2.text = "Not Selected"
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        print("viewDisapper call>>>>>>")
+        super.viewDidDisappear(animated)
+        self.deregisterFromKeyboardNotifications()
     }
     
     
@@ -118,8 +127,14 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.userNameField.resignFirstResponder()
-        self.passwordField.resignFirstResponder()
+       // self.userNameField.resignFirstResponder()
+        
+        if textField==self.userNameField {
+            self.passwordField.becomeFirstResponder()
+        }else{
+            textField.resignFirstResponder()
+        }
+        //
         return true
     }
 
@@ -129,6 +144,126 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     }
     
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    
+    
+    func registerForKeyboardNotifications(){
+        //Adding notifies on keyboard appearing
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func deregisterFromKeyboardNotifications(){
+        //Removing notifies on keyboard appearing
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func keyboardWasShown(notification: NSNotification){
+        //Need to calculate keyboard exact size due to Apple suggestions
+        self.scrollView.isScrollEnabled = true
+        var info = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+        let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
+        
+        self.scrollView.contentInset = contentInsets
+        self.scrollView.scrollIndicatorInsets = contentInsets
+        
+        var aRect : CGRect = self.view.frame
+        aRect.size.height -= keyboardSize!.height
+        if let activeField = self.activeTextfield {
+            if (!aRect.contains(activeField.frame.origin)){
+                self.scrollView.scrollRectToVisible(activeField.frame, animated: true)
+            }
+        }
+    }
+    
+    func keyboardWillBeHidden(notification: NSNotification){
+        //Once keyboard disappears, restore original positions
+        var info = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+        let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -keyboardSize!.height, 0.0)
+        self.scrollView.contentInset = contentInsets
+        self.scrollView.scrollIndicatorInsets = contentInsets
+        self.view.endEditing(true)
+        self.scrollView.isScrollEnabled = false
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField){
+        activeTextfield = textField
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField){
+        activeTextfield = nil
+    }
+    
+    
+    
+    
+    
+    
+//    func keyboardNotification(notification: NSNotification) {
+//        if let userInfo = notification.userInfo {
+//            let endFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+//            let duration:TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
+//            let animationCurveRawNSN = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
+//            let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIViewAnimationOptions.curveEaseInOut.rawValue
+//            let animationCurve:UIViewAnimationOptions = UIViewAnimationOptions(rawValue: animationCurveRaw)
+//            if (endFrame?.origin.y)! >= UIScreen.main.bounds.size.height {
+//                self.keyboardHeightLayoutConstraint?.constant = 0.0
+//            } else {
+//                self.keyboardHeightLayoutConstraint?.constant = endFrame?.size.height ?? 0.0
+//            }
+//            UIView.animate(withDuration: duration,
+//                           delay: TimeInterval(0),
+//                           options: animationCurve,
+//                           animations: { self.view.layoutIfNeeded() },
+//                           completion: nil)
+//        }
+//    }
+    
+    
+//    func keyboardWillShow(notification: NSNotification) {
+//        
+//       // let userInfo: [NSObject : AnyObject] = notification.userInfo! as [NSObject : AnyObject]
+//        
+//        let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
+//        
+//        //let keyboardSize: CGSize = userInfo[UIKeyboardFrameBeginUserInfoKey]!.CGRectValue.size
+//        let offset = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+//        
+//        if keyboardSize?.height == offset?.height {
+//            UIView.animate(withDuration: 0.1, animations: { () -> Void in
+//                self.view.frame.origin.y += (keyboardSize?.height)!
+//            })
+//        } else {
+//            UIView.animate(withDuration: 0.1, animations: { () -> Void in
+//                self.view.frame.origin.y -= (keyboardSize?.height)! - (offset?.height)!
+//            })
+//        }
+//        var translation:CGFloat = 0
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+////            if detailsField.isEditing{
+////                translation = CGFloat(-keyboardSize.height)
+////            }else if priceField.isEditing{
+////                translation = CGFloat(-keyboardSize.height / 3.8)
+////            }
+//        }
+//        UIView.animate(withDuration: 0.2) {
+//            self.view.transform = CGAffineTransform(translationX: 0, y: translation)
+//        }
+    }
+    
+//    
+//    func keyboardWillHide(notification: NSNotification) {
+//        UIView.animate(withDuration: 0.2) {
+//            self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+//        } 
+//    }
+//    
     
 
     /*
@@ -141,7 +276,17 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     }
     */
 
-}
+
+
+
+
+
+
+
+
+
+
+
 
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {

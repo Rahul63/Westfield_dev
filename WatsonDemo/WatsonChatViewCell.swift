@@ -14,6 +14,7 @@ protocol watsonChatCellDelegate
 {
     func loadUrlLink(url : String?)
     func SendMessageWithButtonValue(with value:String)
+    
     // loadUrlLink(result: Int)
 }
 
@@ -60,7 +61,7 @@ class WatsonChatViewCell: UITableViewCell {
         for view in self.messageLabel.subviews
         {
             if view .isKind(of: KGRadioButton.self) {
-                print(">>>>>>>>>>>>>Removeddddddd")
+               // print(">>>>>>>>>>>>>Removeddddddd")
                 view.removeFromSuperview()
             }
             
@@ -75,27 +76,27 @@ class WatsonChatViewCell: UITableViewCell {
             var optionsString = nsString.substring(with: result.range)
             optionsString = optionsString.replacingOccurrences(of: "\\", with: "")
             Doc.linkUrl = optionsString
-            print("myOptionalString is...<<<<<<<.\(optionsString)")
+           // print("myOptionalString is...<<<<<<<.\(optionsString)")
             text = text.replacingOccurrences(of: optionsString, with: "")
             let range = text.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
             if range != nil {
                 var found = text.substring(with: range!)
-                print("found: \(found)") // found: google
+               // print("found: \(found)") // found: google
 
                 found = found.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
                 found = found.replacingOccurrences(of: "</a", with: "")
-                print("found:>>>> \(found)")
+                //print("found:>>>> \(found)")
                 text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
                 
                 let nsText = text as NSString
                 let range1: NSRange = nsText.range(of: found)
                 messageLabel.text = text
-                print("MyURLLL>>>>\(Doc.linkUrl)")
+               // print("MyURLLL>>>>\(Doc.linkUrl)")
                 messageLabel.addLink(to: URL(string: Doc.linkUrl) , with: range1)
                 
             }
 
-            print("mytext is...<<<<<<<.\(text)")
+            //print("mytext is...<<<<<<<.\(text)")
             
         }
             
@@ -109,11 +110,11 @@ class WatsonChatViewCell: UITableViewCell {
                  foundNew = text.substring(with: rangeNew!)
                 
                 var strinLength = text.replacingOccurrences(of: foundNew, with: "")
-                print(strinLength)
+                //print(strinLength)
                 //strinLength = strinLength.replacingOccurrences(of: " ", with: "")
                 strinLength = strinLength.replacingOccurrences(of: ">,", with: "")
-                let strinLengthCount:Int = strinLength.characters.count
-                print("mystringLength>>>>\(strinLengthCount)")
+                //let strinLengthCount:Int = strinLength.characters.count
+                //print("mystringLength>>>>\(strinLengthCount)")
                 print(strinLength)
                 var foundNewData = foundNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
                 
@@ -122,7 +123,7 @@ class WatsonChatViewCell: UITableViewCell {
                 optionData = foundNewData.components(separatedBy: ",")
                 
                 var yValue: CGFloat  = self.heightForView(text: strinLength, font: UIFont.systemFont(ofSize: 14), width: messageLabel.frame.size.width)
-                print("print yvalue...\(yValue)")
+                //print("print yvalue...\(yValue)")
                 if optionData.count>0 {
                     for (index,element) in optionData.enumerated() {
                         let buttonOptions = KGRadioButton()
@@ -141,22 +142,22 @@ class WatsonChatViewCell: UITableViewCell {
                         self.messageLabel.addSubview(buttonOptions)
                         label2.text = element
                         // self.messageLabel.addSubview(label2)
-                        print(index,element)
+                        //print(index,element)
                         yValue += 33
                         
                     }
                 }
                 
                 
-                print("found ALL>>>>>: \(foundNew)")
+                //print("found ALL>>>>>: \(foundNew)")
                 
-                print("found ALL>>>OPTION>>: \(optionData) and count\(optionData.count)")
+                //print("found ALL>>>OPTION>>: \(optionData) and count\(optionData.count)")
             }
             
             text = text.replacingOccurrences(of: "<[^>]+>", with: "        ", options: .regularExpression, range: nil)
             text = text.replacingOccurrences(of: "  ,", with: "")
             
-            print("mytext is..ELSEEEEEE.<<<<<<<.\(text)")
+            //print("mytext is..ELSEEEEEE.<<<<<<<.\(text)")
             messageLabel.text = text
         }
         

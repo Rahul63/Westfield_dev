@@ -73,7 +73,7 @@ class ConversationService {
             
             context = ""
         }
-        print("Send Msg called with text..\(text)")
+        //print("Send Msg called with text..\(text)")
         
        // let requestParameters = [workspace_id: '25dfa8a0-0263-471b-8980-317e68c30488',
                                 // input: {'text': 'Turn on the lights'}]
@@ -100,40 +100,40 @@ class ConversationService {
 //            context: context
 //        }  
         
-        print("Send Msg called with Request.Para.\(requestParameters)")
+       // print("Send Msg called with Request.Para.\(requestParameters)")
         var request = URLRequest(url: URL(string: GlobalConstants.wcsWorkflowURL)!)
         
         //var request = URLRequest(url: URL(string: GlobalConstants.wcsWorkflowURL)!)
         request.httpMethod = Constants.httpMethodPost
-        let useCred = String(format: "%@:%@",GlobalConstants.wcsUserName,GlobalConstants.wcsPassword)
-        let credData = useCred.data(using: String.Encoding.utf8)
-        let final64V = credData?.base64EncodedString()
+//        let useCred = String(format: "%@:%@",GlobalConstants.wcsUserName,GlobalConstants.wcsPassword)
+//        let credData = useCred.data(using: String.Encoding.utf8)
+//        let final64V = credData?.base64EncodedString()
         //request.setValue("Basic Auth\(final64V)", forHTTPHeaderField: "Authorization")
         //request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = requestParameters.stringFromHttpParameters().data(using: .utf8)
         
-        print("Send Msg called with BODYYYYYYYYY>>>>>>>>>>.\(requestParameters.stringFromHttpParameters())")
+        //print("Send Msg called with BODYYYYYYYYY>>>>>>>>>>.\(requestParameters.stringFromHttpParameters())")
         
-        print("Send Msg called with request Body..\(request)")
+       // print("Send Msg called with request Body..\(request)")
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             // check for fundamental networking error
             DispatchQueue.main.async { [weak self] in
 
                 guard let data = data, error == nil else {
-                    print("error=\(error)")
+                    //print("error=\(error)")
                     return
                 }
 
                 // check for http errors
                 if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != Constants.statusCodeOK {
-                    print("Failed with status code: \(httpStatus.statusCode)")
+                   // print("Failed with status code: \(httpStatus.statusCode)")
                 }
 
                 let responseString = String(data: data, encoding: .utf8)
                 if let data = responseString?.data(using: String.Encoding.utf8) {
                     do {
                         if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject] {
-                            print("JSON Value...\(json)")
+                           // print("JSON Value...\(json)")
                             self?.parseJson(json: json)
                         }
                     } catch {

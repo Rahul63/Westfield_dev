@@ -18,12 +18,20 @@ class CustomTabBarViewController: UITabBarController, CustomTabBarDataSource, Cu
         self.selectedIndex = 0
         self.delegate = self
         
+        
         //let newFrame =
         
         let customTabBar = CustomTabBar(frame: self.tabBar.frame)
         customTabBar.datasource = self
         customTabBar.delegate = self
         customTabBar.setup()
+        
+        customTabBar.tabBarButtons[2].isEnabled = false
+        customTabBar.tabBarButtons[3].isEnabled = false
+        
+        customTabBar.tabBarButtons[2].alpha = 0.2
+        customTabBar.tabBarButtons[3].alpha = 0.2
+        
         
         self.view.addSubview(customTabBar)
     }

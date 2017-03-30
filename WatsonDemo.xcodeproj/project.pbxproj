@@ -369,8 +369,8 @@
 				TargetAttributes = {
 					B4CBCF901DD91EA70003074A = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 675E4CR9UZ;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = 2XTGWG9G8R;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -579,8 +579,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = 675E4CR9UZ;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2XTGWG9G8R;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/WatsonDemo",
@@ -588,10 +588,10 @@
 				INFOPLIST_FILE = WatsonDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.WestfieldDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rahul.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f21a955a-032a-4ab8-9b17-6dcd3c95ccff";
-				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: *";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -601,8 +601,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = 675E4CR9UZ;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2XTGWG9G8R;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/WatsonDemo",

@@ -38,23 +38,22 @@ class CustomTabBarItem: UIView {
         }
         print(">>>title\(title)")
         // create imageView centered within a container
-//        iconView = UIImageView(frame: CGRect(x: (self.frame.width)/2, y: (self.frame.height)/2, width: self.frame.width, height: self.frame.height))
-//        
-//        iconView.image = image
-//        iconView.sizeToFit()
-//        
-//        titleLbl = UIImageView(frame: CGRect(x: (self.frame.width)/2, y: (self.frame.height)/2, width: self.frame.width, height: self.frame.height))
-//        
-//        titleLbl.image = image
-//        titleLbl.sizeToFit()
+        iconView = UIImageView(frame: CGRect(x: (self.frame.width-image.size.width)/2, y: (self.frame.height-image.size.height)/2, width: self.frame.width, height: self.frame.height))
         
+        iconView.image = image
+        iconView.sizeToFit()
         
-        
-        
+        titleLbl = UILabel(frame: CGRect(x: (self.frame.width-image.size.width)/2-5, y: (self.frame.height-14), width: self.frame.width, height: 14))
+        titleLbl.font = UIFont.boldSystemFont(ofSize: 11)
+        titleLbl.textAlignment = NSTextAlignment.center
+        titleLbl.textColor = UIColor.white
+        titleLbl.text = title
+        titleLbl.sizeToFit()
         
         iconView.tintColor = UIColor.black
         
-        //self.addSubview(iconView)
+        self.addSubview(iconView)
+        self.addSubview(titleLbl)
     }
     
 }

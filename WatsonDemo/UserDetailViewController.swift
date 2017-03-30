@@ -9,7 +9,9 @@
 import UIKit
 
 class UserDetailViewController: UIViewController,MiscellaneousServiceDelegate {
+     weak var activeTextfield : UITextField!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     lazy var userUpdateService: MiscellaneousService = MiscellaneousService(delegate:self)
     
     private struct userKey {
@@ -39,7 +41,7 @@ class UserDetailViewController: UIViewController,MiscellaneousServiceDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.registerForKeyboardNotifications()
         
        // let UserIDv = UserDefaults.standard.value(forKey: "UserDetail") as! NSArray
         
@@ -55,40 +57,11 @@ class UserDetailViewController: UIViewController,MiscellaneousServiceDelegate {
             self.policyNumberFld.text = tempData.policyNumber
             self.mobileNumFld.text = tempData.phoneNumber
             self.emailFld.text = tempData.email
-       // }
-        
-//        let dict = UserIDv[0] as? Dictionary<String,AnyObject>
-//        
-//        
-//        if ((self.userDataValue["preferredfirstname"]) != nil) {
-//            self.firstNameFld.text = String(format: "%@ %@", (self.userDataValue["preferredfirstname"])!,"")//(self.userData["preferredlastname"])!)
-//            self.lastNameFld.text = self.userDataValue["preferredlastname"]
-//        }
-//        
-//        if ((self.userDataValue["policynumber"]) != nil) {
-//            self.policyNumberFld.text = String(format: "Policy : %@", (self.userDataValue["policynumber"])!)
-//        }
-//        if ((self.userDataValue["cellphonenumber"]) != nil) {
-//            self.mobileNumFld.text = self.userDataValue["cellphonenumber"]!
-//        }
-//        if ((self.userDataValue["email"]) != nil) {
-//            self.emailFld.text  = self.userDataValue["email"]!
-//        }
-        
-//        if ((dict?["preferredfirstname"] as? String) != nil) {
-//            self.firstNameFld.text =   dict?["preferredfirstname"] as? String!
-//            self.lastNameFld.text =   dict?["preferredlastname"] as? String!
-//        }
-//        
-//        
-//         self.mobileNumFld.text =   dict?["cellphonenumber"] as? String!
-//         self.emailFld.text =   dict?["email"] as? String!
-//         self.policyNumberFld.text =   dict?["policynumber"] as? String!
-        //self.idValue = (dict?["_id"] as? String!)!
-        
-//        self.navigationController?.navigationBar.isHidden = false
-
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.deregisterFromKeyboardNotifications()
     }
     
     
@@ -99,7 +72,8 @@ class UserDetailViewController: UIViewController,MiscellaneousServiceDelegate {
         self.lastNameFld.resignFirstResponder()
         self.mobileNumFld.resignFirstResponder()
         self.emailFld.resignFirstResponder()
-       _ = self.navigationController?.popViewController(animated: true)
+        self.serviceCallUserUdate()
+      // _ = self.navigationController?.popViewController(animated: true)
     }
     @IBAction func helpButtonPressed(_ sender: Any) {
     }
@@ -139,62 +113,6 @@ class UserDetailViewController: UIViewController,MiscellaneousServiceDelegate {
     }
     
     
-    func serviceCallforUserUpdate(withText firstName: String,and lastName:String) {
-        print("Send Msg called")
-        
-        print("Send Msg called with text..\(firstName,lastName)")
-        
-        
-        let requestParameters =
-            [userKey.firstName: firstName,
-             userKey.firstName: lastName]
-        
-        
-        print("Send Msg called with Request.Para.\(requestParameters)")
-        var request = URLRequest(url: URL(string: GlobalConstants.userDetailUpdateUrl)!)
-        
-        request.httpMethod = "POST"//ServiceTypeConstants.httpMethodPost
-        request.httpBody = requestParameters.stringFromHttpParameters().data(using: .utf8)
-        
-        print("Send Msg called with BODYYYYYYYYY>>>>>>>>>>.\(requestParameters.stringFromHttpParameters())")
-        
-        print("Send Msg called with request Body..\(request)")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // check for fundamental networking error
-            DispatchQueue.main.async { [weak self] in
-                
-                guard let data = data, error == nil else {
-                    print("error=\(error)")
-                    return
-                }
-                
-                // check for http errors
-                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != ServiceTypeConstants.statusCodeOK {
-                    print("Failed with status code: \(httpStatus.statusCode)")
-                }
-                
-                let responseString = String(data: data, encoding: .utf8)
-                if let data = responseString?.data(using: String.Encoding.utf8) {
-                    do {
-                        if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject] {
-                            print("JSON Value...\(json)")
-                            //self?.parseJson(json: json)
-                        }
-                    } catch {
-                        // No-op
-                    }
-                    
-                }
-            }
-        }
-        
-        /// Delay conversation request so as to give the keyboard time to dismiss and chat table view to scroll bottom
-        let when = DispatchTime.now()
-        DispatchQueue.main.asyncAfter(deadline: when + 0.3) {
-            task.resume()
-        }
-        
-    }
     
     func serviceCallUserUdate()  {
         
@@ -206,13 +124,75 @@ class UserDetailViewController: UIViewController,MiscellaneousServiceDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
        // self.serviceCallforUserUpdate(withText: self.firstNameFld.text!, and: self.lastNameFld.text!)
-        self.serviceCallUserUdate()
-        self.firstNameFld.resignFirstResponder()
-        self.lastNameFld.resignFirstResponder()
-        self.mobileNumFld.resignFirstResponder()
-        self.emailFld.resignFirstResponder()
-        self.policyNumberFld.resignFirstResponder()
+        
+        if textField==self.firstNameFld {
+            self.lastNameFld.becomeFirstResponder()
+        }
+        else if textField == self.lastNameFld{
+            self.mobileNumFld.becomeFirstResponder()
+        }
+        else if textField == self.mobileNumFld{
+            self.emailFld.becomeFirstResponder()
+        }
+        else{
+            textField.resignFirstResponder()
+        }
+        
         return true
+    }
+    
+    
+    
+    
+    
+    func registerForKeyboardNotifications(){
+        //Adding notifies on keyboard appearing
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func deregisterFromKeyboardNotifications(){
+        //Removing notifies on keyboard appearing
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func keyboardWasShown(notification: NSNotification){
+        //Need to calculate keyboard exact size due to Apple suggestions
+        self.scrollView.isScrollEnabled = true
+        var info = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+        let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
+        
+        self.scrollView.contentInset = contentInsets
+        self.scrollView.scrollIndicatorInsets = contentInsets
+        
+        var aRect : CGRect = self.view.frame
+        aRect.size.height -= keyboardSize!.height
+        if let activeField = self.activeTextfield {
+            if (!aRect.contains(activeField.frame.origin)){
+                self.scrollView.scrollRectToVisible(activeField.frame, animated: true)
+            }
+        }
+    }
+    
+    func keyboardWillBeHidden(notification: NSNotification){
+        //Once keyboard disappears, restore original positions
+        var info = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+        let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -keyboardSize!.height, 0.0)
+        self.scrollView.contentInset = contentInsets
+        self.scrollView.scrollIndicatorInsets = contentInsets
+        self.view.endEditing(true)
+        self.scrollView.isScrollEnabled = false
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField){
+        activeTextfield = textField
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField){
+        activeTextfield = nil
     }
     
 

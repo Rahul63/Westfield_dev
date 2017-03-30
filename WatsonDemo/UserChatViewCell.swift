@@ -104,7 +104,7 @@ class UserChatViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        print("Notifican adding call")
+       // print("Notifican adding call")
 //        NotificationCenter.default.removeObserver(self)
 //        NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "ChatfieldShouldRefresh"), object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(updateChatField), name: NSNotification.Name(rawValue: "ChatfieldShouldRefresh"), object: nil)
@@ -112,7 +112,7 @@ class UserChatViewCell: UITableViewCell {
     
     func updateChatField(notification: NSNotification) {
         //NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "ChatfieldShouldRefresh"), object: nil)
-        NSLog("Object is %@", notification.value(forKey: "object") as! String!)
+        //NSLog("Object is %@", notification.value(forKey: "object") as! String!)
         
         let value = notification.value(forKey: "object") as! String!
         

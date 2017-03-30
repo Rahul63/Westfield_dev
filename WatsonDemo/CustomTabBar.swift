@@ -37,7 +37,7 @@ class CustomTabBar: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = UIColor(red: 243.0/255, green: 166.0/255, blue: 58.0/255, alpha: 1)//UIColor(netHex:0xd89c54)
+        self.backgroundColor = UIColor(red: 216.0/255, green: 156.0/255, blue: 85.0/255, alpha: 1)//UIColor(netHex:0xd89c54)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -78,6 +78,8 @@ class CustomTabBar: UIView {
             customTabBarItems.append(customTabBarItem)
             
             let button = UIButton(frame: CGRect(x: 0, y: 0, width: container.width, height: container.height))
+            
+            
             button.addTarget(self, action: #selector(CustomTabBar.barItemTapped(_:)), for: UIControlEvents.touchUpInside)
             
             customTabBarItem.addSubview(button)
@@ -86,7 +88,10 @@ class CustomTabBar: UIView {
             index += 1
         }
         
+        
         self.customTabBarItems[initialTabBarItemIndex].iconView.tintColor = UIColor.blue
+        self.customTabBarItems[2].iconView.alpha = 0.5
+        self.customTabBarItems[3].iconView.alpha = 0.5
     }
     
     func createTabBarItemContainers() -> [CGRect] {
