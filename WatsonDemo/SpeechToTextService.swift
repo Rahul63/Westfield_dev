@@ -29,26 +29,43 @@ class SpeechToTextService {
     init(delegate: SpeechToTextServiceDelegate) {
         self.delegate = delegate
 
-        speechToTextSession.onResults = { results in print(results.bestTranscript)
-            if let bestTranscript = results.bestTranscript as String? {
-                delegate.didFinishTranscribingSpeech(withText: bestTranscript)
-            }
-        }
+//        speechToTextSession.onResults = { results in print(results.bestTranscript)
+//            if let bestTranscript = results.bestTranscript as String? {
+//                print("my textttt>>>>>>>\(bestTranscript)")
+//                //let truncated = bestTranscript.substring(to: bestTranscript.index(before: bestTranscript.endIndex))
+//                delegate.didFinishTranscribingSpeech(withText: bestTranscript)
+//            }
+//        }
     }
 
     func startRecording() {
+        
+        speechToTextSession.connect()
         var settings = RecognitionSettings(contentType: .opus)
         settings.interimResults = false
         settings.continuous = true
-        settings.inactivityTimeout = -1
+        //settings.inactivityTimeout = -1
         settings.smartFormatting = true
 
-        speechToTextSession.connect()
+        speechToTextSession.onConnect = { print("connected") }
+        
         speechToTextSession.startRequest(settings: settings)
         speechToTextSession.startMicrophone()
+        
+        
+        
     }
 
     func finishRecording() {
+        
+        speechToTextSession.onResults = { results in print(results.bestTranscript)
+            if let bestTranscript = results.bestTranscript as String? {
+                print("my textttt>>>>>>>\(bestTranscript)")
+                //let truncated = bestTranscript.substring(to: bestTranscript.index(before: bestTranscript.endIndex))
+                self.delegate?.didFinishTranscribingSpeech(withText: bestTranscript)
+            }
+        }
+        
         speechToTextSession.stopMicrophone()
         speechToTextSession.stopRequest()
         speechToTextSession.disconnect()

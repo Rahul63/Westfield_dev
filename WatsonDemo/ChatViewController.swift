@@ -9,6 +9,7 @@
 import AVFoundation
 import UIKit
 import UserNotifications
+import TextToSpeechV1
 
 class ChatViewController: UIViewController,watsonChatCellDelegate {
 
@@ -37,6 +38,20 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        let username = "7d80a6ad-74ee-4564-9f5f-3bc54324028e"
+        let password = "tYVex8dIA4xy"
+        let textToSpeech = TextToSpeech(username: username, password: password)
+        
+//        let text = "All the problems of the world could be settled easily if men were only willing to think."
+//        let failure = { (error: Error) in print(error) }
+//        textToSpeech.synthesize(text, failure: failure) { data in
+//            self.audioPlayer = try! AVAudioPlayer(data: data)
+//            self.audioPlayer.play()
+//        }
+        
         
 //        NotificationCenter.default.addObserver(self, selector: #selector(updateChatField), name: NSNotification.Name(rawValue: "ChatfieldShouldRefresh"), object: nil)
 //        if #available(iOS 10.0, *) {
@@ -91,7 +106,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     // MARK: - Actions
     @IBAction func micButtonTapped() {
         if micButton.isSelected {
-            micImage.image = UIImage.init(imageLiteralResourceName: "MicOff")
+            micImage.image = UIImage.init(imageLiteralResourceName: "Mic_icon")
             speechToTextService.finishRecording()
         } else {
             micImage.image = UIImage.init(imageLiteralResourceName: "MicOn")
@@ -104,7 +119,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     
     
     @IBAction func SignOutButtonPressed(_ sender: Any) {
-        
+        audioPlayer.stop()
        // UserDefaults.standard.setValue("", forKey: "UserDetail")
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let logInVc = storyBoard.instantiateViewController(withIdentifier: "LogInVC") as! LogInViewController
@@ -274,6 +289,11 @@ extension ChatViewController: TextToSpeechServiceDelegate {
     func textToSpeechDidFinishSynthesizing(withAudioData audioData: Data) {
         audioPlayer = try! AVAudioPlayer(data: audioData)
         #if !DEBUG
+            
+            do {
+                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+            } catch _ {
+            }
             audioPlayer.play()
         #endif
     }
@@ -297,13 +317,20 @@ extension ChatViewController: ConversationServiceDelegate {
             opt = textN.components(separatedBy: "n&n")
             print("my Watson message>>>>>>>>>>>>>>>>>>>\(textN)")
             print("my Watson message>>>>>>>>>>>>>>>>>>>\(opt)")
+            //let foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            
             for item in 0..<opt.count{
-                // self.textToSpeechService.synthesizeSpeech(withText: text)
+                 let foundText = opt[item].replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                
+                self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil))
             }
             
         }else{
-            // self.textToSpeechService.synthesizeSpeech(withText: text)
+            
+            let foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            
+             self.textToSpeechService.synthesizeSpeech(withText: foundText)
             self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
         }
         

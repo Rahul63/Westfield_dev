@@ -42,12 +42,12 @@
 		B4CBCF9C1DD91EA70003074A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4CBCF9B1DD91EA70003074A /* Assets.xcassets */; };
 		B4CBCF9F1DD91EA70003074A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4CBCF9D1DD91EA70003074A /* LaunchScreen.storyboard */; };
 		B4D160FB1DDBF19D00D436F1 /* SpeechToTextService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D160FA1DDBF19D00D436F1 /* SpeechToTextService.swift */; };
-		B4D160FD1DDBF1EE00D436F1 /* SpeechToTextV1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D160FC1DDBF1EE00D436F1 /* SpeechToTextV1.framework */; };
-		B4D160FF1DDBF1FC00D436F1 /* SpeechToTextV1.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B4D160FC1DDBF1EE00D436F1 /* SpeechToTextV1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B4D161021DDBF2C600D436F1 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D161011DDBF2C600D436F1 /* Dictionary+Extension.swift */; };
 		B4F56E881DF722550068A426 /* UIImage+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F56E871DF722550068A426 /* UIImage+Assets.swift */; };
 		B78234BA1E88F682000C5338 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78234B91E88F682000C5338 /* Settings.swift */; };
 		B7873FD11E7BD58000935479 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7873FD01E7BD58000935479 /* UserDetailViewController.swift */; };
+		B7890F171E90411500F55E5E /* SpeechToTextV1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ABDBED1E903F2300D503CE /* SpeechToTextV1.framework */; };
+		B7890F181E90411500F55E5E /* SpeechToTextV1.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7ABDBED1E903F2300D503CE /* SpeechToTextV1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B78A6F6D1E7927540081CFE1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78A6F6C1E7927540081CFE1 /* SettingsViewController.swift */; };
 		B78A6F701E79483C0081CFE1 /* UserViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78A6F6F1E79483C0081CFE1 /* UserViewCell.swift */; };
 		B78A6F721E7948500081CFE1 /* VoiceViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78A6F711E7948500081CFE1 /* VoiceViewCell.swift */; };
@@ -66,6 +66,7 @@
 		B7A50BF01E84C35700D82A84 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BEF1E84C35700D82A84 /* RadioButton.swift */; };
 		B7A50BF21E852C8400D82A84 /* DistDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BF11E852C8400D82A84 /* DistDetailViewController.swift */; };
 		B7A50BF41E852CC100D82A84 /* AddDistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BF31E852CC100D82A84 /* AddDistViewController.swift */; };
+		B7ABDBEE1E903F2300D503CE /* SpeechToTextV1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ABDBED1E903F2300D503CE /* SpeechToTextV1.framework */; };
 		B7B5F6171E8A5C40000335B3 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5F6141E8A5C40000335B3 /* CustomTabBarController.swift */; };
 		B7B5F6181E8A5C40000335B3 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5F6151E8A5C40000335B3 /* CustomTabBar.swift */; };
 		B7B5F6191E8A5C40000335B3 /* CustomTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5F6161E8A5C40000335B3 /* CustomTabBarItem.swift */; };
@@ -79,9 +80,9 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B4562FFA1DF9BE2D00171C0B /* TTTAttributedLabel.framework in Embed Frameworks */,
+				B7890F181E90411500F55E5E /* SpeechToTextV1.framework in Embed Frameworks */,
 				B48B18881DDB99C0008CE7C2 /* TextToSpeechV1.framework in Embed Frameworks */,
 				B48B18911DDB9A55008CE7C2 /* RestKit.framework in Embed Frameworks */,
-				B4D160FF1DDBF1FC00D436F1 /* SpeechToTextV1.framework in Embed Frameworks */,
 				B47B68C51DF5FF8A00AB6421 /* WebImage.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -123,7 +124,6 @@
 		B4CBCF9E1DD91EA70003074A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B4CBCFA01DD91EA70003074A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B4D160FA1DDBF19D00D436F1 /* SpeechToTextService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechToTextService.swift; sourceTree = "<group>"; };
-		B4D160FC1DDBF1EE00D436F1 /* SpeechToTextV1.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpeechToTextV1.framework; sourceTree = "<group>"; };
 		B4D161011DDBF2C600D436F1 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		B4F56E871DF722550068A426 /* UIImage+Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Assets.swift"; sourceTree = "<group>"; };
 		B78234B91E88F682000C5338 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -146,6 +146,7 @@
 		B7A50BEF1E84C35700D82A84 /* RadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		B7A50BF11E852C8400D82A84 /* DistDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistDetailViewController.swift; sourceTree = "<group>"; };
 		B7A50BF31E852CC100D82A84 /* AddDistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDistViewController.swift; sourceTree = "<group>"; };
+		B7ABDBED1E903F2300D503CE /* SpeechToTextV1.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpeechToTextV1.framework; sourceTree = "<group>"; };
 		B7B5F6141E8A5C40000335B3 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		B7B5F6151E8A5C40000335B3 /* CustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		B7B5F6161E8A5C40000335B3 /* CustomTabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarItem.swift; sourceTree = "<group>"; };
@@ -157,10 +158,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4562FF91DF9BE2D00171C0B /* TTTAttributedLabel.framework in Frameworks */,
+				B7ABDBEE1E903F2300D503CE /* SpeechToTextV1.framework in Frameworks */,
 				B48B188B1DDB99DF008CE7C2 /* TextToSpeechV1.framework in Frameworks */,
 				B48B18901DDB9A55008CE7C2 /* RestKit.framework in Frameworks */,
-				B4D160FD1DDBF1EE00D436F1 /* SpeechToTextV1.framework in Frameworks */,
 				B47B68C41DF5FF8A00AB6421 /* WebImage.framework in Frameworks */,
+				B7890F171E90411500F55E5E /* SpeechToTextV1.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,8 +273,8 @@
 		B48B18751DDB6EE0008CE7C2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B7ABDBED1E903F2300D503CE /* SpeechToTextV1.framework */,
 				B48B188E1DDB9A3B008CE7C2 /* RestKit.framework */,
-				B4D160FC1DDBF1EE00D436F1 /* SpeechToTextV1.framework */,
 				B48B187C1DDB7DED008CE7C2 /* TextToSpeechV1.framework */,
 				B4562FF71DF9BE1500171C0B /* TTTAttributedLabel.framework */,
 				B47B68C31DF5FF8A00AB6421 /* WebImage.framework */,
@@ -369,7 +371,7 @@
 				TargetAttributes = {
 					B4CBCF901DD91EA70003074A = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 2XTGWG9G8R;
+						DevelopmentTeam = T9K55A3DQ5;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -505,6 +507,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -554,6 +557,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -579,8 +583,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2XTGWG9G8R;
+				DEVELOPMENT_TEAM = T9K55A3DQ5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/WatsonDemo",
@@ -588,7 +593,7 @@
 				INFOPLIST_FILE = WatsonDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rahul.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.WestfieldDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -601,8 +606,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2XTGWG9G8R;
+				DEVELOPMENT_TEAM = T9K55A3DQ5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/WatsonDemo",
@@ -610,10 +616,10 @@
 				INFOPLIST_FILE = WatsonDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.WestfieldDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.WestfieldDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f21a955a-032a-4ab8-9b17-6dcd3c95ccff";
-				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: *";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

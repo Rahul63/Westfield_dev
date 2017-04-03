@@ -18,6 +18,12 @@ struct GlobalConstants {
     
     static let newConversationWorkspaceID = "03754f9c-23fd-496d-86ac-132a510a38a7"
     
+    static let textToSpeechUserName = "7d80a6ad-74ee-4564-9f5f-3bc54324028e"
+    static let textToSpeechPassword = "tYVex8dIA4xy"
+    
+    static let speechToTextUserName = "ab6cd6d8-1c8c-487b-aa50-9bd2b94bcacc"
+    static let speechToTextPassword = "lfCUSAiQbj6g"
+    
     
 //    static let etayluzBluemixUsername = "d5e5ca34-f670-4a7f-98c7-1643d83ecc1d"
 //    static let etayluzBluemixPassword = "N8UAQQPXw10Z"
@@ -68,5 +74,7 @@ struct GlobalConstants {
 //        "username": "7d80a6ad-74ee-4564-9f5f-3bc54324028e",
 //        "password": "tYVex8dIA4xy"
 //    }
+    
+    
 
 }
