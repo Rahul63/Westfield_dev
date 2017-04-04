@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BoxContentSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         let defaults = UserDefaults.standard
         let defaultValues = ["":"UserDetail"]
+        
+        _ = BOXContentClient.self.setClientID("2y3f7wr99x1emxgwuaufiwku9km19kna", clientSecret: "5xCJXqmPgliUNZbFCd87R859d1OURER2")
+
         defaults.register(defaults: defaultValues)
         //defaults.registerDefaults(defaultValues)
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)

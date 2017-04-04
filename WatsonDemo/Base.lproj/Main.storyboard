@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="y5d-pV-xok">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="y5d-pV-xok">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -145,7 +145,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <state key="normal" title="Help">
-                                            <color key="titleColor" red="0.31459187560000001" green="0.43665262490000001" blue="0.45546874999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="0.38823529411764707" green="0.39215686274509803" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
                                 </subviews>
@@ -196,7 +196,7 @@
         <!--Tool Box-->
         <scene sceneID="5DX-nN-m6Z">
             <objects>
-                <viewController id="uM4-7X-uxj" sceneMemberID="viewController">
+                <viewController id="uM4-7X-uxj" customClass="ToolBoxViewController" customModule="WatsonDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NCv-qX-Rtn"/>
                         <viewControllerLayoutGuide type="bottom" id="7ZH-fY-Fnb"/>
@@ -257,7 +257,9 @@
                                             <constraint firstAttribute="height" constant="29" id="8Ot-qS-wht"/>
                                             <constraint firstAttribute="width" constant="61" id="VtE-Fy-xJX"/>
                                         </constraints>
-                                        <state key="normal" title="Sign Out"/>
+                                        <state key="normal" title="Sign Out">
+                                            <color key="titleColor" red="0.38823529411764707" green="0.39215686274509803" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="SignOutButtonPressed:" destination="oQh-UE-Krh" eventType="touchUpInside" id="RfJ-0Q-bLR"/>
                                         </connections>
@@ -274,7 +276,9 @@
                                             <constraint firstAttribute="width" constant="61" id="5gJ-Gg-nxC"/>
                                             <constraint firstAttribute="height" constant="29" id="klZ-9h-sc5"/>
                                         </constraints>
-                                        <state key="normal" title="Help"/>
+                                        <state key="normal" title="Help">
+                                            <color key="titleColor" red="0.38823529410000002" green="0.3921568627" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="helpButtonPressed:" destination="oQh-UE-Krh" eventType="touchUpInside" id="6u8-QF-V8W"/>
                                         </connections>
@@ -558,7 +562,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <state key="normal" title="Help">
-                                            <color key="titleColor" red="0.31459187563057339" green="0.43665262487202511" blue="0.45546874999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="0.38823529410000002" green="0.3921568627" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="helpButtonPressed:" destination="e7n-t2-9uZ" eventType="touchUpInside" id="8ei-KS-RVB"/>
@@ -853,6 +857,78 @@
             </objects>
             <point key="canvasLocation" x="1828" y="-1652"/>
         </scene>
+        <!--General Safety View Controller-->
+        <scene sceneID="P3x-YN-ha8">
+            <objects>
+                <viewController storyboardIdentifier="GeneralSafetyViewController" id="70q-An-ypj" customClass="GeneralSafetyViewController" customModule="WatsonDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aJq-qp-HF6"/>
+                        <viewControllerLayoutGuide type="bottom" id="YlP-aY-Jbv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Vdz-3U-FSx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sTl-gm-cQq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="877" y="-977"/>
+        </scene>
+        <!--Auto View Controller-->
+        <scene sceneID="cd8-6S-10d">
+            <objects>
+                <viewController storyboardIdentifier="AutoViewController" id="xgV-Hv-KLG" customClass="AutoViewController" customModule="WatsonDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vmH-aF-nCz"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ceg-gP-ruO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Nt4-L5-6pP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.81759765630000003" green="0.51989090760000001" blue="0.057137543149999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HBg-ar-vkw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1828" y="-977"/>
+        </scene>
+        <!--Liability View Controller-->
+        <scene sceneID="2BF-5T-vIv">
+            <objects>
+                <viewController storyboardIdentifier="LiabilityViewController" id="rh6-l2-4oS" customClass="LiabilityViewController" customModule="WatsonDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WSs-Hx-hBa"/>
+                        <viewControllerLayoutGuide type="bottom" id="BSf-6B-3GN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7wy-Uf-nkj">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.54719020839999999" green="0.75949844639999997" blue="0.79222656250000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="stb-WM-HP2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2603" y="-977"/>
+        </scene>
+        <!--Property View Controller-->
+        <scene sceneID="dwN-w6-850">
+            <objects>
+                <viewController storyboardIdentifier="PropertyViewController" id="CDT-KP-qGy" customClass="PropertyViewController" customModule="WatsonDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Z3m-lr-EyS"/>
+                        <viewControllerLayoutGuide type="bottom" id="3mN-SK-Gb3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jRm-ZV-Ccm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wk8-8k-cc8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3361" y="-977"/>
+        </scene>
         <!--Add Dist View Controller-->
         <scene sceneID="0aH-Do-cg6">
             <objects>
@@ -898,7 +974,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <state key="normal" title="Help">
-                                            <color key="titleColor" red="0.31459187560000001" green="0.43665262490000001" blue="0.45546874999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="0.38823529410000002" green="0.3921568627" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
                                 </subviews>
@@ -1067,7 +1143,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <state key="normal" title="Help">
-                                            <color key="titleColor" red="0.31459187560000001" green="0.43665262490000001" blue="0.45546874999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="0.38823529410000002" green="0.3921568627" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
                                 </subviews>
@@ -1302,7 +1378,9 @@
                                             <constraint firstAttribute="width" constant="61" id="KSh-Jf-2he"/>
                                             <constraint firstAttribute="height" constant="29" id="M1t-fT-wzF"/>
                                         </constraints>
-                                        <state key="normal" title="Sign Out"/>
+                                        <state key="normal" title="Sign Out">
+                                            <color key="titleColor" red="0.38823529411764707" green="0.39215686274509803" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="SignOutButtonPressed:" destination="3go-5g-2RD" eventType="touchUpInside" id="MtT-8W-8Co"/>
                                         </connections>
@@ -1314,7 +1392,7 @@
                                             <constraint firstAttribute="width" constant="61" id="SdR-6f-Iq0"/>
                                         </constraints>
                                         <state key="normal" title="Help">
-                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="0.38823529411764707" green="0.39215686274509803" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
                                 </subviews>
@@ -1364,7 +1442,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xSu-6E-kDH" userLabel="WatsonMsgBackground" customClass="CustomView" customModule="WatsonDemo" customModuleProvider="target">
-                                                    <rect key="frame" x="93" y="28" width="304" height="84"/>
+                                                    <rect key="frame" x="93" y="28" width="303.66666666666669" height="84"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1379,7 +1457,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giz-gT-A77" userLabel="WatsonMessage" customClass="TTTAttributedLabel">
-                                                    <rect key="frame" x="108" y="43" width="274" height="54"/>
+                                                    <rect key="frame" x="108" y="43" width="273.66666666666669" height="54"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <attributedString key="attributedText">
                                                         <fragment content="Hello! I'm your personal banking virtual assistant. You can ask me about anything?">
@@ -1567,7 +1645,7 @@
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cuU-ry-Fkb" userLabel="MicButton">
-                                        <rect key="frame" x="16" y="7" width="34" height="34"/>
+                                        <rect key="frame" x="16" y="8" width="34" height="34"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="selected">
                                             <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

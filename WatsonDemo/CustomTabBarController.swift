@@ -21,7 +21,7 @@ class CustomTabBarViewController: UITabBarController, CustomTabBarDataSource, Cu
         
         //let newFrame =
         
-        let customTabBar = CustomTabBar(frame: self.tabBar.frame)
+        let customTabBar = CustomTabBar(frame: CGRect(x: 0, y: self.view.frame.size.height-50, width: self.view.frame.size.width, height: 50))//self.tabBar.frame)
         customTabBar.datasource = self
         customTabBar.delegate = self
         customTabBar.setup()

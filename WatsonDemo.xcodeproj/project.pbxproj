@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7639BD8D606942B5C3BB6021 /* Pods_WatsonDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29496A7FDC524A45C71CE4F5 /* Pods_WatsonDemo.framework */; };
 		B40FDFE61DDF89BF00BE07EB /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40FDFE51DDF89BF00BE07EB /* CustomButton.swift */; };
 		B40FDFE81DE27E8D00BE07EB /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40FDFE71DE27E8D00BE07EB /* UIColor+Hex.swift */; };
 		B40FDFEA1DE3EF6900BE07EB /* MapViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40FDFE91DE3EF6900BE07EB /* MapViewCell.swift */; };
@@ -44,6 +45,7 @@
 		B4D160FB1DDBF19D00D436F1 /* SpeechToTextService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D160FA1DDBF19D00D436F1 /* SpeechToTextService.swift */; };
 		B4D161021DDBF2C600D436F1 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D161011DDBF2C600D436F1 /* Dictionary+Extension.swift */; };
 		B4F56E881DF722550068A426 /* UIImage+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F56E871DF722550068A426 /* UIImage+Assets.swift */; };
+		B70967901E92624A0097AEFE /* ToolBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709678F1E92624A0097AEFE /* ToolBoxViewController.swift */; };
 		B78234BA1E88F682000C5338 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78234B91E88F682000C5338 /* Settings.swift */; };
 		B7873FD11E7BD58000935479 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7873FD01E7BD58000935479 /* UserDetailViewController.swift */; };
 		B7890F171E90411500F55E5E /* SpeechToTextV1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ABDBED1E903F2300D503CE /* SpeechToTextV1.framework */; };
@@ -53,6 +55,11 @@
 		B78A6F721E7948500081CFE1 /* VoiceViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78A6F711E7948500081CFE1 /* VoiceViewCell.swift */; };
 		B78A6F741E7948930081CFE1 /* DistributionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78A6F731E7948920081CFE1 /* DistributionViewCell.swift */; };
 		B78A6F761E7948B60081CFE1 /* DistListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78A6F751E7948B60081CFE1 /* DistListViewCell.swift */; };
+		B78E7A951E93BD31005D3825 /* CAPSPageMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78E7A941E93BD31005D3825 /* CAPSPageMenu.swift */; };
+		B78E7A971E93C8D7005D3825 /* GeneralSafetyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78E7A961E93C8D7005D3825 /* GeneralSafetyViewController.swift */; };
+		B78E7A991E93C8E9005D3825 /* AutoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78E7A981E93C8E9005D3825 /* AutoViewController.swift */; };
+		B78E7A9B1E93C90B005D3825 /* LiabilityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78E7A9A1E93C90B005D3825 /* LiabilityViewController.swift */; };
+		B78E7A9D1E93C92B005D3825 /* PropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78E7A9C1E93C92B005D3825 /* PropertyViewController.swift */; };
 		B79D3A201E8146840035133B /* AttributedLable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79D3A1F1E8146840035133B /* AttributedLable.swift */; };
 		B79D3A261E814CCA0035133B /* ActiveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79D3A211E814CCA0035133B /* ActiveType.swift */; };
 		B79D3A271E814CCA0035133B /* ActiveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79D3A221E814CCA0035133B /* ActiveLabel.swift */; };
@@ -91,6 +98,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		29496A7FDC524A45C71CE4F5 /* Pods_WatsonDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WatsonDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AB931FD30A6559E63E8B1B3 /* Pods-WatsonDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WatsonDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WatsonDemo/Pods-WatsonDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		B40FDFE51DDF89BF00BE07EB /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		B40FDFE71DE27E8D00BE07EB /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		B40FDFE91DE3EF6900BE07EB /* MapViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewCell.swift; sourceTree = "<group>"; };
@@ -126,6 +135,7 @@
 		B4D160FA1DDBF19D00D436F1 /* SpeechToTextService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechToTextService.swift; sourceTree = "<group>"; };
 		B4D161011DDBF2C600D436F1 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		B4F56E871DF722550068A426 /* UIImage+Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Assets.swift"; sourceTree = "<group>"; };
+		B709678F1E92624A0097AEFE /* ToolBoxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBoxViewController.swift; sourceTree = "<group>"; };
 		B78234B91E88F682000C5338 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		B7873FD01E7BD58000935479 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		B78A6F6C1E7927540081CFE1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +143,11 @@
 		B78A6F711E7948500081CFE1 /* VoiceViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceViewCell.swift; sourceTree = "<group>"; };
 		B78A6F731E7948920081CFE1 /* DistributionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributionViewCell.swift; sourceTree = "<group>"; };
 		B78A6F751E7948B60081CFE1 /* DistListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistListViewCell.swift; sourceTree = "<group>"; };
+		B78E7A941E93BD31005D3825 /* CAPSPageMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAPSPageMenu.swift; sourceTree = "<group>"; };
+		B78E7A961E93C8D7005D3825 /* GeneralSafetyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralSafetyViewController.swift; sourceTree = "<group>"; };
+		B78E7A981E93C8E9005D3825 /* AutoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoViewController.swift; sourceTree = "<group>"; };
+		B78E7A9A1E93C90B005D3825 /* LiabilityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiabilityViewController.swift; sourceTree = "<group>"; };
+		B78E7A9C1E93C92B005D3825 /* PropertyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyViewController.swift; sourceTree = "<group>"; };
 		B79D3A1F1E8146840035133B /* AttributedLable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedLable.swift; sourceTree = "<group>"; };
 		B79D3A211E814CCA0035133B /* ActiveType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveType.swift; sourceTree = "<group>"; };
 		B79D3A221E814CCA0035133B /* ActiveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveLabel.swift; sourceTree = "<group>"; };
@@ -150,6 +165,7 @@
 		B7B5F6141E8A5C40000335B3 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		B7B5F6151E8A5C40000335B3 /* CustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		B7B5F6161E8A5C40000335B3 /* CustomTabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarItem.swift; sourceTree = "<group>"; };
+		F12B45487CFEA67EC7AB8F09 /* Pods-WatsonDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WatsonDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-WatsonDemo/Pods-WatsonDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,12 +179,22 @@
 				B48B18901DDB9A55008CE7C2 /* RestKit.framework in Frameworks */,
 				B47B68C41DF5FF8A00AB6421 /* WebImage.framework in Frameworks */,
 				B7890F171E90411500F55E5E /* SpeechToTextV1.framework in Frameworks */,
+				7639BD8D606942B5C3BB6021 /* Pods_WatsonDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		622792F719A8C0F334800AC5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7AB931FD30A6559E63E8B1B3 /* Pods-WatsonDemo.debug.xcconfig */,
+				F12B45487CFEA67EC7AB8F09 /* Pods-WatsonDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B4562FFB1DF9C82600171C0B /* Docs */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,6 +213,11 @@
 				B7A50BE91E826F5E00D82A84 /* WatsonChatDetailViewController.swift */,
 				B7A50BF11E852C8400D82A84 /* DistDetailViewController.swift */,
 				B7A50BF31E852CC100D82A84 /* AddDistViewController.swift */,
+				B709678F1E92624A0097AEFE /* ToolBoxViewController.swift */,
+				B78E7A961E93C8D7005D3825 /* GeneralSafetyViewController.swift */,
+				B78E7A981E93C8E9005D3825 /* AutoViewController.swift */,
+				B78E7A9A1E93C90B005D3825 /* LiabilityViewController.swift */,
+				B78E7A9C1E93C92B005D3825 /* PropertyViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -233,6 +264,7 @@
 				B7A50BEF1E84C35700D82A84 /* RadioButton.swift */,
 				B7B5F6141E8A5C40000335B3 /* CustomTabBarController.swift */,
 				B7B5F6151E8A5C40000335B3 /* CustomTabBar.swift */,
+				B78E7A941E93BD31005D3825 /* CAPSPageMenu.swift */,
 				B7B5F6161E8A5C40000335B3 /* CustomTabBarItem.swift */,
 			);
 			name = Views;
@@ -287,6 +319,8 @@
 			children = (
 				B4CBCF931DD91EA70003074A /* WatsonDemo */,
 				B4CBCF921DD91EA70003074A /* Products */,
+				622792F719A8C0F334800AC5 /* Pods */,
+				E56E55782687FBA0ABE303A6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -338,6 +372,14 @@
 			name = SettingsTableCells;
 			sourceTree = "<group>";
 		};
+		E56E55782687FBA0ABE303A6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29496A7FDC524A45C71CE4F5 /* Pods_WatsonDemo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -345,10 +387,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B4CBCFA31DD91EA70003074A /* Build configuration list for PBXNativeTarget "WatsonDemo" */;
 			buildPhases = (
+				004183062FCEF93ABD60A812 /* [CP] Check Pods Manifest.lock */,
 				B4CBCF8D1DD91EA70003074A /* Sources */,
 				B4CBCF8E1DD91EA70003074A /* Frameworks */,
 				B4CBCF8F1DD91EA70003074A /* Resources */,
 				B48B18891DDB99C1008CE7C2 /* Embed Frameworks */,
+				5B8202803CB0ED52D11D33D4 /* [CP] Embed Pods Frameworks */,
+				B2FCF5BCEACA22E8DCF72E13 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -410,6 +455,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		004183062FCEF93ABD60A812 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		5B8202803CB0ED52D11D33D4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WatsonDemo/Pods-WatsonDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B2FCF5BCEACA22E8DCF72E13 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WatsonDemo/Pods-WatsonDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B4CBCF8D1DD91EA70003074A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -419,6 +512,7 @@
 				B47B68C01DF423FF00AB6421 /* GradientView.swift in Sources */,
 				B78A6F721E7948500081CFE1 /* VoiceViewCell.swift in Sources */,
 				B48B18701DDA139F008CE7C2 /* ChatTextField.swift in Sources */,
+				B70967901E92624A0097AEFE /* ToolBoxViewController.swift in Sources */,
 				B78234BA1E88F682000C5338 /* Settings.swift in Sources */,
 				B48B18791DDB7025008CE7C2 /* TextToSpeechService.swift in Sources */,
 				B4562FF21DF8D7E500171C0B /* VideoViewCell.swift in Sources */,
@@ -449,9 +543,13 @@
 				B7A50BEC1E82812C00D82A84 /* MiscellaneousService.swift in Sources */,
 				B7B5F6181E8A5C40000335B3 /* CustomTabBar.swift in Sources */,
 				B4CBCF971DD91EA70003074A /* OverviewViewController.swift in Sources */,
+				B78E7A9D1E93C92B005D3825 /* PropertyViewController.swift in Sources */,
+				B78E7A991E93C8E9005D3825 /* AutoViewController.swift in Sources */,
 				B79E42EE1E72BDB500EBEAA9 /* LogInViewController.swift in Sources */,
+				B78E7A9B1E93C90B005D3825 /* LiabilityViewController.swift in Sources */,
 				B79D3A281E814CCA0035133B /* ActiveBuilder.swift in Sources */,
 				B7A50BEE1E83E7E500D82A84 /* DistributionListService.swift in Sources */,
+				B78E7A951E93BD31005D3825 /* CAPSPageMenu.swift in Sources */,
 				B7A50BEA1E826F5E00D82A84 /* WatsonChatDetailViewController.swift in Sources */,
 				B79D3A271E814CCA0035133B /* ActiveLabel.swift in Sources */,
 				B78A6F741E7948930081CFE1 /* DistributionViewCell.swift in Sources */,
@@ -459,6 +557,7 @@
 				B79D3A291E814CCA0035133B /* RegexParser.swift in Sources */,
 				B7873FD11E7BD58000935479 /* UserDetailViewController.swift in Sources */,
 				B48B18641DD96A66008CE7C2 /* WatsonChatViewCell.swift in Sources */,
+				B78E7A971E93C8D7005D3825 /* GeneralSafetyViewController.swift in Sources */,
 				B48B18661DD96A92008CE7C2 /* UserChatViewCell.swift in Sources */,
 				B4D161021DDBF2C600D436F1 /* Dictionary+Extension.swift in Sources */,
 			);
@@ -581,6 +680,7 @@
 		};
 		B4CBCFA41DD91EA70003074A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AB931FD30A6559E63E8B1B3 /* Pods-WatsonDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -593,7 +693,7 @@
 				INFOPLIST_FILE = WatsonDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.WestfieldDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.WestfieldDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -604,6 +704,7 @@
 		};
 		B4CBCFA51DD91EA70003074A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F12B45487CFEA67EC7AB8F09 /* Pods-WatsonDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -616,7 +717,7 @@
 				INFOPLIST_FILE = WatsonDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.WestfieldDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.WestfieldDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

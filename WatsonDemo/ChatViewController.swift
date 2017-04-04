@@ -317,12 +317,13 @@ extension ChatViewController: ConversationServiceDelegate {
             opt = textN.components(separatedBy: "n&n")
             print("my Watson message>>>>>>>>>>>>>>>>>>>\(textN)")
             print("my Watson message>>>>>>>>>>>>>>>>>>>\(opt)")
-            //let foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            let foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            self.textToSpeechService.synthesizeSpeech(withText: foundText)
             
             for item in 0..<opt.count{
-                 let foundText = opt[item].replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                
-                self.textToSpeechService.synthesizeSpeech(withText: foundText)
+//                 let foundText = opt[item].replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+//                
+//                self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil))
             }
             

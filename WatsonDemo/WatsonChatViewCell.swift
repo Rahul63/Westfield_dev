@@ -113,14 +113,15 @@ class WatsonChatViewCell: UITableViewCell {
                 //print(strinLength)
                 //strinLength = strinLength.replacingOccurrences(of: " ", with: "")
                 strinLength = strinLength.replacingOccurrences(of: ">,", with: "")
+                strinLength = strinLength.replacingOccurrences(of: ">", with: "")
                 //let strinLengthCount:Int = strinLength.characters.count
                 //print("mystringLength>>>>\(strinLengthCount)")
                 print(strinLength)
                 var foundNewData = foundNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
                 
                 foundNewData = foundNewData.replacingOccurrences(of: "</wcs:input", with: "")
-                foundNewData = foundNewData.replacingOccurrences(of: "\n\n", with: ",")
-                optionData = foundNewData.components(separatedBy: ",")
+                foundNewData = foundNewData.replacingOccurrences(of: "\n\n", with: "n&n")
+                optionData = foundNewData.components(separatedBy: "n&n")
                 
                 var yValue: CGFloat  = self.heightForView(text: strinLength, font: UIFont.systemFont(ofSize: 14), width: messageLabel.frame.size.width)
                 //print("print yvalue...\(yValue)")

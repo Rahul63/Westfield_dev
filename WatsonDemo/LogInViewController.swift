@@ -38,7 +38,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         
 //         userValue = UserDefaults.standard.value(forKey: "UserDetail") as? NSArray
 //        if userValue.count>0 {
-          // self.logInUser()
+         //  self.logInUser()
 //        }
         
         self.signInButton.layer.cornerRadius = 3.0
