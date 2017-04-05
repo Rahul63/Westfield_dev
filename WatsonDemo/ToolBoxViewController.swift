@@ -161,7 +161,7 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate {
         self.addChildViewController(pageMenu!)
         self.view.addSubview(pageMenu!.view)
         
-        pageMenu!.didMove(toParentViewController: self)
+        pageMenu!.didMove(toParentViewController: autoVc)
     }
     
     

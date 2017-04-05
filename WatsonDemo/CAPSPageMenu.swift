@@ -52,6 +52,7 @@ class MenuItemViewT: UIView {
         if titleLabel != nil {
             titleLabel!.text = text as String
             titleLabel!.numberOfLines = 0
+            titleLabel!.textColor = UIColor.white
             titleLabel!.sizeToFit()
         }
     }
@@ -167,6 +168,7 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
         controllerArray = viewControllers
         
         self.view.frame = frame
+        
     }
     
     public convenience init(viewControllers: [UIViewController], frame: CGRect, pageMenuOptions: [CAPSPageMenuOption]?) {
@@ -253,7 +255,7 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
 //	}
     
     override public var shouldAutomaticallyForwardAppearanceMethods : Bool {
-        var result = true
+        let result = true
 //        if which == 2 {
 //            result = false
 //        }
@@ -320,7 +322,8 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
         menuScrollView.showsVerticalScrollIndicator = false
         controllerScrollView.showsHorizontalScrollIndicator = false
         controllerScrollView.showsVerticalScrollIndicator = false
-        
+        menuScrollView.isScrollEnabled = false
+        controllerScrollView.isScrollEnabled = false
         // Set background color behind scroll views and for menu scroll view
         self.view.backgroundColor = viewBackgroundColor
         menuScrollView.backgroundColor = scrollMenuBackgroundColor
@@ -328,11 +331,11 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
     
     func configureUserInterface() {
         // Add tap gesture recognizer to controller scroll view to recognize menu item selection
-        let menuItemTapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector(("handleMenuItemTap:")))
-        menuItemTapGestureRecognizer.numberOfTapsRequired = 1
-        menuItemTapGestureRecognizer.numberOfTouchesRequired = 1
-        menuItemTapGestureRecognizer.delegate = self
-        menuScrollView.addGestureRecognizer(menuItemTapGestureRecognizer)
+//        let menuItemTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleMenuItemTap(gestureRecognizer:)))
+//        menuItemTapGestureRecognizer.numberOfTapsRequired = 1
+//        menuItemTapGestureRecognizer.numberOfTouchesRequired = 1
+//        menuItemTapGestureRecognizer.delegate = self
+//        menuScrollView.addGestureRecognizer(menuItemTapGestureRecognizer)
         
         // Set delegate for controller scroll view
         controllerScrollView.delegate = self
@@ -432,6 +435,8 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
             // Set title depending on if controller has a title set
             if controller.title != nil {
                 menuItemView.titleLabel!.text = controller.title!
+               // menuItemView.titleLabel!.textColor = UIColor.white
+                
             } else {
                 menuItemView.titleLabel!.text = "Menu \(Int(index) + 1)"
             }
@@ -458,7 +463,7 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
         // Set selected color for title label of selected menu item
         if menuItems.count > 0 {
             if menuItems[currentPageIndex].titleLabel != nil {
-                menuItems[currentPageIndex].titleLabel!.textColor = selectedMenuItemLabelColor
+                menuItems[currentPageIndex].titleLabel!.textColor = UIColor.white//selectedMenuItemLabelColor
             }
         }
         
@@ -486,6 +491,8 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
             let leadingAndTrailingMargin = self.getMarginForMenuItemWidthBasedOnTitleTextWidthAndCenterMenuItems()
             selectionIndicatorView.frame = CGRect(x:leadingAndTrailingMargin, y:menuHeight - selectionIndicatorHeight, width:menuItemWidths[0], height:selectionIndicatorHeight)
         }
+        
+        self.handleMenuItemTap()
     }
     
     // Adjusts the menu item frames to size item width based on title text width and center all menu items in the center
@@ -748,7 +755,7 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
                 if self.menuItems.count > 0 {
                     if self.menuItems[self.lastPageIndex].titleLabel != nil && self.menuItems[self.currentPageIndex].titleLabel != nil {
                         self.menuItems[self.lastPageIndex].titleLabel!.textColor = self.unselectedMenuItemLabelColor
-                        self.menuItems[self.currentPageIndex].titleLabel!.textColor = self.selectedMenuItemLabelColor
+                        self.menuItems[self.currentPageIndex].titleLabel!.textColor = UIColor.white//self.selectedMenuItemLabelColor
                     }
                 }
             })
@@ -757,9 +764,15 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
     
     
     // MARK: - Tap gesture recognizer selector
-    
-    func handleMenuItemTap(gestureRecognizer : UITapGestureRecognizer) {
-        let tappedPoint : CGPoint = gestureRecognizer.location(in: menuScrollView)
+   // func handleMenuItemTap(gestureRecognizer : UITapGestureRecognizer)
+    func handleMenuItemTap() {
+        //let tappedPoint : CGPoint = gestureRecognizer.location(in: menuScrollView)
+        let tappedPoint : CGPoint = CGPoint(x:133.0,y:20.5)
+        
+        print(tappedPoint)
+        
+        
+        
         
         if tappedPoint.y < menuScrollView.frame.height {
             
@@ -843,9 +856,9 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
                 }
                 
                 // Move controller scroll view when tapping menu item
-                let duration : Double = Double(scrollAnimationDurationOnMenuItemTap) / Double(1000)
+                //let duration : Double = Double(scrollAnimationDurationOnMenuItemTap) / Double(1000)
                 
-                UIView.animate(withDuration: duration, animations: { () -> Void in
+                UIView.animate(withDuration: 0, animations: { () -> Void in
                     let xOffset : CGFloat = CGFloat(itemIndex) * self.controllerScrollView.frame.width
                     self.controllerScrollView.setContentOffset(CGPoint(x: xOffset, y: self.controllerScrollView.contentOffset.y), animated: false)
                 })

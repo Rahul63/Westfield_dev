@@ -156,9 +156,11 @@ class ConversationService {
 
         self.context = json["context"] as! String
         var text = json["text"] as! String
+        
+        print("JSSSOONN>>>>\(text)")
 
         // Look for the option params in the brackets
-        let nsString = text as NSString
+  //      let nsString = text as NSString
 //        let regex = try! NSRegularExpression(pattern: "wcs:input>")
 //        var options: [String]?
 //        if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
