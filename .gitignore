@@ -1,0 +1,7 @@
+.DS_Store
+*.xcuserdata/
+*.xcuserstate
+*.xcuserdatad
+codesigndoc_exports/
+Cartfile.resolved
+Carthage/
