@@ -41,59 +41,59 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate {
         
         //let folderVc = BOXFolderViewController
         
-        folderInforequrest?.perform(completion: {(file: BOXFile?, err:Error?) -> Void in
+//        folderInforequrest?.perform(completion: {(file: BOXFile?, err:Error?) -> Void in
+//        
+//            print(file ?? "not found")
+//            print(err ?? "")
+//        
+//        })
         
-            print(file ?? "not found")
-            print(err ?? "")
         
-        })
-        
-        
-        let searchFile = boxContent?.searchRequest(withQuery: "All", in: NSMakeRange(0, 1000))
-        
-        searchFile?.ancestorFolderIDs = ["0"]
-        //searchFile?.fileExtensions = [".pdf","jpg","png"]
-        searchFile?.perform(completion: {item in
-        
-            print(" MY Value..\(item.0)")
-            
-            self.itemValue = item.0! as! [BOXItem]
-            print(self.itemValue)
-            
-            for item in 0..<self.itemValue.count{
-                
-                let itemData = self.itemValue[item]
-                print(itemData)
-                if self.itemValue[item].isFile{
-                    
-                    
-                    
-                    print(self.itemValue[item].name)
-                    print(self.itemValue[item].itemDescription)
-                }
-                else if self.itemValue[item].isBookmark{
-                    print(self.itemValue[item].name)
-                    
-                let bookMarkItem =  self.itemValue[item] as? BOXBookmark
-                    
-                if let currentURL = bookMarkItem?.url.absoluteString {
-                        
-                        print(currentURL)
-                        
-                    } else {
-                        
-                        // request is nil ...
-                        
-                    } 
-                    
-                    
-                    //let descr = ((BOXBookmark)self.itemValue[item]).URL.absoluteString
-                    //print(self.itemValue[item].sharedLink)
-                }
-            }
-            
-            
-        })
+//        let searchFile = boxContent?.searchRequest(withQuery: "All", in: NSMakeRange(0, 1000))
+//        
+//        searchFile?.ancestorFolderIDs = ["0"]
+//        //searchFile?.fileExtensions = [".pdf","jpg","png"]
+//        searchFile?.perform(completion: {item in
+//        
+//            print(" MY Value..\(item.0)")
+//            
+//            self.itemValue = item.0! as! [BOXItem]
+//            print(self.itemValue)
+//            
+//            for item in 0..<self.itemValue.count{
+//                
+//                let itemData = self.itemValue[item]
+//                print(itemData)
+//                if self.itemValue[item].isFile{
+//                    
+//                    
+//                    
+//                    print(self.itemValue[item].name)
+//                    print(self.itemValue[item].itemDescription)
+//                }
+//                else if self.itemValue[item].isBookmark{
+//                    print(self.itemValue[item].name)
+//                    
+//                let bookMarkItem =  self.itemValue[item] as? BOXBookmark
+//                    
+//                if let currentURL = bookMarkItem?.url.absoluteString {
+//                        
+//                        print(currentURL)
+//                        
+//                    } else {
+//                        
+//                        // request is nil ...
+//                        
+//                    } 
+//                    
+//                    
+//                    //let descr = ((BOXBookmark)self.itemValue[item]).URL.absoluteString
+//                    //print(self.itemValue[item].sharedLink)
+//                }
+//            }
+//            
+//            
+//        })
         self.loadViewUIConstruct()
         
        // NSArray *items, NSUInteger totalCount, NSRange range, NSError *error

@@ -61,10 +61,10 @@ class WatsonChatViewCell: UITableViewCell {
         
         for view in self.messageLabel.subviews
         {
-            if view .isKind(of: KGRadioButton.self) {
+            //if view .isKind(of: KGRadioButton.self) {
                // print(">>>>>>>>>>>>>Removeddddddd")
                 view.removeFromSuperview()
-            }
+            //}
             
             
         }

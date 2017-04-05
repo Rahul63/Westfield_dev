@@ -317,9 +317,17 @@ extension ChatViewController: ConversationServiceDelegate {
             opt = textN.components(separatedBy: "n&n")
             print("my Watson message>>>>>>>>>>>>>>>>>>>\(textN)")
             print("my Watson message>>>>>>>>>>>>>>>>>>>\(opt)")
-            let foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-            self.textToSpeechService.synthesizeSpeech(withText: foundText)
+            var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
             
+            let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+            let nsString = foundText as NSString
+            if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
+                let optionsString = nsString.substring(with: result.range)
+             foundText = foundText.replacingOccurrences(of: optionsString, with: "")
+            self.textToSpeechService.synthesizeSpeech(withText: foundText)
+            }else{
+                self.textToSpeechService.synthesizeSpeech(withText: foundText)
+            }
             for item in 0..<opt.count{
 //                 let foundText = opt[item].replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
 //                
@@ -329,9 +337,17 @@ extension ChatViewController: ConversationServiceDelegate {
             
         }else{
             
-            let foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-            
-             self.textToSpeechService.synthesizeSpeech(withText: foundText)
+            var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+            let nsString = foundText as NSString
+            if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
+                let optionsString = nsString.substring(with: result.range)
+                foundText = foundText.replacingOccurrences(of: optionsString, with: "")
+                self.textToSpeechService.synthesizeSpeech(withText: foundText)
+            }else{
+                self.textToSpeechService.synthesizeSpeech(withText: foundText)
+            }
+             //self.textToSpeechService.synthesizeSpeech(withText: foundText)
             self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
         }
         
