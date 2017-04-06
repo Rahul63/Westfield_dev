@@ -105,16 +105,31 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
 
     // MARK: - Actions
     @IBAction func micButtonTapped() {
-        if micButton.isSelected {
-            micImage.image = UIImage.init(imageLiteralResourceName: "Mic_icon")
-            speechToTextService.finishRecording()
-        } else {
-            micImage.image = UIImage.init(imageLiteralResourceName: "MicOn")
-            audioPlayer.stop()
-            speechToTextService.startRecording()
+        
+        if sharedInstnce.isVoiceOn == true {
+            if micButton.isSelected {
+                micImage.image = UIImage.init(imageLiteralResourceName: "Mic_icon")
+                speechToTextService.finishRecording()
+            } else {
+                micImage.image = UIImage.init(imageLiteralResourceName: "MicOn")
+                audioPlayer.stop()
+                speechToTextService.startRecording()
+            }
+            
+            micButton.isSelected = !micButton.isSelected
+        }else{
+            if micButton.isSelected {
+                micImage.image = UIImage.init(imageLiteralResourceName: "Mic_icon")
+                speechToTextService.finishRecording()
+            } else {
+                micImage.image = UIImage.init(imageLiteralResourceName: "MicOn")
+                speechToTextService.startRecording()
+            }
+            
+            micButton.isSelected = !micButton.isSelected
         }
-
-        micButton.isSelected = !micButton.isSelected
+        
+        
     }
     
     

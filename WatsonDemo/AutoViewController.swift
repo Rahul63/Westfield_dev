@@ -26,8 +26,15 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         searchFile?.ancestorFolderIDs = ["0"]
         //searchFile?.fileExtensions = [".pdf","jpg","png"]
         searchFile?.perform(completion: {item in
-           // print(" MY Value..\(item.0)")
-            self.itemValue = item.0! as! [BOXItem]
+            print(" MY Value..\(item)")
+            if item.0 != nil {
+                self.itemValue = item.0! as! [BOXItem]
+            }else{
+                let alert = UIAlertController(title: "Error", message: "Unable to fetch data", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+            
             print(self.itemValue)
             self.autoTableView.reloadData()
             for item in 0..<self.itemValue.count{
