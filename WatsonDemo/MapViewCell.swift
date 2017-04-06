@@ -20,8 +20,9 @@ class MapViewCell: UITableViewCell {
     }
 
     func configure(withMessage message: Message) {
-        if let mapUrl = message.mapUrl {
-            mapImageView.sd_setImage(with: mapUrl)
+        if let imageUrl = message.imageUrl {
+            mapImageView.setShowActivityIndicator(true)
+            mapImageView.sd_setImage(with: imageUrl)
         }
     }
 }

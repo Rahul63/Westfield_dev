@@ -11,6 +11,7 @@ import Foundation
 protocol ConversationServiceDelegate: class {
     func didReceiveMessage(withText text: String, options: [String]?)
     func didReceiveMap(withUrl mapUrl: URL)
+    func didReceiveImage(withUrl imageUrl: URL)
     func didReceiveVideo(withUrl videoUrl: URL)
 }
 
@@ -155,9 +156,123 @@ class ConversationService {
     func parseJson(json: [String:AnyObject]) { 
 
         self.context = json["context"] as! String
-        var text = json["text"] as! String
+        var text = json["text"] as! String//"Take a quick look at this Picture.  What do you see?<br><img:src>https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg</img:src>"//json["text"] as! String
         
         print("JSSSOONN>>>>\(text)")
+        
+        self.delegate?.didReceiveMessage(withText: text, options: nil)
+        
+        let nsString = text as NSString
+        //let regex = try! NSRegularExpression(pattern: "<.*?>")
+        let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+        
+        if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
+            var optionsString = nsString.substring(with: result.range)
+            optionsString = optionsString.replacingOccurrences(of: "\\", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "</vid:src", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "</img:src", with: "")
+            print(optionsString)
+        
+        if text.contains("<vid:src>") {
+            let videoUrl = URL(string: optionsString)
+            self.delegate?.didReceiveVideo(withUrl: videoUrl!)
+        }
+        if text.contains("<img:src>") {
+            let imageUrl = URL(string: optionsString)
+            self.delegate?.didReceiveImage(withUrl: imageUrl!)
+            
+        }
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+       /* if text.contains("<img:src>") {
+            
+            //                optionsString = optionsString.replacingOccurrences(of: "</img:src", with: "")
+            //
+            //                print("myImage URL is...<<<<<<<.\(optionsString)")
+            //                print("Images to be shown")
+            //                var clearStr = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            //                clearStr = clearStr.replacingOccurrences(of: ">", with: "")
+            //                let yValue: CGFloat  = self.heightForView(text: clearStr, font: UIFont.systemFont(ofSize: 10), width: messageLabel.frame.size.width)-10
+            //                //text = text.replacingOccurrences(of: ">", with: "")
+            //                text.append("\n\n\n\n\n\n\n\n\n\n")
+            //
+            //                text = text.replacingOccurrences(of: optionsString, with: "")
+            //                let range = text.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
+            //                if range != nil {
+            //
+            //                    text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            //                    text = text.replacingOccurrences(of: ">", with: "")
+            //
+            //                    messageLabel.text = text
+            //                }
+            //
+            //                let url = URL(string:optionsString)//"https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg")//"http://cdn.businessoffashion.com/site/uploads/2014/09/Karl-Lagerfeld-Self-Portrait-Courtesy.jpg")
+            //               // let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+            //
+            //                let imageView = UIImageView(frame: CGRect(x: 0, y: yValue, width: 210, height: 230))
+            //               // imageView.loadRequest(NSURLRequest(url: NSURL(string: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")! as URL) as URLRequest)
+            //                //imageView.sd_setImage(with: url)
+            //                //imageView.setShowActivityIndicator(true)
+            //
+            //                imageView.sd_setImage(with: url)
+            //                //imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder"))
+            //
+            //                //imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder"), completed: {})
+            //                imageView.contentMode = .scaleAspectFit
+            //                self.messageLabel.addSubview(imageView)
+            //                //imageView.image = UIImage(data: data!)
+            //                //self.addImageToImageView(with: "", and: 30)
+            
+        }
+        else if text.contains("<vid:src>"){
+            //                optionsString = optionsString.replacingOccurrences(of: "</vid:src", with: "")
+            //                var clearStr = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            //                clearStr = clearStr.replacingOccurrences(of: ">", with: "")
+            //
+            //                let yValue: CGFloat  = self.heightForView(text: clearStr, font: UIFont.systemFont(ofSize: 10), width: messageLabel.frame.size.width)-30
+            //                print("myVideo URL is...<<<<<<<.\(optionsString)")
+            //                text.append("\n\n\n\n\n\n\n\n\n")
+            //
+            //                text = text.replacingOccurrences(of: optionsString, with: "")
+            //                let range = text.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
+            //                if range != nil {
+            //
+            //                    text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            //                    text = text.replacingOccurrences(of: ">", with: "")
+            //
+            //                    messageLabel.text = text
+            //                }
+            //
+            //                //if (optionsString.contains("mp4")) {
+            //                    let videoURL = URL(string: optionsString)//"https://app.box.com/shared/static/nj2zla5uxzf4r0em1tl8q0bqk7b5huuq.mp4")//"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")
+            //                    
+            //                    let player = AVPlayer(url: videoURL!)
+            //                    let playerLayer = AVPlayerLayer(player: player)
+            //                    playerLayer.frame = CGRect(x: 0, y: yValue, width: 210, height: 260)
+            //                    self.messageLabel.layer.addSublayer(playerLayer)
+            //                    player.play()
+            //                //}
+            
+            
+            
+        }*/
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
         // Look for the option params in the brackets
   //      let nsString = text as NSString
@@ -207,7 +322,7 @@ class ConversationService {
 //            text = "I would suggest starting with the basics"
             text = "Let me show you a short video to see the effects of distracted driving"
         #endif
-        self.delegate?.didReceiveMessage(withText: text, options: nil)
+        
         if let mapUrlString = mapUrlString, let mapUrl = URL(string: mapUrlString) {
             self.delegate?.didReceiveMap(withUrl: mapUrl)
         }

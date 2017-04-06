@@ -78,80 +78,80 @@ class WatsonChatViewCell: UITableViewCell {
             optionsString = optionsString.replacingOccurrences(of: "\\", with: "")
             
             
-            if text.contains("<img:src>") {
+     /*       if text.contains("<img:src>") {
                 
-                optionsString = optionsString.replacingOccurrences(of: "</img:src", with: "")
-                
-                print("myImage URL is...<<<<<<<.\(optionsString)")
-                print("Images to be shown")
-                var clearStr = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                clearStr = clearStr.replacingOccurrences(of: ">", with: "")
-                let yValue: CGFloat  = self.heightForView(text: clearStr, font: UIFont.systemFont(ofSize: 10), width: messageLabel.frame.size.width)-10
-                //text = text.replacingOccurrences(of: ">", with: "")
-                text.append("\n\n\n\n\n\n\n\n\n\n")
-                
-                text = text.replacingOccurrences(of: optionsString, with: "")
-                let range = text.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
-                if range != nil {
-                    
-                    text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                    text = text.replacingOccurrences(of: ">", with: "")
-                    
-                    messageLabel.text = text
-                }
-                
-                let url = URL(string:optionsString)//"https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg")//"http://cdn.businessoffashion.com/site/uploads/2014/09/Karl-Lagerfeld-Self-Portrait-Courtesy.jpg")
-               // let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-                
-                let imageView = UIImageView(frame: CGRect(x: 0, y: yValue, width: 210, height: 230))
-               // imageView.loadRequest(NSURLRequest(url: NSURL(string: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")! as URL) as URLRequest)
-                //imageView.sd_setImage(with: url)
-                //imageView.setShowActivityIndicator(true)
-                
-                imageView.sd_setImage(with: url)
-                //imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder"))
-                
-                //imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder"), completed: {})
-                imageView.contentMode = .scaleAspectFit
-                self.messageLabel.addSubview(imageView)
-                //imageView.image = UIImage(data: data!)
-                //self.addImageToImageView(with: "", and: 30)
+//                optionsString = optionsString.replacingOccurrences(of: "</img:src", with: "")
+//                
+//                print("myImage URL is...<<<<<<<.\(optionsString)")
+//                print("Images to be shown")
+//                var clearStr = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+//                clearStr = clearStr.replacingOccurrences(of: ">", with: "")
+//                let yValue: CGFloat  = self.heightForView(text: clearStr, font: UIFont.systemFont(ofSize: 10), width: messageLabel.frame.size.width)-10
+//                //text = text.replacingOccurrences(of: ">", with: "")
+//                text.append("\n\n\n\n\n\n\n\n\n\n")
+//                
+//                text = text.replacingOccurrences(of: optionsString, with: "")
+//                let range = text.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
+//                if range != nil {
+//                    
+//                    text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+//                    text = text.replacingOccurrences(of: ">", with: "")
+//                    
+//                    messageLabel.text = text
+//                }
+//                
+//                let url = URL(string:optionsString)//"https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg")//"http://cdn.businessoffashion.com/site/uploads/2014/09/Karl-Lagerfeld-Self-Portrait-Courtesy.jpg")
+//               // let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+//                
+//                let imageView = UIImageView(frame: CGRect(x: 0, y: yValue, width: 210, height: 230))
+//               // imageView.loadRequest(NSURLRequest(url: NSURL(string: "http://www.apple.com/euro/ios/ios8/a/generic/images/og.png")! as URL) as URLRequest)
+//                //imageView.sd_setImage(with: url)
+//                //imageView.setShowActivityIndicator(true)
+//                
+//                imageView.sd_setImage(with: url)
+//                //imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder"))
+//                
+//                //imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "placeholder"), completed: {})
+//                imageView.contentMode = .scaleAspectFit
+//                self.messageLabel.addSubview(imageView)
+//                //imageView.image = UIImage(data: data!)
+//                //self.addImageToImageView(with: "", and: 30)
                 
             }
             else if text.contains("<vid:src>"){
-                optionsString = optionsString.replacingOccurrences(of: "</vid:src", with: "")
-                var clearStr = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                clearStr = clearStr.replacingOccurrences(of: ">", with: "")
-                    
-                let yValue: CGFloat  = self.heightForView(text: clearStr, font: UIFont.systemFont(ofSize: 10), width: messageLabel.frame.size.width)-30
-                print("myVideo URL is...<<<<<<<.\(optionsString)")
-                text.append("\n\n\n\n\n\n\n\n\n")
-                
-                text = text.replacingOccurrences(of: optionsString, with: "")
-                let range = text.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
-                if range != nil {
-                    
-                    text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                    text = text.replacingOccurrences(of: ">", with: "")
-                    
-                    messageLabel.text = text
-                }
-                
-                //if (optionsString.contains("mp4")) {
-                    let videoURL = URL(string: optionsString)//"https://app.box.com/shared/static/nj2zla5uxzf4r0em1tl8q0bqk7b5huuq.mp4")//"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")
-                    
-                    let player = AVPlayer(url: videoURL!)
-                    let playerLayer = AVPlayerLayer(player: player)
-                    playerLayer.frame = CGRect(x: 0, y: yValue, width: 210, height: 260)
-                    self.messageLabel.layer.addSublayer(playerLayer)
-                    player.play()
-                //}
+//                optionsString = optionsString.replacingOccurrences(of: "</vid:src", with: "")
+//                var clearStr = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+//                clearStr = clearStr.replacingOccurrences(of: ">", with: "")
+//                    
+//                let yValue: CGFloat  = self.heightForView(text: clearStr, font: UIFont.systemFont(ofSize: 10), width: messageLabel.frame.size.width)-30
+//                print("myVideo URL is...<<<<<<<.\(optionsString)")
+//                text.append("\n\n\n\n\n\n\n\n\n")
+//                
+//                text = text.replacingOccurrences(of: optionsString, with: "")
+//                let range = text.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
+//                if range != nil {
+//                    
+//                    text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+//                    text = text.replacingOccurrences(of: ">", with: "")
+//                    
+//                    messageLabel.text = text
+//                }
+//                
+//                //if (optionsString.contains("mp4")) {
+//                    let videoURL = URL(string: optionsString)//"https://app.box.com/shared/static/nj2zla5uxzf4r0em1tl8q0bqk7b5huuq.mp4")//"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")
+//                    
+//                    let player = AVPlayer(url: videoURL!)
+//                    let playerLayer = AVPlayerLayer(player: player)
+//                    playerLayer.frame = CGRect(x: 0, y: yValue, width: 210, height: 260)
+//                    self.messageLabel.layer.addSublayer(playerLayer)
+//                    player.play()
+//                //}
                 
                 
                 
             }
             else{
-                
+            */
                 Doc.linkUrl = optionsString
                 print("myOptionalString is...<<<<<<<.\(optionsString)")
                 text = text.replacingOccurrences(of: optionsString, with: "")
@@ -164,14 +164,14 @@ class WatsonChatViewCell: UITableViewCell {
                     found = found.replacingOccurrences(of: "</a", with: "")
                     //print("found:>>>> \(found)")
                     text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                    
+                    text = text.replacingOccurrences(of: ">", with: "")
                     let nsText = text as NSString
                     let range1: NSRange = nsText.range(of: found)
                     messageLabel.text = text
                     // print("MyURLLL>>>>\(Doc.linkUrl)")
                     messageLabel.addLink(to: URL(string: Doc.linkUrl) , with: range1)
                     
-                }
+               // }
                 
             }
             
@@ -203,7 +203,9 @@ class WatsonChatViewCell: UITableViewCell {
                 foundNewData = foundNewData.replacingOccurrences(of: "\n\n", with: "n&n")
                 optionData = foundNewData.components(separatedBy: "n&n")
                 
-                var yValue: CGFloat  = self.heightForView(text: strinLength, font: UIFont.systemFont(ofSize: 14), width: messageLabel.frame.size.width)
+                var yValue: CGFloat = 0.0
+                
+                 yValue  = self.heightForView(text: strinLength, font: UIFont.systemFont(ofSize: 14), width: messageLabel.frame.size.width)
                 //print("print yvalue...\(yValue)")
                 if optionData.count>0 {
                     for (index,element) in optionData.enumerated() {
@@ -247,7 +249,7 @@ class WatsonChatViewCell: UITableViewCell {
     
     func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat{
         
-        var currHeight:CGFloat!
+        var currHeight:CGFloat = 0.0
         
         let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))//CGRectMake(0, 0, width, CGFloat.max))
         label.numberOfLines = 0

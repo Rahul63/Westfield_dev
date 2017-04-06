@@ -17,7 +17,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     @IBOutlet weak var scrollView: UIScrollView!
     let button = KGRadioButton(frame: CGRect(x: 20, y: 170, width: 25, height: 25))
     let label2 = UILabel(frame: CGRect(x: 90, y: 160, width: 200, height: 70))
-    
+    let sharedInstnce = watsonSingleton.sharedInstance
     var logIndata : NSArray = []
     //var userValue = []()
     
@@ -38,7 +38,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         
 //         userValue = UserDefaults.standard.value(forKey: "UserDetail") as? NSArray
 //        if userValue.count>0 {
-          // self.logInUser()
+         //  self.logInUser()
 //        }
         
         self.signInButton.layer.cornerRadius = 3.0
@@ -93,6 +93,18 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         
         if self.logIndata.count>0{
             UserDefaults.standard.setValue(self.logIndata, forKey: "UserDetail")
+            
+            let dict2 = self.logIndata[0] as? Dictionary<String,AnyObject>
+            
+            let voiceVal = (dict2?["voice"] as? String!)!
+            
+            print(voiceVal ?? "")
+            
+            if (voiceVal == "on") {
+                sharedInstnce.isVoiceOn = true
+            }else{
+                sharedInstnce.isVoiceOn = false
+            }
             
             self.logInUser()
         }else{

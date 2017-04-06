@@ -45,6 +45,8 @@
 		B4D160FB1DDBF19D00D436F1 /* SpeechToTextService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D160FA1DDBF19D00D436F1 /* SpeechToTextService.swift */; };
 		B4D161021DDBF2C600D436F1 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D161011DDBF2C600D436F1 /* Dictionary+Extension.swift */; };
 		B4F56E881DF722550068A426 /* UIImage+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F56E871DF722550068A426 /* UIImage+Assets.swift */; };
+		B705A6F31E96224900D5512A /* WatsonSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B705A6F21E96224900D5512A /* WatsonSingleton.swift */; };
+		B705A6F61E96520600D5512A /* AutoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B705A6F51E96520600D5512A /* AutoViewCell.swift */; };
 		B70967901E92624A0097AEFE /* ToolBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709678F1E92624A0097AEFE /* ToolBoxViewController.swift */; };
 		B78234BA1E88F682000C5338 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78234B91E88F682000C5338 /* Settings.swift */; };
 		B7873FD11E7BD58000935479 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7873FD01E7BD58000935479 /* UserDetailViewController.swift */; };
@@ -135,6 +137,8 @@
 		B4D160FA1DDBF19D00D436F1 /* SpeechToTextService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechToTextService.swift; sourceTree = "<group>"; };
 		B4D161011DDBF2C600D436F1 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		B4F56E871DF722550068A426 /* UIImage+Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Assets.swift"; sourceTree = "<group>"; };
+		B705A6F21E96224900D5512A /* WatsonSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatsonSingleton.swift; sourceTree = "<group>"; };
+		B705A6F51E96520600D5512A /* AutoViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoViewCell.swift; sourceTree = "<group>"; };
 		B709678F1E92624A0097AEFE /* ToolBoxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBoxViewController.swift; sourceTree = "<group>"; };
 		B78234B91E88F682000C5338 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		B7873FD01E7BD58000935479 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
@@ -245,6 +249,7 @@
 		B48B18671DD96ACF008CE7C2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B705A6F41E9651DF00D5512A /* ToolBoxCells */,
 				B78A6F6E1E7947DD0081CFE1 /* SettingsTableCells */,
 				B48B186C1DDA0AC7008CE7C2 /* ChatTableViewCells */,
 				B47B68C11DF5D03D00AB6421 /* ButtonsView.swift */,
@@ -335,6 +340,7 @@
 		B4CBCF931DD91EA70003074A /* WatsonDemo */ = {
 			isa = PBXGroup;
 			children = (
+				B705A6F11E96220C00D5512A /* Singleton */,
 				B4CBCF941DD91EA70003074A /* AppDelegate.swift */,
 				B4CBCF9B1DD91EA70003074A /* Assets.xcassets */,
 				B48B187E1DDB8D80008CE7C2 /* GlobalConstants.swift */,
@@ -359,6 +365,22 @@
 				B4981CB81DEE37F700C67B35 /* UIView+Extension.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		B705A6F11E96220C00D5512A /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				B705A6F21E96224900D5512A /* WatsonSingleton.swift */,
+			);
+			name = Singleton;
+			sourceTree = "<group>";
+		};
+		B705A6F41E9651DF00D5512A /* ToolBoxCells */ = {
+			isa = PBXGroup;
+			children = (
+				B705A6F51E96520600D5512A /* AutoViewCell.swift */,
+			);
+			name = ToolBoxCells;
 			sourceTree = "<group>";
 		};
 		B78A6F6E1E7947DD0081CFE1 /* SettingsTableCells */ = {
@@ -529,6 +551,7 @@
 				B40FDFE81DE27E8D00BE07EB /* UIColor+Hex.swift in Sources */,
 				B40FDFE61DDF89BF00BE07EB /* CustomButton.swift in Sources */,
 				B4395A001DE50DD400F2C075 /* CustomView.swift in Sources */,
+				B705A6F61E96520600D5512A /* AutoViewCell.swift in Sources */,
 				B4CBCF951DD91EA70003074A /* AppDelegate.swift in Sources */,
 				B7B5F6191E8A5C40000335B3 /* CustomTabBarItem.swift in Sources */,
 				B78A6F761E7948B60081CFE1 /* DistListViewCell.swift in Sources */,
@@ -549,6 +572,7 @@
 				B78E7A9B1E93C90B005D3825 /* LiabilityViewController.swift in Sources */,
 				B79D3A281E814CCA0035133B /* ActiveBuilder.swift in Sources */,
 				B7A50BEE1E83E7E500D82A84 /* DistributionListService.swift in Sources */,
+				B705A6F31E96224900D5512A /* WatsonSingleton.swift in Sources */,
 				B78E7A951E93BD31005D3825 /* CAPSPageMenu.swift in Sources */,
 				B7A50BEA1E826F5E00D82A84 /* WatsonChatDetailViewController.swift in Sources */,
 				B79D3A271E814CCA0035133B /* ActiveLabel.swift in Sources */,

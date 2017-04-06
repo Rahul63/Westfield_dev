@@ -7,11 +7,60 @@
 //
 
 import UIKit
+import BoxContentSDK
 
-class AutoViewController: UIViewController {
+class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+    
+    var cIndex : Int! = 0
+    var itemValue = [BOXItem]()
+    @IBOutlet weak var autoTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        let boxContent = BOXContentClient.default()
+        
+        let searchFile = boxContent?.searchRequest(withQuery: "All", in: NSMakeRange(0, 1000))
+        
+        searchFile?.ancestorFolderIDs = ["0"]
+        //searchFile?.fileExtensions = [".pdf","jpg","png"]
+        searchFile?.perform(completion: {item in
+           // print(" MY Value..\(item.0)")
+            self.itemValue = item.0! as! [BOXItem]
+            print(self.itemValue)
+            self.autoTableView.reloadData()
+            for item in 0..<self.itemValue.count{
+                
+                let itemData = self.itemValue[item]
+                print(itemData)
+                if self.itemValue[item].isFile{
+                    print(self.itemValue[item].name)
+                    print(self.itemValue[item].itemDescription)
+                }
+                else if self.itemValue[item].isBookmark{
+                    print(self.itemValue[item].name)
+                    
+                    let bookMarkItem =  self.itemValue[item] as? BOXBookmark
+                    
+                    if let currentURL = bookMarkItem?.url.absoluteString {
+                        
+                        print(currentURL)
+                        
+                    } else {
+                        
+                        // request is nil ...
+                        
+                    }
+                    
+                    
+                    //let descr = ((BOXBookmark)self.itemValue[item]).URL.absoluteString
+                    //print(self.itemValue[item].sharedLink)
+                }
+            }
+            
+            
+        })
 
         // Do any additional setup after loading the view.
     }
@@ -20,114 +69,44 @@ class AutoViewController: UIViewController {
     
     
     
-//    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete implementation, return the number of rows
-//        
-//        return 1
-//    }
-//    
-//    
-//    
-//    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        var userCell: UserViewCell!
-//        var voiceCell: VoiceViewCell!
-//        var distCell: DistributionViewCell!
-//        var distListCell: DistListViewCell!
-//        
-//        if (indexPath.section == 0) {
-//            if (userCell == nil) {
-//                userCell = (tableView.dequeueReusableCell(withIdentifier: "UserViewCell") as? UserViewCell)!
-//            }
-//            userCell.selectionStyle = UITableViewCellSelectionStyle.none
-//            
-//            if (self.userData != nil) {
-//                
-//                let tempData = self.userData[0]
-//                
-//                userCell.fullNameLbl.text = String(format: "%@ %@",tempData.firstName,tempData.lastName)//self.userData
-//                //let dict = self.userData[0] as? Dictionary<String,AnyObject>
-//                userCell.firstNameLbl.text = tempData.firstName
-//                userCell.policyNumLbl.text = tempData.policyNumber
-//                userCell.phoneLbl.text = tempData.phoneNumber
-//                userCell.emailLbl.text = tempData.email
-//                
-//            }
-//            
-//            
-//            return userCell
-//        }
-//            
-//        else if (indexPath.section == 1) {
-//            if (voiceCell == nil) {
-//                voiceCell = (tableView.dequeueReusableCell(withIdentifier: "VoiceViewCell") as? VoiceViewCell)!
-//            }
-//            
-//            if (self.userData != nil) {
-//                let tempData = self.userData[0]
-//                if (tempData.voiceValue == "on") {
-//                    voiceCell.voiceOnOffSwitch.isOn = false
-//                }else{
-//                    voiceCell.voiceOnOffSwitch.isOn = true
-//                }
-//            }
-//            
-//
-//            voiceCell.delegate = self
-//            voiceCell.selectionStyle = UITableViewCellSelectionStyle.none
-//            
-//            return voiceCell
-//        }
-//        else{
-//            if indexPath.row==0 {
-//                if (distCell == nil) {
-//                    distCell = (tableView.dequeueReusableCell(withIdentifier: "DistributionViewCell") as? DistributionViewCell)!
-//                }
-//                distCell.selectionStyle = UITableViewCellSelectionStyle.none
-//                //distCell.AddDistributionBtn.addTarget(self, action: #selector(self.addContactPressed(_:)) , for: .touchUpInside)
-//                // userCell.accessoryType = UITableViewCellAccessoryType.detailDisclosureButton
-//                
-//                return distCell
-//            }else{
-//                if (distListCell == nil) {
-//                    distListCell = (tableView.dequeueReusableCell(withIdentifier: "DistListViewCell") as? DistListViewCell)!
-//                }
-//                distListCell.selectionStyle = UITableViewCellSelectionStyle.none
-//                let distDict = self.distributionListData[indexPath.row-1] as? Dictionary<String,AnyObject>
-//                if ((distDict?["firstname"]as?String) != nil) {
-//                    distListCell.nameLabel.text = String(format: "%@ %@", (distDict?["firstname"]as?String)!,"")//(distDict?["lastname"]as?String)!)
-//                    //userCell.firstNameLbl.text = distDict?["preferredfirstname"] as? String!
-//                }
-//                distListCell.phoneLabel.text =  distDict?["cellphone"] as? String!
-//                distListCell.emailLabel.text =  distDict?["email"] as? String!
-//                
-//                
-//                return distListCell
-//                
-//            }
-//        }
-//        
-//    }
-//    
-//    
-//    internal func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        
-//        if indexPath.section == 1 {
-//            return 56
-//        }
-//        else if indexPath.section == 2 {
-//            if (indexPath.row == 0 ){
-//                return 56
-//            }
-//            else{
-//                return 90
-//            }
-//        }
-//        else{
-//            return 167
-//        }
-//        
-//        //return UITableViewAutomaticDimension
-//    }
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        
+        return self.itemValue.count
+    }
+    
+    
+    
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var listCell: AutoViewCell!
+        
+        if (listCell == nil) {
+            listCell = (tableView.dequeueReusableCell(withIdentifier: "AutoViewCell") as? AutoViewCell)!
+        }
+        listCell.selectionStyle = UITableViewCellSelectionStyle.none
+        listCell.titleLbl.text = self.itemValue[indexPath.row].name
+        listCell.descriptionLbl.text = self.itemValue[indexPath.row].itemDescription ?? "No description Available"
+        
+        if indexPath.row%2 == 0 {
+            listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display3")//UIImage(named:#imageLiteral(resourceName: "display3"))
+        }else if indexPath.row%3 == 0 {
+            listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display4")//UIImage(named:#imageLiteral(resourceName: "display3"))
+        }else{
+            listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display2")
+        }
+        
+        
+        
+        return listCell
+        
+    }
+    
+    
+    internal func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        
+        return 106.6//UITableViewAutomaticDimension
+    }
 
     
     

@@ -27,8 +27,9 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     var revValue: String?
     var idDvalue: String?
     var isFromVoiceUpdate : Bool?
+    var onOffValue : String?
     
-    
+    let sharedInstnce = watsonSingleton.sharedInstance
     var idValue = ""
     
     private struct Constants {
@@ -155,9 +156,9 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
             if (self.userData != nil) {
                 let tempData = self.userData[0]
                 if (tempData.voiceValue == "on") {
-                    voiceCell.voiceOnOffSwitch.isOn = false
-                }else{
                     voiceCell.voiceOnOffSwitch.isOn = true
+                }else{
+                    voiceCell.voiceOnOffSwitch.isOn = false
                 }
             }
             
@@ -350,6 +351,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         isFromVoiceUpdate = true
         let tempData = self.userData[0]
         profileService.serviceCallforUserUpdate(withText: tempData.firstName, and: tempData.lastName, and: tempData.phoneNumber, and: tempData.email, and: idValue, and: valueOnOff)
+        self.onOffValue = valueOnOff
     }
     
     
@@ -415,7 +417,16 @@ func pressed(sender: UIButton!) {
         print("\(text)")
         
         if isFromVoiceUpdate! {
+            let txt = text as! Bool
             isFromVoiceUpdate = false
+            if (txt == true) {
+                if (self.onOffValue == "on") {
+                    print(">>>>>>>>>>>>>>>on")
+                    sharedInstnce.isVoiceOn = true
+                }else{
+                    sharedInstnce.isVoiceOn = false
+                }
+            }
             //
         }else{
             let userDataValue : NSMutableArray = []

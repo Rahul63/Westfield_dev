@@ -49,51 +49,51 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate {
 //        })
         
         
-//        let searchFile = boxContent?.searchRequest(withQuery: "All", in: NSMakeRange(0, 1000))
-//        
-//        searchFile?.ancestorFolderIDs = ["0"]
-//        //searchFile?.fileExtensions = [".pdf","jpg","png"]
-//        searchFile?.perform(completion: {item in
-//        
-//            print(" MY Value..\(item.0)")
-//            
-//            self.itemValue = item.0! as! [BOXItem]
-//            print(self.itemValue)
-//            
-//            for item in 0..<self.itemValue.count{
-//                
-//                let itemData = self.itemValue[item]
-//                print(itemData)
-//                if self.itemValue[item].isFile{
-//                    
-//                    
-//                    
-//                    print(self.itemValue[item].name)
-//                    print(self.itemValue[item].itemDescription)
-//                }
-//                else if self.itemValue[item].isBookmark{
-//                    print(self.itemValue[item].name)
-//                    
-//                let bookMarkItem =  self.itemValue[item] as? BOXBookmark
-//                    
-//                if let currentURL = bookMarkItem?.url.absoluteString {
-//                        
-//                        print(currentURL)
-//                        
-//                    } else {
-//                        
-//                        // request is nil ...
-//                        
-//                    } 
-//                    
-//                    
-//                    //let descr = ((BOXBookmark)self.itemValue[item]).URL.absoluteString
-//                    //print(self.itemValue[item].sharedLink)
-//                }
-//            }
-//            
-//            
-//        })
+      /*  let searchFile = boxContent?.searchRequest(withQuery: "All", in: NSMakeRange(0, 1000))
+        
+        searchFile?.ancestorFolderIDs = ["0"]
+        //searchFile?.fileExtensions = [".pdf","jpg","png"]
+        searchFile?.perform(completion: {item in
+        
+            print(" MY Value..\(item.0)")
+            
+            self.itemValue = item.0! as! [BOXItem]
+            print(self.itemValue)
+            
+            for item in 0..<self.itemValue.count{
+                
+                let itemData = self.itemValue[item]
+                print(itemData)
+                if self.itemValue[item].isFile{
+                    
+                    
+                    
+                    print(self.itemValue[item].name)
+                    print(self.itemValue[item].itemDescription)
+                }
+                else if self.itemValue[item].isBookmark{
+                    print(self.itemValue[item].name)
+                    
+                let bookMarkItem =  self.itemValue[item] as? BOXBookmark
+                    
+                if let currentURL = bookMarkItem?.url.absoluteString {
+                        
+                        print(currentURL)
+                        
+                    } else {
+                        
+                        // request is nil ...
+                        
+                    } 
+                    
+                    
+                    //let descr = ((BOXBookmark)self.itemValue[item]).URL.absoluteString
+                    //print(self.itemValue[item].sharedLink)
+                }
+            }
+            
+            
+        })*/
         self.loadViewUIConstruct()
         
        // NSArray *items, NSUInteger totalCount, NSRange range, NSError *error
@@ -156,7 +156,7 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate {
         ]
         
         // Initialize scroll menu
-        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x:0.0, y:60.0, width:self.view.frame.width, height:self.view.frame.height-60), pageMenuOptions: parameters)
+        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x:0.0, y:110.0, width:self.view.frame.width, height:self.view.frame.height-60), pageMenuOptions: parameters)
         pageMenu?.delegate = self
         self.addChildViewController(pageMenu!)
         self.view.addSubview(pageMenu!.view)

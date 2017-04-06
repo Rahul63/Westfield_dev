@@ -25,7 +25,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var micButton: UIButton!
     @IBOutlet weak var micImage: UIImageView!
-
+    let sharedInstnce = watsonSingleton.sharedInstance
     // MARK: - Properties
     var audioPlayer = AVAudioPlayer()
     var messages = [Message]()
@@ -77,9 +77,9 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         // We need to send some dummy text to keep off the conversation
         conversationService.getValues()
 
-//        let gestureTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
-//        gestureTap.cancelsTouchesInView = false
-//        chatTableView.addGestureRecognizer(gestureTap)
+        let gestureTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
+        gestureTap.cancelsTouchesInView = false
+        chatTableView.addGestureRecognizer(gestureTap)
         
         
         
@@ -119,7 +119,13 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     
     
     @IBAction func SignOutButtonPressed(_ sender: Any) {
-        audioPlayer.stop()
+        if (sharedInstnce.isVoiceOn == true){
+            if audioPlayer.isPlaying{
+                audioPlayer.stop()
+            }
+        }
+        
+        
        // UserDefaults.standard.setValue("", forKey: "UserDetail")
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let logInVc = storyBoard.instantiateViewController(withIdentifier: "LogInVC") as! LogInViewController
@@ -139,7 +145,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     func appendChat(withMessage message: Message) {
         guard let text = message.text,
             (text.characters.count > 0 || message.options != nil ||
-             message.mapUrl != nil || message.videoUrl != nil)
+             message.mapUrl != nil || message.videoUrl != nil || message.imageUrl != nil)
             else { return }
 
 
@@ -249,6 +255,12 @@ extension ChatViewController: UITableViewDataSource {
             cell.configure(withMessage: message)
             cell.chatViewController = self
             return cell
+        
+        case MessageType.image:
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MapViewCell.self),
+                                                     for: indexPath) as! MapViewCell
+            cell.configure(withMessage: message)
+            return cell
         }
 
     }
@@ -261,7 +273,7 @@ extension ChatViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let message = messages[indexPath.row]
 
-        if message.type == MessageType.Map {
+        if message.type == MessageType.image {
             return 240
         }
 
@@ -308,54 +320,100 @@ extension ChatViewController: ConversationServiceDelegate {
         
         var opt = [String]()
         
-        
-        //var newTxt = "Welcome back! Let's begin training on Blocking Apps.\",\"Rahul, can you believe the average cell phone user picks up their phone 35 times a day? 58% of cell phone users can’t even go an hour without picking up their cell! Imagine all that lost time and productivity.\",\"Are your employees using cell phones on your jobs?"
-        
-        let rangeN = text.range(of:"\",\"", options:.regularExpression)
-        if (rangeN != nil) {
-            let textN = text.replacingOccurrences(of: "\",\"", with: "n&n")
-            opt = textN.components(separatedBy: "n&n")
-            print("my Watson message>>>>>>>>>>>>>>>>>>>\(textN)")
-            print("my Watson message>>>>>>>>>>>>>>>>>>>\(opt)")
-            var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+        print("<<<<<<<<<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
+        if (sharedInstnce.isVoiceOn == true){
             
-            let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
-            let nsString = foundText as NSString
-            if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
-                let optionsString = nsString.substring(with: result.range)
-             foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-            self.textToSpeechService.synthesizeSpeech(withText: foundText)
+            let rangeN = text.range(of:"\",\"", options:.regularExpression)
+            if (rangeN != nil) {
+                let textN = text.replacingOccurrences(of: "\",\"", with: "n&n")
+                opt = textN.components(separatedBy: "n&n")
+                //print("my Watson message>>>>>>>>>>>>>>>>>>>\(textN)")
+                //print("my Watson message>>>>>>>>>>>>>>>>>>>\(opt)")
+                var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                
+                let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+                let nsString = foundText as NSString
+                if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
+                    let optionsString = nsString.substring(with: result.range)
+                    foundText = foundText.replacingOccurrences(of: optionsString, with: "")
+                    print("With url.Newchat.\(foundText)")
+                    self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                }else{
+                    print("With Normal new Chat..\(foundText)")
+                    self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                }
+                for item in 0..<opt.count{
+                    self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil))
+                }
+                
             }else{
-                self.textToSpeechService.synthesizeSpeech(withText: foundText)
-            }
-            for item in 0..<opt.count{
-//                 let foundText = opt[item].replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-//                
-//                self.textToSpeechService.synthesizeSpeech(withText: foundText)
-                self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil))
+                
+                var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+                let nsString = foundText as NSString
+                if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
+                    let optionsString = nsString.substring(with: result.range)
+                    print("With optionsString..\(optionsString)")
+                    foundText = foundText.replacingOccurrences(of: optionsString, with: "")
+                    print("With url..\(foundText)")
+                    self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                }else{
+                    print("With Normal..\(foundText)")
+                    self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                }
+                //self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
             }
             
         }else{
             
-            var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-            let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
-            let nsString = foundText as NSString
-            if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
-                let optionsString = nsString.substring(with: result.range)
-                foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-                self.textToSpeechService.synthesizeSpeech(withText: foundText)
+            let rangeN = text.range(of:"\",\"", options:.regularExpression)
+            if (rangeN != nil) {
+                let textN = text.replacingOccurrences(of: "\",\"", with: "n&n")
+                opt = textN.components(separatedBy: "n&n")
+                var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                
+                let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+                let nsString = foundText as NSString
+                if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
+                    let optionsString = nsString.substring(with: result.range)
+                    foundText = foundText.replacingOccurrences(of: optionsString, with: "")
+                    print("With url.Newchat.\(foundText)")
+                }else{
+                    print("With Normal new Chat..\(foundText)")
+                }
+                for item in 0..<opt.count{
+                    //                 let foundText = opt[item].replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                    //
+                    //                self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                    self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil))
+                }
+                
             }else{
-                self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                
+                var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+                let nsString = foundText as NSString
+                if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
+                    let optionsString = nsString.substring(with: result.range)
+                    print("With optionsString..\(optionsString)")
+                    foundText = foundText.replacingOccurrences(of: optionsString, with: "")
+                    print("With url..\(foundText)")
+                   // self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                }else{
+                    print("With Normal..\(foundText)")
+                    //self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                }
+                //self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
             }
-             //self.textToSpeechService.synthesizeSpeech(withText: foundText)
-            self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
+            
         }
         
         
-        
-        if let _ = options {
-            self.appendChat(withMessage: Message(type: MessageType.User, text: "", options: options))
-        }
+//        if let _ = options {
+//            self.appendChat(withMessage: Message(type: MessageType.User, text: "", options: options))
+//        }
 
     }
 
@@ -368,6 +426,12 @@ extension ChatViewController: ConversationServiceDelegate {
     internal func didReceiveVideo(withUrl videoUrl: URL) {
         var message = Message(type: MessageType.Video, text: "", options: nil)
         message.videoUrl = videoUrl
+        self.appendChat(withMessage: message)
+    }
+
+    internal func didReceiveImage(withUrl imageUrl: URL) {
+        var message = Message(type: MessageType.image, text: "", options: nil)
+        message.imageUrl = imageUrl
         self.appendChat(withMessage: message)
     }
 

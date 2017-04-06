@@ -14,6 +14,7 @@ enum MessageType {
     case User
     case Watson
     case Video
+    case image
 }
 
 public struct Message {
@@ -24,6 +25,7 @@ public struct Message {
     var type: MessageType
     var mapUrl: URL?
     var videoUrl: URL?
+    var imageUrl: URL?
 
     /// Initialize Message instance
     ///
