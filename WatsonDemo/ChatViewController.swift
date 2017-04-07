@@ -106,30 +106,23 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     // MARK: - Actions
     @IBAction func micButtonTapped() {
         
-        if sharedInstnce.isVoiceOn == true {
-            if micButton.isSelected {
-                micImage.image = UIImage.init(imageLiteralResourceName: "Mic_icon")
-                speechToTextService.finishRecording()
-            } else {
-                micImage.image = UIImage.init(imageLiteralResourceName: "MicOn")
-                audioPlayer.stop()
-                speechToTextService.startRecording()
+        
+        if micButton.isSelected {
+            micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOff")
+            speechToTextService.finishRecording()
+        } else {
+            micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOn")
+            if sharedInstnce.isVoiceOn == true {
+                if audioPlayer.isPlaying{
+                    audioPlayer.stop()
+                }
+                
             }
             
-            micButton.isSelected = !micButton.isSelected
-        }else{
-            if micButton.isSelected {
-                micImage.image = UIImage.init(imageLiteralResourceName: "Mic_icon")
-                speechToTextService.finishRecording()
-            } else {
-                micImage.image = UIImage.init(imageLiteralResourceName: "MicOn")
-                speechToTextService.startRecording()
-            }
-            
-            micButton.isSelected = !micButton.isSelected
+            speechToTextService.startRecording()
         }
-        
-        
+
+        micButton.isSelected = !micButton.isSelected
     }
     
     
@@ -148,6 +141,29 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         appDelegate.window?.rootViewController = logInVc
 
         
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if (sharedInstnce.isVoiceOn == true){
+            do {
+            if audioPlayer.isPlaying{
+                audioPlayer.stop()
+            }
+        }
+        
+    }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if (sharedInstnce.isVoiceOn == true){
+            if let url = Bundle.main.url(forResource: "Test", withExtension: "m4a"){
+                audioPlayer = try! AVAudioPlayer(contentsOf: url)
+            }
+        }
     }
 
 
@@ -381,6 +397,7 @@ extension ChatViewController: ConversationServiceDelegate {
             }
             
         }else{
+            
             
             let rangeN = text.range(of:"\",\"", options:.regularExpression)
             if (rangeN != nil) {

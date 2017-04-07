@@ -53,11 +53,11 @@ class VideoViewCell: UITableViewCell {
             videoUrls.append(message.videoUrl!)
         }
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(VideoViewCell.playerDidFinishPlaying),
-                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                                               object: player.currentItem)
-
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(VideoViewCell.playerDidFinishPlaying),
+//                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+//                                               object: player.currentItem)
+//
 
 //        let player = AVPlayer(url: message.videoUrl!)
 //        let playerLayer = AVPlayerLayer(player: player)
@@ -70,9 +70,9 @@ class VideoViewCell: UITableViewCell {
     }
 
     func playerDidFinishPlaying() {
-        if chatViewController?.messages.last?.type == message?.type {
-            chatViewController?.conversationService.sendMessage(withText: "OK")
-        }
+//        if chatViewController?.messages.last?.type == message?.type {
+//            chatViewController?.conversationService.sendMessage(withText: "OK")
+//        }
     }
 
 }

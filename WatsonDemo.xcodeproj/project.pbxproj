@@ -48,6 +48,7 @@
 		B705A6F31E96224900D5512A /* WatsonSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B705A6F21E96224900D5512A /* WatsonSingleton.swift */; };
 		B705A6F61E96520600D5512A /* AutoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B705A6F51E96520600D5512A /* AutoViewCell.swift */; };
 		B70967901E92624A0097AEFE /* ToolBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709678F1E92624A0097AEFE /* ToolBoxViewController.swift */; };
+		B72162781E9796FF00848D08 /* Test.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B72162771E9796FF00848D08 /* Test.m4a */; };
 		B78234BA1E88F682000C5338 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78234B91E88F682000C5338 /* Settings.swift */; };
 		B7873FD11E7BD58000935479 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7873FD01E7BD58000935479 /* UserDetailViewController.swift */; };
 		B7890F171E90411500F55E5E /* SpeechToTextV1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ABDBED1E903F2300D503CE /* SpeechToTextV1.framework */; };
@@ -140,6 +141,7 @@
 		B705A6F21E96224900D5512A /* WatsonSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatsonSingleton.swift; sourceTree = "<group>"; };
 		B705A6F51E96520600D5512A /* AutoViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoViewCell.swift; sourceTree = "<group>"; };
 		B709678F1E92624A0097AEFE /* ToolBoxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBoxViewController.swift; sourceTree = "<group>"; };
+		B72162771E9796FF00848D08 /* Test.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Test.m4a; sourceTree = "<group>"; };
 		B78234B91E88F682000C5338 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		B7873FD01E7BD58000935479 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		B78A6F6C1E7927540081CFE1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 		B4562FFB1DF9C82600171C0B /* Docs */ = {
 			isa = PBXGroup;
 			children = (
+				B72162771E9796FF00848D08 /* Test.m4a */,
 			);
 			name = Docs;
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 				B4CBCF9C1DD91EA70003074A /* Assets.xcassets in Resources */,
 				B48B186B1DDA0A4D008CE7C2 /* ChatInputAccessoryView.xib in Resources */,
 				B4CBCF9A1DD91EA70003074A /* Main.storyboard in Resources */,
+				B72162781E9796FF00848D08 /* Test.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

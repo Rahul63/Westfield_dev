@@ -52,7 +52,7 @@ class WatsonChatViewCell: UITableViewCell {
         
         var text = message.text!//"rahul , I happen to have one (insert Box link here) in my toolkit.  You will see it’s short and simple, but powerful.  Take a look at it, if you agree, place it on your letterhead, add your name and sign it. Management commitment is step one; your employees need to take ownership as well.  As part of your training program, watch and share <a href=\\\"https://www.youtube.com/watch?v=Km8XxRCuCho\\\">this video</a> with your team. After they have watched it, conduct a brief meeting with them to share your safety policy and discuss the video with them. May I continue?"//message.text!
         
-        print("My final text..>\(text)")
+        //print("My final text..>\(text)")
         messageLabel.delegate = self
         text = text.replacingOccurrences(of: "<br>", with: "\n")
         optionData = [""]
@@ -68,7 +68,7 @@ class WatsonChatViewCell: UITableViewCell {
             
             
         }
-        
+        print(self.chatBGvw.frame.width)
         let nsString = text as NSString
         //let regex = try! NSRegularExpression(pattern: "<.*?>")
         let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
@@ -183,6 +183,12 @@ class WatsonChatViewCell: UITableViewCell {
         else{
             
             var foundNew = ""
+            var inputText = ""
+            inputText = text.replacingOccurrences(of: "<[^>]+>", with: "        ", options: .regularExpression, range: nil)
+            inputText = inputText.replacingOccurrences(of: "  ,", with: "")
+            
+            //print("mytext is..ELSEEEEEE.<<<<<<<.\(text)")
+            messageLabel.text = inputText
             
             let rangeNew = text.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
             let rangeNew2 = text.range(of:"(?=<)[^.]+(?=<\\)", options:.regularExpression)
@@ -204,8 +210,15 @@ class WatsonChatViewCell: UITableViewCell {
                 optionData = foundNewData.components(separatedBy: "n&n")
                 
                 var yValue: CGFloat = 0.0
+                let heightStr = strinLength.replacingOccurrences(of: "", with: "")
                 
-                 yValue  = self.heightForView(text: strinLength, font: UIFont.systemFont(ofSize: 14), width: messageLabel.frame.size.width)
+//                let labelSize = rectForText(text: heightStr, font: UIFont.systemFont(ofSize: 14), maxSize: CGSize(width:messageLabel.frame.width, height:999))
+//                print(self.chatBGvw.frame.width)
+//                let labelHeight = labelSize.height
+//                print("my label height\(labelHeight)")
+//                yValue = labelHeight
+                
+                 yValue  = self.heightForView(text: heightStr, font: UIFont.systemFont(ofSize: 14), width: messageLabel.frame.size.width)
                 //print("print yvalue...\(yValue)")
                 if optionData.count>0 {
                     for (index,element) in optionData.enumerated() {
@@ -237,11 +250,7 @@ class WatsonChatViewCell: UITableViewCell {
                 //print("found ALL>>>OPTION>>: \(optionData) and count\(optionData.count)")
             }
             
-            text = text.replacingOccurrences(of: "<[^>]+>", with: "        ", options: .regularExpression, range: nil)
-            text = text.replacingOccurrences(of: "  ,", with: "")
             
-            //print("mytext is..ELSEEEEEE.<<<<<<<.\(text)")
-            messageLabel.text = text
         }
         
         }
@@ -251,17 +260,35 @@ class WatsonChatViewCell: UITableViewCell {
         
         var currHeight:CGFloat = 0.0
         
-        let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))//CGRectMake(0, 0, width, CGFloat.max))
-        label.numberOfLines = 0
-        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = font
-        label.text = text
-        label.sizeToFit()
+        let  newTex = text
         
-        currHeight = label.frame.height
+        
+//        newTex = newTex.replacingOccurrences(of: "\n", with: "")
+//        newTex = newTex.replacingOccurrences(of: " ", with: "")
+        print("my convertable text..\(newTex)")
+        
+        let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: messageLabel.frame.size.width, height: messageLabel.frame.size.height))//CGRectMake(0, 0, width, CGFloat.max))
+        label.numberOfLines = 0
+        label.textAlignment = .natural
+        //label.lineBreakMode = NSLineBreakMode.by
+        label.font = font
+        label.text = newTex
+        
+        label.sizeToFit()
+        label.clipsToBounds = true
+        currHeight = label.frame.size.height
         label.removeFromSuperview()
         print(" current height..\(currHeight)")
         return currHeight-18
+    }
+    
+    
+    func rectForText(text: String, font: UIFont, maxSize: CGSize) -> CGSize {
+        let attrString = NSAttributedString.init(string: text, attributes: [NSFontAttributeName:font])
+        let rect = attrString.boundingRect(with: maxSize, options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+        let size = CGSize(width:rect.size.width, height:rect.size.height)
+        print(size)
+        return size
     }
         
         

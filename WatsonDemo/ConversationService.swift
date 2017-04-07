@@ -156,34 +156,92 @@ class ConversationService {
     func parseJson(json: [String:AnyObject]) { 
 
         self.context = json["context"] as! String
-        var text = json["text"] as! String//"Take a quick look at this Picture.  What do you see?<br><img:src>https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg</img:src>"//json["text"] as! String
+        var text = json["text"] as! String//"<vid:src>https://ibm.box.com/shared/static/xlpe595snnem4swkvtihq0cz024un5s5.mp4</vid:src><br>Hi, I am glad you stopped by.  C’mon in.  I’m Max Safety, you can call me Max. I see you are from CIX DIRECT, LLC.  Good to meet you, what’s your name?" //json["text"] as! String//"Take a quick look at this Picture.  What do you see?<br><img:src>https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg</img:src>"//json["text"] as! String
         
         print("JSSSOONN>>>>\(text)")
+        var opt = [String]()
         
-        self.delegate?.didReceiveMessage(withText: text, options: nil)
         
-        let nsString = text as NSString
-        //let regex = try! NSRegularExpression(pattern: "<.*?>")
+        
+        
+        
+        
+        let textN = text.replacingOccurrences(of: "<br>", with: " ")
+        
+        //<badgeCount>(\\d+)</badgeCount>
+        
+        var foundText = textN.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
-        
-        if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
+        let nsString = foundText as NSString
+        print(nsString)
+        if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
             var optionsString = nsString.substring(with: result.range)
-            optionsString = optionsString.replacingOccurrences(of: "\\", with: "")
-            optionsString = optionsString.replacingOccurrences(of: "</vid:src", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "\n", with: "")
             optionsString = optionsString.replacingOccurrences(of: "</img:src", with: "")
-            print(optionsString)
+            optionsString = optionsString.replacingOccurrences(of: "</vid:src", with: "")
+            print("With optionsString..\(optionsString)")
+            foundText = foundText.replacingOccurrences(of: optionsString, with: "MIVD.n&n")
+            foundText = foundText.replacingOccurrences(of: "\",\"", with: "n&n")
+            opt = foundText.components(separatedBy: "n&n")
+            print(opt)
+            if opt.count > 0{
+                for item in 0..<opt.count{
+                    
+                    var chatTxt = opt[item]
+                    print(chatTxt)
+                    if chatTxt.contains("MIVD.") {
+                        chatTxt = chatTxt.replacingOccurrences(of: "MIVD.", with: "")
+                        if text.contains("<vid:src>"){
+                            if chatTxt.characters.count>0 {
+                                self.delegate?.didReceiveMessage(withText: chatTxt, options: nil)
+                            }
+                            let videoUrl = URL(string: optionsString)
+                            self.delegate?.didReceiveVideo(withUrl: videoUrl!)
+                        }
+                        if text.contains("<img:src>"){
+                            if chatTxt.characters.count>0 {
+                                self.delegate?.didReceiveMessage(withText: chatTxt, options: nil)
+                            }
+                            
+                            let imageUrl = URL(string: optionsString)
+                            self.delegate?.didReceiveImage(withUrl: imageUrl!)
+                        }
+                    }else{
+                        self.delegate?.didReceiveMessage(withText: chatTxt, options: nil)
+                    }
+                    
+                }
+            }
+            else{
+                self.delegate?.didReceiveMessage(withText: text, options: nil)
+            }
+        }
+        else{
+           self.delegate?.didReceiveMessage(withText: text, options: nil)
+        }
         
-        if text.contains("<vid:src>") {
-            let videoUrl = URL(string: optionsString)
-            self.delegate?.didReceiveVideo(withUrl: videoUrl!)
-        }
-        if text.contains("<img:src>") {
-            let imageUrl = URL(string: optionsString)
-            self.delegate?.didReceiveImage(withUrl: imageUrl!)
-            
-        }
-            
-        }
+//        let nsString = "<vid:src>https://ibm.box.com/shared/static/xlpe595snnem4swkvtihq0cz024un5s5.mp4</vid:src><br>Hi, I am glad you stopped by.  C’mon in.  I’m Max Safety, you can call me Max. I see you are from CIX DIRECT, LLC.  Good to meet you, what’s your name?" as NSString//text as NSString
+//        //let regex = try! NSRegularExpression(pattern: "<.*?>")
+//        let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+//        
+//        if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
+//            var optionsString = nsString.substring(with: result.range)
+//            optionsString = optionsString.replacingOccurrences(of: "\\", with: "")
+//            optionsString = optionsString.replacingOccurrences(of: "</vid:src", with: "")
+//            optionsString = optionsString.replacingOccurrences(of: "</img:src", with: "")
+//            print(optionsString)
+//        
+//        if text.contains("<vid:src>") {
+//            let videoUrl = URL(string: optionsString)
+//            self.delegate?.didReceiveVideo(withUrl: videoUrl!)
+//        }
+//        if text.contains("<img:src>") {
+//            let imageUrl = URL(string: optionsString)
+//            self.delegate?.didReceiveImage(withUrl: imageUrl!)
+//            
+//        }
+//            
+//        }
         
         
         
