@@ -368,10 +368,10 @@ extension ChatViewController: ConversationServiceDelegate {
                     let optionsString = nsString.substring(with: result.range)
                     foundText = foundText.replacingOccurrences(of: optionsString, with: "")
                     print("With url.Newchat.\(foundText)")
-                    self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                    //self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }else{
                     print("With Normal new Chat..\(foundText)")
-                    self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                    //self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }
                 for item in 0..<opt.count{
                     self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil))
@@ -387,10 +387,10 @@ extension ChatViewController: ConversationServiceDelegate {
                     print("With optionsString..\(optionsString)")
                     foundText = foundText.replacingOccurrences(of: optionsString, with: "")
                     print("With url..\(foundText)")
-                    self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                    //self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }else{
                     print("With Normal..\(foundText)")
-                    self.textToSpeechService.synthesizeSpeech(withText: foundText)
+                   // self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }
                 //self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
@@ -447,6 +447,25 @@ extension ChatViewController: ConversationServiceDelegate {
 //            self.appendChat(withMessage: Message(type: MessageType.User, text: "", options: options))
 //        }
 
+    }
+    
+    internal func didReceiveMessageForTexttoSpeech(withText text: String){
+        
+        var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+        let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+        let nsString = foundText as NSString
+        if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
+            let optionsString = nsString.substring(with: result.range)
+            print("With optionsString..\(optionsString)")
+            foundText = foundText.replacingOccurrences(of: optionsString, with: "")
+        }else{
+            foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+        }
+        print("<<<<<<<<NEWW<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
+        if (sharedInstnce.isVoiceOn == true){
+            
+            self.textToSpeechService.synthesizeSpeech(withText: foundText)
+        }
     }
 
     internal func didReceiveMap(withUrl mapUrl: URL) {

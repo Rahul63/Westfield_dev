@@ -13,6 +13,9 @@ protocol ConversationServiceDelegate: class {
     func didReceiveMap(withUrl mapUrl: URL)
     func didReceiveImage(withUrl imageUrl: URL)
     func didReceiveVideo(withUrl videoUrl: URL)
+    
+    func didReceiveMessageForTexttoSpeech(withText text: String)
+    
 }
 
 
@@ -160,29 +163,124 @@ class ConversationService {
         
        // var text  = "<img:src>https://ibm.box.com/shared/static/3cxzelnbpjm1og53abxnt3x5cjs1fbus.jpg</img:src><br>I’m sure your employees only want to work hard for you. They might not realize that what seems like a routine pill for pain could negatively impact their driving ability.\",\"Give me your best guess on how many adults you think have used prescription drugs in the past 30 days.<br><br><wcs:input>80%</wcs:input><br><br><wcs:input>50%</wcs:input><br><br><wcs:input>30%</wcs:input>"
         
+         //var text  = "<vid:src>https://ibm.box.com/shared/static/xlpe595snnem4swkvtihq0cz024un5s5.mp4</vid:src><br>That’s great $User_First_Name, you are ahead of the competition. Most app stores have apps that can send an automatic text saying they are driving or even block incoming call alerts or test messages. Here is a <a href=\"https://www.verizonwireless.com/archive/mobile-living/home-and-family/apps-to-block-texting-while-driving\">list of apps</a> you can use on your company phones.<br><br>Ready to continue?"
+        
         
         print("JSSSOONN>>>>\(text)")
         var opt = [String]()
         
+        self.delegate?.didReceiveMessageForTexttoSpeech(withText: text)
         
-        
-        
-        
-        
-        var textN = text.replacingOccurrences(of: "", with: "")
+        var textN = text.replacingOccurrences(of: "", with: " ")
         
         //<badgeCount>(\\d+)</badgeCount>
         
-        var foundText = textN.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-        let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+        
+        //var foundText = textN.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+        //let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\"\\]\\)])")
+        let rangeImage = text.range(of:"<img:src>(.*?)</img:src>", options:.regularExpression)
+        let rangeVideo = text.range(of:"<vid:src>(.*?)</vid:src>", options:.regularExpression)
+        
+        if (rangeImage != nil) {
+            var optionsString = text.substring(with: rangeImage!)
+            textN = textN.replacingOccurrences(of: optionsString, with: "MIVD.n&n")
+            textN = textN.replacingOccurrences(of: "\",\"", with: "n&n")
+            textN = textN.replacingOccurrences(of: "<br>", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "<img:src>", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "</img:src>", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "</vid:src", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "<vid:src>", with: "")
+            print("With optionsString..\(optionsString)>>>>>>>>>>>>>>")
+            
+            opt = textN.components(separatedBy: "n&n")
+            print(opt)
+            if opt.count > 0{
+                for item in 0..<opt.count{
+                    /// sleep(1)
+                    var chatTxt = opt[item]
+                    print(chatTxt)
+                    chatTxt = chatTxt.replacingOccurrences(of: "</vid:src>", with: "")
+                    chatTxt = chatTxt.replacingOccurrences(of: "</img:src>", with: "")
+                    if chatTxt.contains("MIVD.") {
+                        chatTxt = chatTxt.replacingOccurrences(of: "MIVD.", with: "")
+                        chatTxt = chatTxt.replacingOccurrences(of: "<img:src>", with: "")
+                        if chatTxt.characters.count>0 {
+                            self.delegate?.didReceiveMessage(withText: chatTxt, options: nil)
+                        }
+                        
+                        let imageUrl = URL(string: optionsString)
+                        self.delegate?.didReceiveImage(withUrl: imageUrl!)
+                    }else{
+                        self.delegate?.didReceiveMessage(withText: chatTxt, options: nil)
+                    }
+                    
+                }
+            }
+            else{
+                self.delegate?.didReceiveMessage(withText: text, options: nil)
+            }
+        }
+        else if (rangeVideo != nil){
+            
+            var optionsString = text.substring(with: rangeVideo!)
+            textN = textN.replacingOccurrences(of: optionsString, with: "MIVD.n&n")
+            textN = textN.replacingOccurrences(of: "<br>", with: "")
+            textN = textN.replacingOccurrences(of: "\",\"", with: "n&n")
+            
+            optionsString = optionsString.replacingOccurrences(of: "<img:src>", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "</img:src>", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "</vid:src>", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "<vid:src>", with: "")
+            print("With optionsString.Video.\(optionsString)>>>>>>>>>>>>>>")
+            opt = textN.components(separatedBy: "n&n")
+            
+            print(opt)
+            if opt.count > 0{
+                for item in 0..<opt.count{
+                    /// sleep(1)
+                    var chatTxt = opt[item]
+                    print(chatTxt)
+                    chatTxt = chatTxt.replacingOccurrences(of: "</vid:src>", with: "")
+                    chatTxt = chatTxt.replacingOccurrences(of: "</img:src>", with: "")
+                    if chatTxt.contains("MIVD.") {
+                        chatTxt = chatTxt.replacingOccurrences(of: "MIVD.", with: "")
+                        
+                        chatTxt = chatTxt.replacingOccurrences(of: "<br>", with: "")
+                        
+                        chatTxt = chatTxt.replacingOccurrences(of: "<vid:src>", with: "")
+                        if chatTxt.characters.count>0 {
+                            self.delegate?.didReceiveMessage(withText: chatTxt, options: nil)
+                        }
+                        let videoUrl = URL(string: optionsString)
+                        self.delegate?.didReceiveVideo(withUrl: videoUrl!)
+                        
+                    }else{
+                        self.delegate?.didReceiveMessage(withText: chatTxt, options: nil)
+                    }
+                    
+                }
+            
+        }
+        }
+        else{
+           self.delegate?.didReceiveMessage(withText: text, options: nil)
+        }
+        
+        /*
+        let regex = try! NSRegularExpression(pattern: "<img:src>(.*?)</img:src>")
         let nsString = textN as NSString
         print(nsString)
         if let result = regex.matches(in: textN, range: NSRange(location: 0, length: nsString.length)).last {
+            
             var optionsString = nsString.substring(with: result.range)
-            optionsString = optionsString.replacingOccurrences(of: "\n", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "<img:src>", with: "")
             optionsString = optionsString.replacingOccurrences(of: "</img:src", with: "")
             optionsString = optionsString.replacingOccurrences(of: "</vid:src", with: "")
-            print("With optionsString..\(optionsString)")
+            optionsString = optionsString.replacingOccurrences(of: "<vid:src>", with: "")
+            print("With optionsString..\(optionsString)>>>>>>>>>>>>>>")
+            textN = textN.replacingOccurrences(of: "<img:src>", with: "")
+            textN = textN.replacingOccurrences(of: "</img:src>", with: "")
+            
             textN = textN.replacingOccurrences(of: optionsString, with: "MIVD.n&n")
             textN = textN.replacingOccurrences(of: "\",\"", with: "n&n")
             opt = textN.components(separatedBy: "n&n")
@@ -223,6 +321,56 @@ class ConversationService {
                 self.delegate?.didReceiveMessage(withText: text, options: nil)
             }
         }
+        let regex2 = try! NSRegularExpression(pattern: "<vid:src>(.*?)</vid:src>")
+        print(nsString)
+        if let result = regex2.matches(in: textN, range: NSRange(location: 0, length: nsString.length)).last {
+            var optionsString = nsString.substring(with: result.range)
+            optionsString = optionsString.replacingOccurrences(of: "<img:src>", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "</img:src", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "</vid:src", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "<vid:src>", with: "")
+            print("With optionsString..\(optionsString)>>>>>>>>>>>>>>")
+            textN = textN.replacingOccurrences(of: optionsString, with: "MIVD.n&n")
+            textN = textN.replacingOccurrences(of: "\",\"", with: "n&n")
+            opt = textN.components(separatedBy: "n&n")
+            print(opt)
+            if opt.count > 0{
+                for item in 0..<opt.count{
+                    /// sleep(1)
+                    var chatTxt = opt[item]
+                    print(chatTxt)
+                    chatTxt = chatTxt.replacingOccurrences(of: "</vid:src>", with: "")
+                    chatTxt = chatTxt.replacingOccurrences(of: "</img:src>", with: "")
+                    if chatTxt.contains("MIVD.") {
+                        chatTxt = chatTxt.replacingOccurrences(of: "MIVD.", with: "")
+                        if chatTxt.contains("<vid:src>"){
+                            chatTxt = chatTxt.replacingOccurrences(of: "<vid:src>", with: "")
+                            if chatTxt.characters.count>0 {
+                                self.delegate?.didReceiveMessage(withText: chatTxt, options: nil)
+                            }
+                            let videoUrl = URL(string: optionsString)
+                            self.delegate?.didReceiveVideo(withUrl: videoUrl!)
+                        }
+                        if chatTxt.contains("<img:src>"){
+                            chatTxt = chatTxt.replacingOccurrences(of: "<img:src>", with: "")
+                            if chatTxt.characters.count>0 {
+                                self.delegate?.didReceiveMessage(withText: chatTxt, options: nil)
+                            }
+                            
+                            let imageUrl = URL(string: optionsString)
+                            self.delegate?.didReceiveImage(withUrl: imageUrl!)
+                        }
+                    }else{
+                        self.delegate?.didReceiveMessage(withText: chatTxt, options: nil)
+                    }
+                    
+                }
+            }
+            else{
+                self.delegate?.didReceiveMessage(withText: text, options: nil)
+            }
+        }
+            
         else{
            self.delegate?.didReceiveMessage(withText: text, options: nil)
         }
@@ -400,7 +548,7 @@ class ConversationService {
         if text.contains("Let me show you what can happen") {
             let videoUrl = URL(fileURLWithPath: Video.videoTwo)
             self.delegate?.didReceiveVideo(withUrl: videoUrl)
-        }
+        }*/
 
         // TBD: Remove me - for debug of map
         // strongSelf.delegate?.didReceiveMap(withUrl: URL(string: Map.mapOne)!)
