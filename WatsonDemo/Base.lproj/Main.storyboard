@@ -1511,7 +1511,7 @@
                         <viewControllerLayoutGuide type="bottom" id="8ce-5m-jhc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="nUc-hV-EYz">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5se-DL-z8M" userLabel="Header">
@@ -1558,8 +1558,8 @@
                                     <constraint firstAttribute="trailing" secondItem="PGL-Ws-fIv" secondAttribute="trailing" constant="9" id="oxt-40-5C4"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GAR-x1-g52" userLabel="ChatGradientBackground" customClass="GradientView" customModule="WatsonDemo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="54" width="375" height="558"/>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GAR-x1-g52" userLabel="ChatGradientBackground" customClass="GradientView" customModule="WatsonDemo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="54" width="375" height="633"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
@@ -1572,7 +1572,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" allowsSelectionDuringEditing="YES" rowHeight="140" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="GbL-9b-ILu" userLabel="ChatTableView">
-                                <rect key="frame" x="0.0" y="54" width="414" height="573"/>
+                                <rect key="frame" x="0.0" y="65" width="414" height="578"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -1783,7 +1783,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E1E-09-ULi" userLabel="ChatInputAccessoryView">
-                                <rect key="frame" x="0.0" y="582" width="414" height="45"/>
+                                <rect key="frame" x="0.0" y="632" width="414" height="45"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="textSearchBg" translatesAutoresizingMaskIntoConstraints="NO" id="I6d-75-zML">
                                         <rect key="frame" x="8" y="3" width="398" height="40"/>
@@ -1841,20 +1841,21 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.93727247238159184" green="0.93727247238159184" blue="0.93727247238159184" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="E1E-09-ULi" firstAttribute="width" secondItem="nUc-hV-EYz" secondAttribute="width" id="4cD-D8-d9t"/>
-                            <constraint firstItem="E1E-09-ULi" firstAttribute="top" secondItem="GbL-9b-ILu" secondAttribute="bottom" constant="-45" id="53A-7O-1hP"/>
+                            <constraint firstItem="E1E-09-ULi" firstAttribute="top" secondItem="GbL-9b-ILu" secondAttribute="bottom" constant="-11" id="53A-7O-1hP"/>
                             <constraint firstItem="5se-DL-z8M" firstAttribute="top" secondItem="nUc-hV-EYz" secondAttribute="top" id="8fb-Lw-8bq"/>
-                            <constraint firstItem="GbL-9b-ILu" firstAttribute="top" secondItem="5se-DL-z8M" secondAttribute="bottom" constant="-6" id="A5j-NF-sQY"/>
+                            <constraint firstItem="GbL-9b-ILu" firstAttribute="top" secondItem="5se-DL-z8M" secondAttribute="bottom" constant="5" id="A5j-NF-sQY"/>
                             <constraint firstItem="5se-DL-z8M" firstAttribute="leading" secondItem="nUc-hV-EYz" secondAttribute="leading" id="HKF-q4-SOE"/>
                             <constraint firstItem="GbL-9b-ILu" firstAttribute="centerX" secondItem="nUc-hV-EYz" secondAttribute="centerX" id="IsH-LV-2Ap"/>
                             <constraint firstItem="GbL-9b-ILu" firstAttribute="width" secondItem="nUc-hV-EYz" secondAttribute="width" id="WnO-p5-Zki"/>
                             <constraint firstAttribute="trailing" secondItem="5se-DL-z8M" secondAttribute="trailing" id="blk-HR-3ng"/>
-                            <constraint firstItem="8ce-5m-jhc" firstAttribute="top" secondItem="E1E-09-ULi" secondAttribute="bottom" constant="60" id="s8r-uK-9n7"/>
+                            <constraint firstItem="8ce-5m-jhc" firstAttribute="top" secondItem="E1E-09-ULi" secondAttribute="bottom" constant="10" id="s8r-uK-9n7"/>
                             <constraint firstItem="E1E-09-ULi" firstAttribute="centerX" secondItem="nUc-hV-EYz" secondAttribute="centerX" id="tje-rL-ulO"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="5qx-EU-ujr"/>
                     <connections>
                         <outlet property="chatTableBottomConstraint" destination="53A-7O-1hP" id="VxI-M3-sgE"/>
@@ -1867,7 +1868,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fTp-CT-sgu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2083" y="-2633"/>
+            <point key="canvasLocation" x="2082.608695652174" y="-2633.1521739130435"/>
         </scene>
         <!--Log In View Controller-->
         <scene sceneID="SDz-wb-JxZ">

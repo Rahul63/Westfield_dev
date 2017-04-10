@@ -18,7 +18,27 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let boxContent = BOXContentClient.default()
+        boxContent?.authenticate(completionBlock:{(file: BOXUser?, err:Error?) -> Void in
+            if (err == nil) {
+                print("logged In\(file?.login)")
+            }else{
+                //print(err)
+            }
+        })
         
+
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.getToolBoxData()
+    }
+    
+    
+    func getToolBoxData() {
         let boxContent = BOXContentClient.default()
         
         let searchFile = boxContent?.searchRequest(withQuery: "All", in: NSMakeRange(0, 1000))
@@ -68,8 +88,6 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
             
         })
-
-        // Do any additional setup after loading the view.
     }
     
     

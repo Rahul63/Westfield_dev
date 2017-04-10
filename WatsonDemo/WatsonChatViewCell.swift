@@ -208,6 +208,7 @@ class WatsonChatViewCell: UITableViewCell {
                 foundNewData = foundNewData.replacingOccurrences(of: "</wcs:input", with: "")
                 foundNewData = foundNewData.replacingOccurrences(of: "\n\n", with: "n&n")
                 optionData = foundNewData.components(separatedBy: "n&n")
+                print(optionData)
                 
                 var yValue: CGFloat = 0.0
                 let heightStr = strinLength.replacingOccurrences(of: "", with: "")

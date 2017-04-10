@@ -78,6 +78,34 @@ class WatsonChatDetailViewController: UIViewController,UIWebViewDelegate {
     }
     
     
+//    func extractYoutubeIdFromLink(link: String) -> String? {
+//        let pattern = "((?<=(v|V)/)|(?<=be/)|(?<=(\\?|\\&)v=)|(?<=embed/))([\\w-]++)"
+//        guard let regExp = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) else {
+//            return nil
+//        }
+//        let nsLink = link as NSString
+//        let options = NSRegularExpression.MatchingOptions(rawValue: 0)
+//        let range = NSRange(location: 0, length: nsLink.length)
+//        let matches = regExp.matches(in: link as String, options:options, range:range)
+//        if let firstMatch = matches.first {
+//            return nsLink.substring(with: firstMatch.range)
+//        }
+//        return nil
+//    }
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}
+
+extension WatsonChatDetailViewController{
     func extractYoutubeIdFromLink(link: String) -> String? {
         let pattern = "((?<=(v|V)/)|(?<=be/)|(?<=(\\?|\\&)v=)|(?<=embed/))([\\w-]++)"
         guard let regExp = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) else {
@@ -92,15 +120,8 @@ class WatsonChatDetailViewController: UIViewController,UIWebViewDelegate {
         }
         return nil
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
+
+
+
