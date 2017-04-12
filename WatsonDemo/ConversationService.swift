@@ -185,7 +185,7 @@ class ConversationService {
             var optionsString = text.substring(with: rangeImage!)
             textN = textN.replacingOccurrences(of: optionsString, with: "MIVD.n&n")
             textN = textN.replacingOccurrences(of: "\",\"", with: "n&n")
-            textN = textN.replacingOccurrences(of: "<br>", with: "")
+            //textN = textN.replacingOccurrences(of: "<br>", with: "")
             optionsString = optionsString.replacingOccurrences(of: "<img:src>", with: "")
             optionsString = optionsString.replacingOccurrences(of: "</img:src>", with: "")
             optionsString = optionsString.replacingOccurrences(of: "</vid:src", with: "")
