@@ -80,6 +80,8 @@
 		B7B5F6171E8A5C40000335B3 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5F6141E8A5C40000335B3 /* CustomTabBarController.swift */; };
 		B7B5F6181E8A5C40000335B3 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5F6151E8A5C40000335B3 /* CustomTabBar.swift */; };
 		B7B5F6191E8A5C40000335B3 /* CustomTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B5F6161E8A5C40000335B3 /* CustomTabBarItem.swift */; };
+		B7E63DFE1E9CE73A009E0483 /* ChatTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E63DFD1E9CE73A009E0483 /* ChatTextCell.swift */; };
+		B7E63E001E9CE755009E0483 /* ChatButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E63DFF1E9CE755009E0483 /* ChatButtonCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -171,6 +173,8 @@
 		B7B5F6141E8A5C40000335B3 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		B7B5F6151E8A5C40000335B3 /* CustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		B7B5F6161E8A5C40000335B3 /* CustomTabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarItem.swift; sourceTree = "<group>"; };
+		B7E63DFD1E9CE73A009E0483 /* ChatTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTextCell.swift; sourceTree = "<group>"; };
+		B7E63DFF1E9CE755009E0483 /* ChatButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatButtonCell.swift; sourceTree = "<group>"; };
 		F12B45487CFEA67EC7AB8F09 /* Pods-WatsonDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WatsonDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-WatsonDemo/Pods-WatsonDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -285,6 +289,8 @@
 				B48B18631DD96A66008CE7C2 /* WatsonChatViewCell.swift */,
 				B48B18651DD96A92008CE7C2 /* UserChatViewCell.swift */,
 				B4562FF11DF8D7E500171C0B /* VideoViewCell.swift */,
+				B7E63DFD1E9CE73A009E0483 /* ChatTextCell.swift */,
+				B7E63DFF1E9CE755009E0483 /* ChatButtonCell.swift */,
 			);
 			name = ChatTableViewCells;
 			sourceTree = "<group>";
@@ -545,6 +551,7 @@
 				B79D3A201E8146840035133B /* AttributedLable.swift in Sources */,
 				B7A50BF01E84C35700D82A84 /* RadioButton.swift in Sources */,
 				B47B68C21DF5D03D00AB6421 /* ButtonsView.swift in Sources */,
+				B7E63E001E9CE755009E0483 /* ChatButtonCell.swift in Sources */,
 				B40FDFEA1DE3EF6900BE07EB /* MapViewCell.swift in Sources */,
 				B79D3A261E814CCA0035133B /* ActiveType.swift in Sources */,
 				B78A6F701E79483C0081CFE1 /* UserViewCell.swift in Sources */,
@@ -569,6 +576,7 @@
 				B48B18811DDB908E008CE7C2 /* ConversationService.swift in Sources */,
 				B7A50BEC1E82812C00D82A84 /* MiscellaneousService.swift in Sources */,
 				B7B5F6181E8A5C40000335B3 /* CustomTabBar.swift in Sources */,
+				B7E63DFE1E9CE73A009E0483 /* ChatTextCell.swift in Sources */,
 				B4CBCF971DD91EA70003074A /* OverviewViewController.swift in Sources */,
 				B78E7A9D1E93C92B005D3825 /* PropertyViewController.swift in Sources */,
 				B78E7A991E93C8E9005D3825 /* AutoViewController.swift in Sources */,

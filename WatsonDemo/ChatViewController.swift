@@ -18,6 +18,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         static let conversationKickoffMessage = "Hi"
     }
 
+    @IBOutlet weak var chatTableHeight: NSLayoutConstraint!
     // MARK: - Outlets
     @IBOutlet weak var chatTableBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var chatTableView: UITableView!
@@ -174,6 +175,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     }
 
     func appendChat(withMessage message: Message) {
+        
         guard let text = message.text,
             (text.characters.count > 0 || message.options != nil ||
              message.mapUrl != nil || message.videoUrl != nil || message.imageUrl != nil)
@@ -202,6 +204,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
             }
         }
 
+        //self.chatTableView.reloadData()
     }
 
     func scrollChatTableToBottom() {
@@ -209,6 +212,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
 
         let indexPath = NSIndexPath(row: self.messages.count - 1, section: 0) as IndexPath
         chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+        //self.chatTableView.reloadData()
     }
 
     // MARK: - Private
@@ -271,6 +275,7 @@ extension ChatViewController: UITableViewDataSource {
             
             cell.delegate = self
             cell.configure(withMessage: message)
+//             print("myLabel Posion..CHHAATT..\(cell.heightLable.frame.maxY,cell.heightLable.frame,cell.contentView.frame)")
             return cell
 
         case MessageType.User:
@@ -316,6 +321,11 @@ extension ChatViewController: UITableViewDelegate {
     }
     
 }
+
+//func updateViewConstraints() {
+//   // super.updateViewConstraints()
+//    //tableHeightConstraint.constant = tableView.contentSize.height
+//}
 
 // MARK: - SpeechToTextServiceDelegate
 extension ChatViewController: SpeechToTextServiceDelegate {

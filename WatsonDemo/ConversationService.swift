@@ -224,13 +224,14 @@ class ConversationService {
             
             var optionsString = text.substring(with: rangeVideo!)
             textN = textN.replacingOccurrences(of: optionsString, with: "MIVD.n&n")
-            textN = textN.replacingOccurrences(of: "<br>", with: "")
+            //textN = textN.replacingOccurrences(of: "<br>", with: "")
             textN = textN.replacingOccurrences(of: "\",\"", with: "n&n")
             
             optionsString = optionsString.replacingOccurrences(of: "<img:src>", with: "")
             optionsString = optionsString.replacingOccurrences(of: "</img:src>", with: "")
             optionsString = optionsString.replacingOccurrences(of: "</vid:src>", with: "")
             optionsString = optionsString.replacingOccurrences(of: "<vid:src>", with: "")
+            //optionsString.append(<#T##c: Character##Character#>)
             print("With optionsString.Video.\(optionsString)>>>>>>>>>>>>>>")
             opt = textN.components(separatedBy: "n&n")
             
@@ -245,7 +246,7 @@ class ConversationService {
                     if chatTxt.contains("MIVD.") {
                         chatTxt = chatTxt.replacingOccurrences(of: "MIVD.", with: "")
                         
-                        chatTxt = chatTxt.replacingOccurrences(of: "<br>", with: "")
+                       // chatTxt = chatTxt.replacingOccurrences(of: "<br>", with: "")
                         
                         chatTxt = chatTxt.replacingOccurrences(of: "<vid:src>", with: "")
                         if chatTxt.characters.count>0 {

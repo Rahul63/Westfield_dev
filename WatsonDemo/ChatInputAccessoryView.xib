@@ -19,7 +19,7 @@
             <rect key="frame" x="0.0" y="0.0" width="398" height="45"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="textSearchBg" translatesAutoresizingMaskIntoConstraints="NO" id="2vY-sq-a9T">
-                    <rect key="frame" x="0.0" y="2" width="398" height="40"/>
+                    <rect key="frame" x="8" y="2" width="382" height="40"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mic_icon" highlightedImage="Mic_icon" translatesAutoresizingMaskIntoConstraints="NO" id="dBN-tR-wP5" userLabel="MicImage">
                     <rect key="frame" x="10" y="10" width="28" height="28"/>
@@ -43,12 +43,12 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="0tP-bz-4ix" secondAttribute="trailing" constant="22" id="1pA-7d-el0"/>
                 <constraint firstItem="dBN-tR-wP5" firstAttribute="leading" secondItem="Xeo-d3-t7t" secondAttribute="leading" constant="10" id="32a-xk-9rf"/>
-                <constraint firstAttribute="trailing" secondItem="2vY-sq-a9T" secondAttribute="trailing" id="55q-PO-NG3"/>
+                <constraint firstAttribute="trailing" secondItem="2vY-sq-a9T" secondAttribute="trailing" constant="8" id="55q-PO-NG3"/>
                 <constraint firstAttribute="bottom" secondItem="2vY-sq-a9T" secondAttribute="bottom" constant="3" id="5ZF-TD-MMp"/>
                 <constraint firstAttribute="bottom" secondItem="0tP-bz-4ix" secondAttribute="bottom" constant="7" id="FBR-q4-DKw"/>
                 <constraint firstItem="2vY-sq-a9T" firstAttribute="top" secondItem="Xeo-d3-t7t" secondAttribute="top" constant="2" id="iha-we-WUz"/>
                 <constraint firstItem="dBN-tR-wP5" firstAttribute="top" secondItem="Xeo-d3-t7t" secondAttribute="top" constant="10" id="joe-Ll-ztS"/>
-                <constraint firstItem="2vY-sq-a9T" firstAttribute="leading" secondItem="Xeo-d3-t7t" secondAttribute="leading" id="oKG-a4-AwG"/>
+                <constraint firstItem="2vY-sq-a9T" firstAttribute="leading" secondItem="Xeo-d3-t7t" secondAttribute="leading" constant="8" id="oKG-a4-AwG"/>
                 <constraint firstItem="0tP-bz-4ix" firstAttribute="leading" secondItem="dBN-tR-wP5" secondAttribute="trailing" constant="6" id="t4c-wE-jma"/>
                 <constraint firstItem="0tP-bz-4ix" firstAttribute="top" secondItem="Xeo-d3-t7t" secondAttribute="top" constant="8" id="xol-zM-kiX"/>
             </constraints>
