@@ -88,7 +88,7 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
             
             Doc.linkUrl = optionsString
             
-            print("myOptionalString is...<<<<<<<.\(optionsString)")
+            //print("myOptionalString is...<<<<<<<.\(optionsString)")
             
             text = text.replacingOccurrences(of: optionsString, with: "")
             
@@ -96,7 +96,7 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
             
             if range != nil {
                 var found = text.substring(with: range!)
-                print("found: \(found)") // found: google
+                //print("found: \(found)") // found: google
                 found = found.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
                 found = found.replacingOccurrences(of: "</a", with: "")
                     //print("found:>>>> \(found)")
@@ -146,13 +146,13 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
                 //let strinLengthCount:Int = strinLength.characters.count
                 //print("mystringLength>>>>\(strinLengthCount)")
                 messageLabel.text = strinLength
-                print(strinLength)
+                //print(strinLength)
                 var foundNewData = foundNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
                 
                 foundNewData = foundNewData.replacingOccurrences(of: "</wcs:input", with: "")
                 foundNewData = foundNewData.replacingOccurrences(of: "\n\n", with: "n&n")
                 optionData = foundNewData.components(separatedBy: "n&n")
-                print(optionData)
+                //print(optionData)
                 
                 if optionData.count>0 {
                     

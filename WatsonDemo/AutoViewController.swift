@@ -63,7 +63,16 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 print(itemData)
                 if self.itemValue[item].isFile{
                     print(self.itemValue[item].name)
-                    print(self.itemValue[item].itemDescription)
+                    print("my URL link..\(self.itemValue[item].sharedLink)")
+                    
+                    if self.itemValue[item].sharedLink != nil{
+                        let bxLink = self.itemValue[item].sharedLink as BOXSharedLink
+                        print("myShare UUUURRRLL\(bxLink.downloadURL)")
+                    }
+                    
+                    
+                    
+                    print(self.itemValue[item].jsonData)
                 }
                 else if self.itemValue[item].isBookmark{
                     print(self.itemValue[item].name)
@@ -126,11 +135,19 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
     }
     
+    internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//        let detailVc = storyBoard.instantiateViewController(withIdentifier: "ToolBoxDetailViewController") as! ToolBoxDetailViewController
+//        //detailVc.urlStr = url
+//        
+//        self.navigationController?.pushViewController(detailVc, animated: true)
+    }
+    
     
     internal func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         
-        return 106.6//UITableViewAutomaticDimension
+        return 94//UITableViewAutomaticDimension
     }
 
     

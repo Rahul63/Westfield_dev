@@ -360,7 +360,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     @IBAction func helpButtonPressed(_ sender: Any) {
         
         let screenSize: CGRect = UIScreen.main.bounds
-        helpView = UIView(frame: CGRect(x: 10, y: screenSize.height/2-50, width: screenSize.width - 20, height: 100))
+        helpView = UIView(frame: CGRect(x: 10, y: screenSize.height/2-50, width: screenSize.width - 20, height: 110))
         helpView.layer.cornerRadius = 10
         helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
         helpViewBG.backgroundColor = UIColor.gray
@@ -383,6 +383,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         label.sizeToFit()
         label.textColor = UIColor.black
         helpView.addSubview(label)
+        //helpView.heightAnchor.constraint(equalTo: label.heightAnchor, multiplier: 1.5)
     
         helpView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
         UIView.animate(withDuration: 1.0, delay: 0.5, options: .curveEaseOut, animations: {() -> Void in

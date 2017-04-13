@@ -52,8 +52,8 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
         let videoId = self.extractYoutubeIdFromLink(link: urlString)
         
         if videoId == nil {
-            self.ytplayer.loadVideo(byURL:urlString, startSeconds: 0.0, suggestedQuality: YTPlaybackQuality.auto)
-            self.ytplayer.playVideo()
+//            self.ytplayer.loadVideo(byURL:urlString, startSeconds: 0.0, suggestedQuality: YTPlaybackQuality.auto)
+//            self.ytplayer.playVideo()
             
             
             
@@ -79,6 +79,7 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
             ytplayer.frame = CGRect(x: 20,y: 20,width: frame.size.width - 40,height: frame.size.height - 35)
             self.addSubview(ytplayer)
             ytplayer.delegate = self
+            //ytplayer.
             self.ytplayer.load(withVideoId: videoId!)
             
             

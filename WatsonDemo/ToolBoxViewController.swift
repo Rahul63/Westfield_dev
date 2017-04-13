@@ -22,6 +22,7 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         let boxContent = BOXContentClient.default()
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         let folderInforequrest = boxContent?.fileInfoRequest(withID: "23139323816")
         
@@ -126,21 +127,10 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate {
         propertyVc.title = "Property"
         controllerArray.append(propertyVc)
         
-//        self.controller1  = GeneralSafetyViewController(nibName: "GeneralSafetyViewController", bundle: nil)
-//        controller1.title = "GeneralSafety"
-//        //self.controller1.delegate = self
-//        controllerArray.append(self.controller1)
-//        self.controller2 = AutoViewController(nibName: "AutoViewController", bundle: nil)
-//        self.controller2.title = "Auto"
-//        //self.controller2.delegate = self
-//        controllerArray.append(self.controller2)
-//        self.controller3 = LiabilityViewController(nibName: "LiabilityViewController", bundle: nil)
-//        self.controller3.title = "Liability"
-//        controllerArray.append(self.controller3)
-//        let controller4 : PropertyViewController = PropertyViewController(nibName: "PropertyViewController", bundle: nil)
-//        controller4.title = "Property"
-//        controllerArray.append(controller4)
+        let width : Int  = Int(self.view.frame.size.width)
         
+        let itemWidth = width/controllerArray.count-10
+        print(itemWidth)
         let parameters: [CAPSPageMenuOption] = [
             .ScrollMenuBackgroundColor(UIColor(red: 216.0/255.0, green: 156.0/255.0, blue: 85.0/255.0, alpha: 1.0)),
             .ViewBackgroundColor(UIColor.white),//(red: 220.0/255.0, green: 220.0/255.0, blue: 220.0/255.0, alpha: 1.0)),
@@ -148,9 +138,9 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate {
             .BottomMenuHairlineColor(UIColor.white),//(red: 170.0/255.0, green: 170.0/255.0, blue: 180.0/255.0, alpha: 1.0)),
             .UnselectedMenuItemLabelColor(UIColor(red: 99.0/255.0, green: 100.0/255.0, blue: 102.0/255.0, alpha: 1.0)),
             .SelectedMenuItemLabelColor(UIColor.white),
-            .MenuItemFont(UIFont(name: "HelveticaNeue", size: 12.0)!),
+            .MenuItemFont(UIFont.boldSystemFont(ofSize: 12)),
             .MenuHeight(40.0),
-            .MenuItemWidth(80.0),
+            .MenuItemWidth(CGFloat(itemWidth)),
             .CenterMenuItems(true),
             .SelectedMenuItemLabelColor(UIColor.black)
         ]

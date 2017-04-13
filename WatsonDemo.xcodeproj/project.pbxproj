@@ -70,6 +70,7 @@
 		B79D3A291E814CCA0035133B /* RegexParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79D3A241E814CCA0035133B /* RegexParser.swift */; };
 		B79D3A2A1E814CCA0035133B /* StringTrimExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79D3A251E814CCA0035133B /* StringTrimExtension.swift */; };
 		B79E42EE1E72BDB500EBEAA9 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79E42ED1E72BDB500EBEAA9 /* LogInViewController.swift */; };
+		B7A471C21E9F875200B10E22 /* ToolBoxDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A471C11E9F875200B10E22 /* ToolBoxDetailViewController.swift */; };
 		B7A50BEA1E826F5E00D82A84 /* WatsonChatDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BE91E826F5E00D82A84 /* WatsonChatDetailViewController.swift */; };
 		B7A50BEC1E82812C00D82A84 /* MiscellaneousService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BEB1E82812C00D82A84 /* MiscellaneousService.swift */; };
 		B7A50BEE1E83E7E500D82A84 /* DistributionListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BED1E83E7E500D82A84 /* DistributionListService.swift */; };
@@ -163,6 +164,7 @@
 		B79D3A241E814CCA0035133B /* RegexParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegexParser.swift; sourceTree = "<group>"; };
 		B79D3A251E814CCA0035133B /* StringTrimExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTrimExtension.swift; sourceTree = "<group>"; };
 		B79E42ED1E72BDB500EBEAA9 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		B7A471C11E9F875200B10E22 /* ToolBoxDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBoxDetailViewController.swift; sourceTree = "<group>"; };
 		B7A50BE91E826F5E00D82A84 /* WatsonChatDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatsonChatDetailViewController.swift; sourceTree = "<group>"; };
 		B7A50BEB1E82812C00D82A84 /* MiscellaneousService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiscellaneousService.swift; sourceTree = "<group>"; };
 		B7A50BED1E83E7E500D82A84 /* DistributionListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributionListService.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				B78E7A981E93C8E9005D3825 /* AutoViewController.swift */,
 				B78E7A9A1E93C90B005D3825 /* LiabilityViewController.swift */,
 				B78E7A9C1E93C92B005D3825 /* PropertyViewController.swift */,
+				B7A471C11E9F875200B10E22 /* ToolBoxDetailViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -592,6 +595,7 @@
 				B7B5F6171E8A5C40000335B3 /* CustomTabBarController.swift in Sources */,
 				B79D3A291E814CCA0035133B /* RegexParser.swift in Sources */,
 				B7873FD11E7BD58000935479 /* UserDetailViewController.swift in Sources */,
+				B7A471C21E9F875200B10E22 /* ToolBoxDetailViewController.swift in Sources */,
 				B48B18641DD96A66008CE7C2 /* WatsonChatViewCell.swift in Sources */,
 				B78E7A971E93C8D7005D3825 /* GeneralSafetyViewController.swift in Sources */,
 				B48B18661DD96A92008CE7C2 /* UserChatViewCell.swift in Sources */,
@@ -729,7 +733,7 @@
 				INFOPLIST_FILE = WatsonDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.WestfieldDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.WestfieldDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -753,7 +757,7 @@
 				INFOPLIST_FILE = WatsonDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.WestfieldDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.WestfieldDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

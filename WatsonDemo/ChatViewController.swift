@@ -361,7 +361,7 @@ extension ChatViewController: ConversationServiceDelegate {
         
         var opt = [String]()
         
-        print("<<<<<<<<<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
+        //print("<<<<<<<<<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
         if (sharedInstnce.isVoiceOn == true){
             
             let rangeN = text.range(of:"\",\"", options:.regularExpression)
@@ -377,10 +377,10 @@ extension ChatViewController: ConversationServiceDelegate {
                 if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
                     let optionsString = nsString.substring(with: result.range)
                     foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-                    print("With url.Newchat.\(foundText)")
+                    //print("With url.Newchat.\(foundText)")
                     //self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }else{
-                    print("With Normal new Chat..\(foundText)")
+                   // print("With Normal new Chat..\(foundText)")
                     //self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }
                 for item in 0..<opt.count{
@@ -394,12 +394,12 @@ extension ChatViewController: ConversationServiceDelegate {
                 let nsString = foundText as NSString
                 if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
                     let optionsString = nsString.substring(with: result.range)
-                    print("With optionsString..\(optionsString)")
+                    //print("With optionsString..\(optionsString)")
                     foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-                    print("With url..\(foundText)")
+                    //print("With url..\(foundText)")
                     //self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }else{
-                    print("With Normal..\(foundText)")
+                    //print("With Normal..\(foundText)")
                    // self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }
                 //self.textToSpeechService.synthesizeSpeech(withText: foundText)
@@ -420,9 +420,9 @@ extension ChatViewController: ConversationServiceDelegate {
                 if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
                     let optionsString = nsString.substring(with: result.range)
                     foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-                    print("With url.Newchat.\(foundText)")
+                    //print("With url.Newchat.\(foundText)")
                 }else{
-                    print("With Normal new Chat..\(foundText)")
+                 //   print("With Normal new Chat..\(foundText)")
                 }
                 for item in 0..<opt.count{
                     //                 let foundText = opt[item].replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
@@ -438,12 +438,12 @@ extension ChatViewController: ConversationServiceDelegate {
                 let nsString = foundText as NSString
                 if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
                     let optionsString = nsString.substring(with: result.range)
-                    print("With optionsString..\(optionsString)")
+                    //print("With optionsString..\(optionsString)")
                     foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-                    print("With url..\(foundText)")
+                    //print("With url..\(foundText)")
                    // self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }else{
-                    print("With Normal..\(foundText)")
+                    //print("With Normal..\(foundText)")
                     //self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }
                 //self.textToSpeechService.synthesizeSpeech(withText: foundText)
@@ -461,17 +461,20 @@ extension ChatViewController: ConversationServiceDelegate {
     
     internal func didReceiveMessageForTexttoSpeech(withText text: String){
         
-        var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+        print("myyyyyfirstTeexxttt>>>\(text)")
+        var foundText = text.replacingOccurrences(of: "<[^>]+>", with: " ", options: .regularExpression, range: nil)
         let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
         let nsString = foundText as NSString
         if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
             let optionsString = nsString.substring(with: result.range)
             print("With optionsString..\(optionsString)")
             foundText = foundText.replacingOccurrences(of: optionsString, with: "")
+            print("Speech textt>URRRRLLL>>>\(foundText)")
         }else{
             foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         }
         print("<<<<<<<<NEWW<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
+        print("Speech textt>>WITHOUT>>\(foundText)")
         if (sharedInstnce.isVoiceOn == true){
             
             self.textToSpeechService.synthesizeSpeech(withText: foundText)

@@ -166,7 +166,7 @@ class ConversationService {
          //var text  = "<vid:src>https://ibm.box.com/shared/static/xlpe595snnem4swkvtihq0cz024un5s5.mp4</vid:src><br>That’s great $User_First_Name, you are ahead of the competition. Most app stores have apps that can send an automatic text saying they are driving or even block incoming call alerts or test messages. Here is a <a href=\"https://www.verizonwireless.com/archive/mobile-living/home-and-family/apps-to-block-texting-while-driving\">list of apps</a> you can use on your company phones.<br><br>Ready to continue?"
         
         
-        print("JSSSOONN>>>>\(text)")
+        //print("JSSSOONN>>>>\(text)")
         var opt = [String]()
         
         self.delegate?.didReceiveMessageForTexttoSpeech(withText: text)
@@ -190,7 +190,7 @@ class ConversationService {
             optionsString = optionsString.replacingOccurrences(of: "</img:src>", with: "")
             optionsString = optionsString.replacingOccurrences(of: "</vid:src", with: "")
             optionsString = optionsString.replacingOccurrences(of: "<vid:src>", with: "")
-            print("With optionsString..\(optionsString)>>>>>>>>>>>>>>")
+            //print("With optionsString..\(optionsString)>>>>>>>>>>>>>>")
             
             opt = textN.components(separatedBy: "n&n")
             print(opt)
@@ -198,7 +198,7 @@ class ConversationService {
                 for item in 0..<opt.count{
                     /// sleep(1)
                     var chatTxt = opt[item]
-                    print(chatTxt)
+                    //print(chatTxt)
                     chatTxt = chatTxt.replacingOccurrences(of: "</vid:src>", with: "")
                     chatTxt = chatTxt.replacingOccurrences(of: "</img:src>", with: "")
                     if chatTxt.contains("MIVD.") {
@@ -232,7 +232,7 @@ class ConversationService {
             optionsString = optionsString.replacingOccurrences(of: "</vid:src>", with: "")
             optionsString = optionsString.replacingOccurrences(of: "<vid:src>", with: "")
             //optionsString.append(<#T##c: Character##Character#>)
-            print("With optionsString.Video.\(optionsString)>>>>>>>>>>>>>>")
+            //print("With optionsString.Video.\(optionsString)>>>>>>>>>>>>>>")
             opt = textN.components(separatedBy: "n&n")
             
             print(opt)
