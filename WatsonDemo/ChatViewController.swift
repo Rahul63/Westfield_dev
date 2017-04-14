@@ -46,25 +46,6 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         let password = "tYVex8dIA4xy"
         let textToSpeech = TextToSpeech(username: username, password: password)
         
-//        let text = "All the problems of the world could be settled easily if men were only willing to think."
-//        let failure = { (error: Error) in print(error) }
-//        textToSpeech.synthesize(text, failure: failure) { data in
-//            self.audioPlayer = try! AVAudioPlayer(data: data)
-//            self.audioPlayer.play()
-//        }
-        
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(updateChatField), name: NSNotification.Name(rawValue: "ChatfieldShouldRefresh"), object: nil)
-//        if #available(iOS 10.0, *) {
-//            UNUserNotificationCenter.current().requestAuthorization(
-//                options: [.alert,.sound,.badge],
-//                completionHandler: { (granted,error) in
-//                    self.isGrantedNotificationAccess = granted
-//            }
-//            )
-//        } else {
-//            // Fallback on earlier versions
-//        }
         
         self.headerView.backgroundColor = UIColor(netHex:0xd89c54)
         setupSimulator()
@@ -96,13 +77,6 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         
     }
     
-//    func updateChatField(notification: NSNotification) {
-//        NSLog("Object is %@", notification.value(forKey: "object") as! String!)
-//    }
-    
-//    func updateChatField()  {
-//        //
-//    }
 
     // MARK: - Actions
     @IBAction func micButtonTapped() {
@@ -134,8 +108,6 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
             }
         }
         
-        
-       // UserDefaults.standard.setValue("", forKey: "UserDetail")
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let logInVc = storyBoard.instantiateViewController(withIdentifier: "LogInVC") as! LogInViewController
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -267,15 +239,12 @@ extension ChatViewController: UITableViewDataSource {
             return cell
 
         case MessageType.Watson:
-            //var cell : WatsonChatViewCell!
-            
             
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: WatsonChatViewCell.self),
                                                          for: indexPath) as! WatsonChatViewCell
             
             cell.delegate = self
             cell.configure(withMessage: message)
-//             print("myLabel Posion..CHHAATT..\(cell.heightLable.frame.maxY,cell.heightLable.frame,cell.contentView.frame)")
             return cell
 
         case MessageType.User:
@@ -322,10 +291,7 @@ extension ChatViewController: UITableViewDelegate {
     
 }
 
-//func updateViewConstraints() {
-//   // super.updateViewConstraints()
-//    //tableHeightConstraint.constant = tableView.contentSize.height
-//}
+
 
 // MARK: - SpeechToTextServiceDelegate
 extension ChatViewController: SpeechToTextServiceDelegate {
@@ -378,10 +344,8 @@ extension ChatViewController: ConversationServiceDelegate {
                     let optionsString = nsString.substring(with: result.range)
                     foundText = foundText.replacingOccurrences(of: optionsString, with: "")
                     //print("With url.Newchat.\(foundText)")
-                    //self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }else{
                    // print("With Normal new Chat..\(foundText)")
-                    //self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }
                 for item in 0..<opt.count{
                     self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil))
@@ -396,13 +360,9 @@ extension ChatViewController: ConversationServiceDelegate {
                     let optionsString = nsString.substring(with: result.range)
                     //print("With optionsString..\(optionsString)")
                     foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-                    //print("With url..\(foundText)")
-                    //self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }else{
                     //print("With Normal..\(foundText)")
-                   // self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }
-                //self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
             }
             
@@ -441,7 +401,6 @@ extension ChatViewController: ConversationServiceDelegate {
                     //print("With optionsString..\(optionsString)")
                     foundText = foundText.replacingOccurrences(of: optionsString, with: "")
                     //print("With url..\(foundText)")
-                   // self.textToSpeechService.synthesizeSpeech(withText: foundText)
                 }else{
                     //print("With Normal..\(foundText)")
                     //self.textToSpeechService.synthesizeSpeech(withText: foundText)
@@ -451,11 +410,6 @@ extension ChatViewController: ConversationServiceDelegate {
             }
             
         }
-        
-        
-//        if let _ = options {
-//            self.appendChat(withMessage: Message(type: MessageType.User, text: "", options: options))
-//        }
 
     }
     
@@ -473,6 +427,19 @@ extension ChatViewController: ConversationServiceDelegate {
         }else{
             foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         }
+        
+        //<sub alias="prescription">Rx</sub>
+        let rangeImage = foundText.range(of:"<sub alias=(.*?)</sub>", options:.regularExpression)
+        if rangeImage != nil {
+            let optionsString = foundText.substring(with: rangeImage!)
+            print(optionsString)
+        }
+        
+        
+        
+        foundText = foundText.replacingOccurrences(of: "résumé", with: "resumay")
+        foundText = foundText.replacingOccurrences(of: "\",\"", with: "<paragraph> </paragraph>")
+        foundText = foundText.replacingOccurrences(of: " – ", with: " ")
         print("<<<<<<<<NEWW<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
         print("Speech textt>>WITHOUT>>\(foundText)")
         if (sharedInstnce.isVoiceOn == true){

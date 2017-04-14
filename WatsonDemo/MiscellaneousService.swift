@@ -257,10 +257,14 @@ class MiscellaneousService {
     
     func parseJsonUser(json: [String:AnyObject]) {
         print(json)
-        let text = json["ok"] as! Bool
+        if let text = json["ok"] as? Bool{
+            self.delegate?.didReceiveMessage(withText:text)
+        }else{
+            self.delegate?.didReceiveMessage(withText:false)
+        }
         //self.value = json["docs"] as! [String]
 //        let text = json["docs"] as! NSArray
-        self.delegate?.didReceiveMessage(withText:text)
+        
         
     }
 

@@ -9,8 +9,14 @@
 import UIKit
 import BoxContentSDK
 
-class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+protocol AutoViewDelegate
+{
+    func loadDetailViewForToolBox(with value:String)
     
+}
+
+class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+    var delegate: AutoViewDelegate?
     var cIndex : Int! = 0
     var itemValue = [BOXItem]()
     @IBOutlet weak var autoTableView: UITableView!
@@ -67,7 +73,7 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     
                     if self.itemValue[item].sharedLink != nil{
                         let bxLink = self.itemValue[item].sharedLink as BOXSharedLink
-                        print("myShare UUUURRRLL\(bxLink.downloadURL)")
+                        print("myShare UUUURRRLL\(bxLink.url)")
                     }
                     
                     
@@ -136,11 +142,74 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+        let itemData = self.itemValue[indexPath.row]
+        print(itemData)
+        print(itemData.jsonData)
+        if itemData.isFile{
+            print(itemData.name)
+            print("my URL link..\(itemData.sharedLink)")
+            
+            if itemData.sharedLink != nil{
+                let bxLink = itemData.sharedLink as BOXSharedLink
+                print("myShare UUUURRRLL\(bxLink.url)")
+                
+                self.delegate?.loadDetailViewForToolBox(with: String(describing: bxLink.url!))
+            }else{
+                showAlert()
+            }
+            
+            
+        }
+        else if itemData.isBookmark{
+            print(itemData.name)
+            
+            let bookMarkItem =  itemData as? BOXBookmark
+            if let currentURL = bookMarkItem?.url.absoluteString {
+                self.delegate?.loadDetailViewForToolBox(with: currentURL)
+                print(currentURL)
+            } else {
+                showAlert()
+                // request is nil ...
+                
+            }
+            
+        }else{
+            showAlert()
+        }
+        
+        
+        
+        
 //        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
 //        let detailVc = storyBoard.instantiateViewController(withIdentifier: "ToolBoxDetailViewController") as! ToolBoxDetailViewController
-//        //detailVc.urlStr = url
 //        
-//        self.navigationController?.pushViewController(detailVc, animated: true)
+//       
+//        
+//        detailVc.view.frame = CGRect(x:0,y:0,width: detailVc.view.frame.width,height:detailVc.view.frame.height)
+//        
+//        let left = CGAffineTransform(translationX: -0, y: 0)
+//        let right = CGAffineTransform(translationX: 0, y: 0)
+//        let top = CGAffineTransform(translationX: 0, y: -300)
+        
+        //UIView.animate(withDuration: <#T##TimeInterval#>, delay: <#T##TimeInterval#>, options: <#T##UIViewAnimationOptions#>, animations: <#T##() -> Void#>, completion: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
+        
+//        UIView.animate(withDuration: 0.4, delay: 0.0, options: [], animations: {
+//            // Add the transformation in this block
+//            // self.container is your view that you want to animate
+//            detailVc.view.transform = left
+           // self.view.addSubview(detailVc.view)
+      //  })
+        
+       // self.tabBarController?.tabBar.isHidden = true
+        
+       /// CustomTabBarViewController.tabBar(self)
+        //detailVc.urlStr = url
+        
+        
+        
+        //self.navigationController?.pushViewController(detailVc, animated: true)
     }
     
     
@@ -148,6 +217,12 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         
         return 94//UITableViewAutomaticDimension
+    }
+    
+    func showAlert() {
+        let alert = UIAlertController(title: "Alert", message: "Detail not available", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 
     

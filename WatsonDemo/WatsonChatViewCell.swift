@@ -100,25 +100,16 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
                 found = found.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
                 found = found.replacingOccurrences(of: "</a", with: "")
                     //print("found:>>>> \(found)")
-                
                 text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                
                 text = text.replacingOccurrences(of: ">", with: "")
-                
                 let nsText = text as NSString
-                
                 let range1: NSRange = nsText.range(of: found)
-                
                 messageLabel.text = text
                     // print("MyURLLL>>>>\(Doc.linkUrl)")
-                
                 messageLabel.addLink(to: URL(string: Doc.linkUrl) , with: range1)
                     
                // }
-                
             }
-            
-
             //print("mytext is...<<<<<<<.\(text)")
             
         }
@@ -155,41 +146,24 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
                 //print(optionData)
                 
                 if optionData.count>0 {
-                    
                     self.addRadioButtonsWithTitle(count: optionData.count)
-
                 }
-                
                 //print("found ALL>>>>>: \(foundNew)")
-                
                 //print("found ALL>>>OPTION>>: \(optionData) and count\(optionData.count)")
             }else{
                 messageLabel.text = text
             }
-            
-            
         }
         
         }
     
-    
-
-        
-        
     
     func addItemsInStckView() {
         
-        //Stack View
-        //let stackView   = UIStackView()
         chatStackView.axis  = UILayoutConstraintAxis.vertical
-        //mainStackView.distribution  = UIStackViewDistribution.equalSpacing
         chatStackView.alignment = UIStackViewAlignment.leading
         chatStackView.spacing   = 5.0
-        //messageLabel.text = "jhgjghjgjgjg"
-        //self.addRadioButtonsWithTitle(count: 4)
         chatStackView.translatesAutoresizingMaskIntoConstraints = false;
-        
-        //self.view.addSubview(stackView)
     }
     
     
@@ -210,9 +184,6 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
     }
     
     func addRadioButtonsWithTitle(count:Int){
-        
-       
-        
          for i in 0..<count{
             let button = makeButtonWithText(tag: i)
             let lable = makeTextLableWithText(index: i)
@@ -224,7 +195,6 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
 
             chatStackView.addArrangedSubview(stackView)
          }
-         //colorStackView()*/
     }
     
     
@@ -310,7 +280,6 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        
         //self.chatBubbleTableView.rowHeight = UITableViewAutomaticDimension
         //self.chatBubbleTableView.estimatedRowHeight = 1000
         //self.chatBubbleTableView.isScrollEnabled = false
@@ -337,19 +306,12 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var textCell: ChatTextCell!
         var buttonCell : ChatButtonCell!
-        
-        
-        
         if indexPath.row == 0 {
             if (textCell == nil) {
                 textCell = (tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as? ChatTextCell)!
             }
             textCell.selectionStyle = UITableViewCellSelectionStyle.none
             textCell.messageLabel.text = "fdsfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsfsfsfsdfsdfdsfdsfdsfsdKSADASAADASDASDASdsaFDFDSFDSFSDFEWfwfwefwefewfwwefwefwwfwefwfewfewfewfwefwefwfwefwefewfwefewfwefwefwefwefwefwgrtgregfsvsdfgdscdsfddadfasfefasftewfafewfdfewgwegewrgwegergwegregwwegwrgEND"
-            
-            
-            
-            
             return textCell
         }
         else{
@@ -370,25 +332,8 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
     }
     
     
-//    internal func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        
-//        
-//        return 106.6//UITableViewAutomaticDimension
-//    }
-    
-    
-    
-    
-
-
 func alert(_ title: String, message: String) {
-//    let vc = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-//    vc.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-    //self.present(vc, animated: true, completion: nil)
-    //        iconView = UIImageView(frame: CGRect(x: (self.frame.width-image.size.width)/2, y: (self.frame.height-image.size
-    //            .height)/2, width: self.frame.width, height: self.frame.height))
 
-    //self.delegate.loadUrlLink(url: message)
 }
 }
 

@@ -71,6 +71,8 @@
 		B79D3A2A1E814CCA0035133B /* StringTrimExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79D3A251E814CCA0035133B /* StringTrimExtension.swift */; };
 		B79E42EE1E72BDB500EBEAA9 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79E42ED1E72BDB500EBEAA9 /* LogInViewController.swift */; };
 		B7A471C21E9F875200B10E22 /* ToolBoxDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A471C11E9F875200B10E22 /* ToolBoxDetailViewController.swift */; };
+		B7A471C41EA0C6D500B10E22 /* ToolBoxDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7A471C31EA0C6D500B10E22 /* ToolBoxDetailView.xib */; };
+		B7A471C61EA0C77C00B10E22 /* ToolBoxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A471C51EA0C77C00B10E22 /* ToolBoxDetailView.swift */; };
 		B7A50BEA1E826F5E00D82A84 /* WatsonChatDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BE91E826F5E00D82A84 /* WatsonChatDetailViewController.swift */; };
 		B7A50BEC1E82812C00D82A84 /* MiscellaneousService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BEB1E82812C00D82A84 /* MiscellaneousService.swift */; };
 		B7A50BEE1E83E7E500D82A84 /* DistributionListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A50BED1E83E7E500D82A84 /* DistributionListService.swift */; };
@@ -165,6 +167,8 @@
 		B79D3A251E814CCA0035133B /* StringTrimExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTrimExtension.swift; sourceTree = "<group>"; };
 		B79E42ED1E72BDB500EBEAA9 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		B7A471C11E9F875200B10E22 /* ToolBoxDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBoxDetailViewController.swift; sourceTree = "<group>"; };
+		B7A471C31EA0C6D500B10E22 /* ToolBoxDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToolBoxDetailView.xib; sourceTree = "<group>"; };
+		B7A471C51EA0C77C00B10E22 /* ToolBoxDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBoxDetailView.swift; sourceTree = "<group>"; };
 		B7A50BE91E826F5E00D82A84 /* WatsonChatDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatsonChatDetailViewController.swift; sourceTree = "<group>"; };
 		B7A50BEB1E82812C00D82A84 /* MiscellaneousService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiscellaneousService.swift; sourceTree = "<group>"; };
 		B7A50BED1E83E7E500D82A84 /* DistributionListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributionListService.swift; sourceTree = "<group>"; };
@@ -281,6 +285,8 @@
 				B7B5F6151E8A5C40000335B3 /* CustomTabBar.swift */,
 				B78E7A941E93BD31005D3825 /* CAPSPageMenu.swift */,
 				B7B5F6161E8A5C40000335B3 /* CustomTabBarItem.swift */,
+				B7A471C51EA0C77C00B10E22 /* ToolBoxDetailView.swift */,
+				B7A471C31EA0C6D500B10E22 /* ToolBoxDetailView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -481,6 +487,7 @@
 				B4562FF51DF9ADBC00171C0B /* Movie1.mp4 in Resources */,
 				B4562FF61DF9ADBC00171C0B /* Movie2.mp4 in Resources */,
 				B4CBCF9F1DD91EA70003074A /* LaunchScreen.storyboard in Resources */,
+				B7A471C41EA0C6D500B10E22 /* ToolBoxDetailView.xib in Resources */,
 				B4CBCF9C1DD91EA70003074A /* Assets.xcassets in Resources */,
 				B48B186B1DDA0A4D008CE7C2 /* ChatInputAccessoryView.xib in Resources */,
 				B4CBCF9A1DD91EA70003074A /* Main.storyboard in Resources */,
@@ -562,6 +569,7 @@
 				B4D160FB1DDBF19D00D436F1 /* SpeechToTextService.swift in Sources */,
 				B79D3A2A1E814CCA0035133B /* StringTrimExtension.swift in Sources */,
 				B78A6F6D1E7927540081CFE1 /* SettingsViewController.swift in Sources */,
+				B7A471C61EA0C77C00B10E22 /* ToolBoxDetailView.swift in Sources */,
 				B40FDFE81DE27E8D00BE07EB /* UIColor+Hex.swift in Sources */,
 				B40FDFE61DDF89BF00BE07EB /* CustomButton.swift in Sources */,
 				B4395A001DE50DD400F2C075 /* CustomView.swift in Sources */,

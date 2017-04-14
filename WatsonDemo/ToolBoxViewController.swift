@@ -9,7 +9,7 @@
 import UIKit
 import BoxContentSDK
 
-class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate {
+class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate,AutoViewDelegate {
     
     var pageMenu : CAPSPageMenu?
     var controller1 : GeneralSafetyViewController! = nil
@@ -18,13 +18,24 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate {
     var cIndex : Int! = 0
     var controllerArray : [UIViewController] = []
     var itemValue = [BOXItem]()
+    var  urlStr = ""
+    
 
+    @IBOutlet weak var BackButton: UIButton!
+    @IBOutlet weak var backArrowImage: UIImageView!
+    @IBOutlet weak var signOutButton: UIButton!
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
         let boxContent = BOXContentClient.default()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
-        let folderInforequrest = boxContent?.fileInfoRequest(withID: "23139323816")
+        
+        
+    
+        
+ //       let folderInforequrest = boxContent?.fileInfoRequest(withID: "23139323816")
         
 //        boxContent?.authenticate(completionBlock:{(file: BOXUser?, err:Error?) -> Void in
 //            if (err == nil) {
@@ -118,6 +129,78 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate {
         controllerArray.append(generalVc)
         let autoVc = storyBoard.instantiateViewController(withIdentifier: "AutoViewController") as! AutoViewController
         autoVc.title = "Auto"
+        autoVc.delegate = self
+        controllerArray.append(autoVc)
+        let liabilityVc = storyBoard.instantiateViewController(withIdentifier: "LiabilityViewController") as! LiabilityViewController
+        liabilityVc.title = "Liability"
+        controllerArray.append(liabilityVc)
+        let propertyVc = storyBoard.instantiateViewController(withIdentifier: "PropertyViewController") as! PropertyViewController
+        propertyVc.title = "Property"
+        controllerArray.append(propertyVc)
+        
+        let width : Int  = Int(self.view.frame.size.width)
+        
+        let itemWidth = width/controllerArray.count-10
+        print(itemWidth)
+        let parameters: [CAPSPageMenuOption] = [
+            .ScrollMenuBackgroundColor(UIColor(red: 216.0/255.0, green: 156.0/255.0, blue: 85.0/255.0, alpha: 1.0)),
+            .ViewBackgroundColor(UIColor.white),//(red: 220.0/255.0, green: 220.0/255.0, blue: 220.0/255.0, alpha: 1.0)),
+            .SelectionIndicatorColor(UIColor.white),
+            .BottomMenuHairlineColor(UIColor.white),//(red: 170.0/255.0, green: 170.0/255.0, blue: 180.0/255.0, alpha: 1.0)),
+            .UnselectedMenuItemLabelColor(UIColor(red: 99.0/255.0, green: 100.0/255.0, blue: 102.0/255.0, alpha: 1.0)),
+            .SelectedMenuItemLabelColor(UIColor.white),
+            .MenuItemFont(UIFont.systemFont(ofSize: 12)),
+            .MenuHeight(40.0),
+            .MenuItemWidth(CGFloat(itemWidth)),
+            .CenterMenuItems(true),
+            .SelectedMenuItemLabelColor(UIColor.black)
+        ]
+        
+        // Initialize scroll menu
+        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x:0.0, y:110.0, width:self.view.frame.width, height:self.view.frame.height-60), pageMenuOptions: parameters)
+        pageMenu?.delegate = self
+        self.addChildViewController(pageMenu!)
+        self.view.addSubview(pageMenu!.view)
+        
+        pageMenu!.didMove(toParentViewController: autoVc)
+    }
+    
+    
+    
+    func loadDetailViewForToolBox(with value:String){
+        signOutButton.isHidden = true
+        backArrowImage.isHidden = false
+        BackButton.isHidden = false
+        self.urlStr = value
+        self.loadDetailViewUIConstruct()
+        hideBootomTab()
+    }
+    
+    
+    @IBAction func backButtonPressed(_ sender: Any) {
+        backArrowImage.isHidden = true
+        BackButton.isHidden = true
+        self.pageMenu!.view.removeFromSuperview()
+        controllerArray.removeAll()
+        showBottomBar()
+        loadViewUIConstruct()
+        
+        
+    }
+    
+    
+    func loadDetailViewUIConstruct()  {
+        
+        self.pageMenu!.view.removeFromSuperview()
+        controllerArray.removeAll()
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let generalVc = storyBoard.instantiateViewController(withIdentifier: "GeneralSafetyViewController") as! GeneralSafetyViewController
+        generalVc.title = "General Safety"
+        controllerArray.append(generalVc)
+        let autoVc = storyBoard.instantiateViewController(withIdentifier: "ToolBoxDetailViewController") as! ToolBoxDetailViewController
+        autoVc.title = "Auto"
+        autoVc.loadUrlStr = self.urlStr
         
         controllerArray.append(autoVc)
         let liabilityVc = storyBoard.instantiateViewController(withIdentifier: "LiabilityViewController") as! LiabilityViewController
@@ -154,6 +237,18 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate {
         pageMenu!.didMove(toParentViewController: autoVc)
     }
     
+    
+    func hideBootomTab() {
+        let customTBVc = self.tabBarController as! CustomTabBarViewController
+        
+        customTBVc.customTabBar.isHidden = true
+    }
+    
+    func showBottomBar() {
+        let customTBVc = self.tabBarController as! CustomTabBarViewController
+        
+        customTBVc.customTabBar.isHidden = false
+    }
     
     
 

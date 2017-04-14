@@ -10,6 +10,9 @@ import UIKit
 
 class CustomTabBarViewController: UITabBarController, CustomTabBarDataSource, CustomTabBarDelegate, UITabBarControllerDelegate {
     
+    
+    let customTabBar = CustomTabBar()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,19 +24,21 @@ class CustomTabBarViewController: UITabBarController, CustomTabBarDataSource, Cu
         
         //let newFrame =
         
-        let customTabBar = CustomTabBar(frame: CGRect(x: 0, y: self.view.frame.size.height-60, width: self.view.frame.size.width, height: 60))//self.tabBar.frame)
-        customTabBar.datasource = self
-        customTabBar.delegate = self
-        customTabBar.setup()
+        self.customTabBar.frame = CGRect(x: 0, y: self.view.frame.size.height-60, width: self.view.frame.size.width, height: 60)
         
-        customTabBar.tabBarButtons[2].isEnabled = false
-        customTabBar.tabBarButtons[3].isEnabled = false
+        //let customTabBar = CustomTabBar(frame: )//self.tabBar.frame)
+        self.customTabBar.datasource = self
+        self.customTabBar.delegate = self
+        self.customTabBar.setup()
         
-        customTabBar.tabBarButtons[2].alpha = 0.2
-        customTabBar.tabBarButtons[3].alpha = 0.2
+        self.customTabBar.tabBarButtons[2].isEnabled = false
+        self.customTabBar.tabBarButtons[3].isEnabled = false
+        
+        self.customTabBar.tabBarButtons[2].alpha = 0.2
+        self.customTabBar.tabBarButtons[3].alpha = 0.2
         
         
-        self.view.addSubview(customTabBar)
+        self.view.addSubview(self.customTabBar)
     }
     
     // MARK: - CustomTabBarDataSource
