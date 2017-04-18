@@ -26,6 +26,13 @@ import UIKit
     @objc optional func didMoveToPage(controller: UIViewController, index: Int)
 }
 
+enum UIUserInterfaceIdiom : Int {
+    case unspecified
+    
+    case phone
+    case pad
+}
+
 class MenuItemViewT: UIView {
     // MARK: - Menu item view
     
@@ -767,7 +774,15 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
    // func handleMenuItemTap(gestureRecognizer : UITapGestureRecognizer)
     func handleMenuItemTap() {
         //let tappedPoint : CGPoint = gestureRecognizer.location(in: menuScrollView)
-        let tappedPoint : CGPoint = CGPoint(x:133.0,y:20.5)
+        let tappedPoint : CGPoint!
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            tappedPoint = CGPoint(x:233.0,y:20.5)
+            
+        }else{
+           tappedPoint = CGPoint(x:133.0,y:20.5)
+        }
+        
+        
         
         print(tappedPoint)
         

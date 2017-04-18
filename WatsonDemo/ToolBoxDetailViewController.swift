@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol ToolBoxDetailViewDelegate
+{
+    func exitFullScreenVideo()
+    
+}
+
 class ToolBoxDetailViewController: UIViewController {
 
     @IBOutlet weak var starButton1: UIButton!
@@ -16,6 +22,7 @@ class ToolBoxDetailViewController: UIViewController {
     @IBOutlet weak var starButton4: UIButton!
     @IBOutlet weak var starButton5: UIButton!
     @IBOutlet weak var loadDataWebView: UIWebView!
+    @IBOutlet weak var headerView: UIView!
     var loadUrlStr : String!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +30,26 @@ class ToolBoxDetailViewController: UIViewController {
         print("myyyyUURRRRRLLLLLL to load..\(loadUrlStr)")
         loadDataInWebView(linkURL: loadUrlStr!)
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        
+        
+        NotificationCenter.default.addObserver(self,selector: #selector(self.playerDidFinishPlaying),name:NSNotification.Name(rawValue: "UIMoviePlayerControllerDidEnterFullscreenNotification"),object:nil)
+        
+       // NotificationCenter.default.addObserver(self,selector: #selector(self.playerDidFinishPlaying),name:NSNotification.Name.UIWindowDidBecomeHidden,object:nil)
+        
+        
+       // self.view.frame(CGRect(x:0,y:0,width:self.view.frame.size.width, height:self.view.frame.size.height))
+        //self.view.frame = CGRect(x:0,y:100,width:self.view.frame.size.width, height:self.view.frame.size.height-100)
+       // [self.view setFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height)];
+        self.view.setNeedsDisplay()
+    }
+    
+    func playerDidFinishPlaying() {
+        print("ppppppppppppp>>>>>>>>>>>PPPPPPPPlayeeeerrrrrrrMethod")
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,7 +86,7 @@ class ToolBoxDetailViewController: UIViewController {
             
             // Set up your HTML.  The key URL parameters here are playsinline=1 and autoplay=1
             // Replace the height and width of the player here to match your UIWebView's  frame rect
-            let embededHTML = "<html><body style='margin:0px;padding:0px;'><script type='text/javascript' src='http://www.youtube.com/iframe_api'></script><script type='text/javascript'>function onYouTubeIframeAPIReady(){ytplayer=new YT.Player('playerId',{events:{onReady:onPlayerReady}})}function onPlayerReady(a){a.target.playVideo();}</script><iframe id='playerId' type='text/html' width='\(self.loadDataWebView.frame.size.width)' height='\(300)' src='http://www.youtube.com/embed/\(videoID!)?enablejsapi=1&rel=0&playsinline=1&autoplay=1' frameborder='0'></body></html>"
+            let embededHTML = "<html><body style='margin:0px;padding:0px;'><script type='text/javascript' src='http://www.youtube.com/iframe_api'></script><script type='text/javascript'>function onYouTubeIframeAPIReady(){ytplayer=new YT.Player('playerId',{events:{onReady:onPlayerReady}})}function onPlayerReady(a){a.target.playVideo();}</script><iframe id='playerId' type='text/html' width='\(self.view.frame.size.width)' height='\(300)' src='http://www.youtube.com/embed/\(videoID!)?enablejsapi=1&rel=0&playsinline=1&autoplay=1' frameborder='0'></body></html>"
             
             // Load your webView with the HTML we just set up
             loadDataWebView.loadHTMLString(embededHTML, baseURL: Bundle.main.bundleURL)
@@ -68,6 +95,10 @@ class ToolBoxDetailViewController: UIViewController {
             loadDataWebView.loadRequest(NSURLRequest(url: NSURL(string: linkURL!)! as URL) as URLRequest)
         }
     }
+    
+    
+    
+    
     
 
     @IBAction func starButtonPressed(_ sender: Any) {
@@ -140,6 +171,24 @@ class ToolBoxDetailViewController: UIViewController {
 //            playBtn.setImage(imgPause,forState:UIControlState.Normal)
 //        }
     }
+    
+    
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(youTubeStarted:) name:@"UIMoviePlayerControllerDidEnterFullscreenNotification" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(youTubeFinished:) name:@"UIMoviePlayerControllerDidExitFullscreenNotification" object:nil];
+//}
+//
+//-(void)youTubeStarted:(NSNotification *)notification{
+//    // your code here
+//}
+//
+//-(void)youTubeFinished:(NSNotification *)notification{
+//    // your code here
+//}
+    
+    
+    
+    
     /*
     // MARK: - Navigation
 

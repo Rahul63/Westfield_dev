@@ -12,18 +12,26 @@ import BoxContentSDK
 protocol AutoViewDelegate
 {
     func loadDetailViewForToolBox(with value:String)
+    func tableDidSelectCalled()
     
 }
 
-class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,ToolBoxSearchDelegate {
     var delegate: AutoViewDelegate?
+    var helpViewBG = UIView()
+    var  indicatorView = ActivityView()
     var cIndex : Int! = 0
     var itemValue = [BOXItem]()
     @IBOutlet weak var autoTableView: UITableView!
+    var searching: Bool = false
+    var ToolBxV = ToolBoxViewController()
+    var SearchData:[BOXItem] = []
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        ToolBxV.delegate = self
         let boxContent = BOXContentClient.default()
         boxContent?.authenticate(completionBlock:{(file: BOXUser?, err:Error?) -> Void in
             if (err == nil) {
@@ -39,7 +47,8 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        searching = false
+        StartAnimating()
         self.getToolBoxData()
     }
     
@@ -54,8 +63,10 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         searchFile?.perform(completion: {item in
             print(" MY Value..\(item)")
             if item.0 != nil {
+                self.stopAnimating()
                 self.itemValue = item.0! as! [BOXItem]
             }else{
+                self.stopAnimating()
                 let alert = UIAlertController(title: "Error", message: "Unable to fetch data", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
@@ -106,13 +117,36 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     
+    func searchedWithValue(with value:String){
+        print(value)
+        searching = true
+        let predicate=NSPredicate(format: "SELF.name CONTAINS[cd] %@", value)
+        let arr=(itemValue as NSArray).filtered(using: predicate)
+        print(arr,arr.count)
+        if arr.count > 0
+        {
+            SearchData.removeAll(keepingCapacity: true)
+            SearchData = arr as! [BOXItem]
+        }
+        else
+        {
+            SearchData=itemValue
+        }
+        autoTableView.reloadData()
+        
+    }
     
     
     
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
-        return self.itemValue.count
+        if searching {
+            return self.SearchData.count
+        }else{
+            return self.itemValue.count
+        }
+        
     }
     
     
@@ -120,63 +154,123 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var listCell: AutoViewCell!
         
-        if (listCell == nil) {
-            listCell = (tableView.dequeueReusableCell(withIdentifier: "AutoViewCell") as? AutoViewCell)!
-        }
-        listCell.selectionStyle = UITableViewCellSelectionStyle.none
-        listCell.titleLbl.text = self.itemValue[indexPath.row].name
-        listCell.descriptionLbl.text = self.itemValue[indexPath.row].itemDescription ?? "No description Available"
-        
-        if indexPath.row%2 == 0 {
-            listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display3")//UIImage(named:#imageLiteral(resourceName: "display3"))
-        }else if indexPath.row%3 == 0 {
-            listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display4")//UIImage(named:#imageLiteral(resourceName: "display3"))
+        if searching {
+            if (listCell == nil) {
+                listCell = (tableView.dequeueReusableCell(withIdentifier: "AutoViewCell") as? AutoViewCell)!
+            }
+            listCell.selectionStyle = UITableViewCellSelectionStyle.none
+            listCell.titleLbl.text = self.SearchData[indexPath.row].name
+            listCell.descriptionLbl.text = self.SearchData[indexPath.row].itemDescription ?? "No description Available"
+            
+            if indexPath.row%2 == 0 {
+                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display3")//UIImage(named:#imageLiteral(resourceName: "display3"))
+            }else if indexPath.row%3 == 0 {
+                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display4")//UIImage(named:#imageLiteral(resourceName: "display3"))
+            }else{
+                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display2")
+            }
+            
+            
+            
+            return listCell
         }else{
-            listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display2")
+            if (listCell == nil) {
+                listCell = (tableView.dequeueReusableCell(withIdentifier: "AutoViewCell") as? AutoViewCell)!
+            }
+            listCell.selectionStyle = UITableViewCellSelectionStyle.none
+            listCell.titleLbl.text = self.itemValue[indexPath.row].name
+            listCell.descriptionLbl.text = self.itemValue[indexPath.row].itemDescription ?? "No description Available"
+            
+            if indexPath.row%2 == 0 {
+                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display3")//UIImage(named:#imageLiteral(resourceName: "display3"))
+            }else if indexPath.row%3 == 0 {
+                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display4")//UIImage(named:#imageLiteral(resourceName: "display3"))
+            }else{
+                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display2")
+            }
+            
+            
+            
+            return listCell
         }
         
-        
-        
-        return listCell
         
     }
     
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
-        let itemData = self.itemValue[indexPath.row]
-        print(itemData)
-        print(itemData.jsonData)
-        if itemData.isFile{
-            print(itemData.name)
-            print("my URL link..\(itemData.sharedLink)")
-            
-            if itemData.sharedLink != nil{
-                let bxLink = itemData.sharedLink as BOXSharedLink
-                print("myShare UUUURRRLL\(bxLink.url)")
+        delegate?.tableDidSelectCalled()
+        if searching {
+            let itemData = self.SearchData[indexPath.row]
+            print(itemData)
+            print(itemData.jsonData)
+            if itemData.isFile{
+                print(itemData.name)
+                print("my URL link..\(itemData.sharedLink)")
                 
-                self.delegate?.loadDetailViewForToolBox(with: String(describing: bxLink.url!))
+                if itemData.sharedLink != nil{
+                    let bxLink = itemData.sharedLink as BOXSharedLink
+                    print("myShare UUUURRRLL\(bxLink.url)")
+                    
+                    self.delegate?.loadDetailViewForToolBox(with: String(describing: bxLink.url!))
+                }else{
+                    showAlert()
+                }
+                
+                
+            }
+            else if itemData.isBookmark{
+                print(itemData.name)
+                
+                let bookMarkItem =  itemData as? BOXBookmark
+                if let currentURL = bookMarkItem?.url.absoluteString {
+                    self.delegate?.loadDetailViewForToolBox(with: currentURL)
+                    print(currentURL)
+                } else {
+                    showAlert()
+                    // request is nil ...
+                    
+                }
+                
             }else{
                 showAlert()
             }
-            
-            
-        }
-        else if itemData.isBookmark{
-            print(itemData.name)
-            
-            let bookMarkItem =  itemData as? BOXBookmark
-            if let currentURL = bookMarkItem?.url.absoluteString {
-                self.delegate?.loadDetailViewForToolBox(with: currentURL)
-                print(currentURL)
-            } else {
-                showAlert()
-                // request is nil ...
+
+        }else{
+            let itemData = self.itemValue[indexPath.row]
+            print(itemData)
+            print(itemData.jsonData)
+            if itemData.isFile{
+                print(itemData.name)
+                print("my URL link..\(itemData.sharedLink)")
+                
+                if itemData.sharedLink != nil{
+                    let bxLink = itemData.sharedLink as BOXSharedLink
+                    print("myShare UUUURRRLL\(bxLink.url)")
+                    
+                    self.delegate?.loadDetailViewForToolBox(with: String(describing: bxLink.url!))
+                }else{
+                    showAlert()
+                }
+                
                 
             }
-            
-        }else{
-            showAlert()
+            else if itemData.isBookmark{
+                print(itemData.name)
+                
+                let bookMarkItem =  itemData as? BOXBookmark
+                if let currentURL = bookMarkItem?.url.absoluteString {
+                    self.delegate?.loadDetailViewForToolBox(with: currentURL)
+                    print(currentURL)
+                } else {
+                    showAlert()
+                    // request is nil ...
+                    
+                }
+                
+            }else{
+                showAlert()
+            }
+
         }
         
         
@@ -227,6 +321,34 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     
     
+    
+    
+    func StartAnimating() {
+        let screenSize: CGRect = UIScreen.main.bounds
+        
+        helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
+        helpViewBG.alpha = 0.4
+        helpViewBG.backgroundColor = UIColor.darkGray
+        
+        indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
+        //indicatorView.sizeThatFits(CGSize(width:150,height:150))
+        indicatorView.center = self.helpViewBG.center//CGPoint(x:self.view.center,y:self.view)
+        indicatorView.lineWidth = 5.0
+        indicatorView.strokeColor = .green
+        self.view.addSubview(helpViewBG)
+        helpViewBG.addSubview(indicatorView)
+        indicatorView.startAnimating()
+        
+        
+    }
+    func stopAnimating() {
+        indicatorView.stopAnimating()
+        indicatorView.hidesWhenStopped = true
+        helpViewBG.removeFromSuperview()
+        indicatorView.removeFromSuperview()
+        
+        
+    }
     
     
 

@@ -41,10 +41,10 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         super.viewDidLoad()
         
         
-        
-        let username = "7d80a6ad-74ee-4564-9f5f-3bc54324028e"
-        let password = "tYVex8dIA4xy"
-        let textToSpeech = TextToSpeech(username: username, password: password)
+        gettabbarInfo()
+        _ = "7d80a6ad-74ee-4564-9f5f-3bc54324028e"
+        _ = "tYVex8dIA4xy"
+        //let textToSpeech = TextToSpeech(username: username, password: password)
         
         
         self.headerView.backgroundColor = UIColor(netHex:0xd89c54)
@@ -204,6 +204,29 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         
     }
     
+    func gettabbarInfo() {
+       // let tabbar = CustomTabBarViewController()
+        
+//        print(tabbar.customTabBar.subviews)
+//        for items in tabbar.customTabBar.subviews{
+//            print("my items...\(items)")
+//            
+//        }
+    }
+    
+    func moveImage(view: UIImageView){
+        let toPoint: CGPoint = CGPoint(x:0.0, y:-10.0)
+        let fromPoint : CGPoint = CGPoint.zero
+        
+        let movement = CABasicAnimation(keyPath: "movement")
+        movement.isAdditive = true
+        movement.fromValue =  NSValue(cgPoint: fromPoint)
+        movement.toValue =  NSValue(cgPoint: toPoint)
+        movement.duration = 0.3
+        
+        view.layer.add(movement, forKey: "move")
+    }
+    
     
     
     func loadUrlLink(url : String?){
@@ -279,11 +302,11 @@ extension ChatViewController: UITableViewDelegate {
         let message = messages[indexPath.row]
 
         if message.type == MessageType.image {
-            return 240
+            return 220
         }
 
         if message.type == MessageType.Video {
-            return UIScreen.main.bounds.size.width * 0.76
+            return UIScreen.main.bounds.size.width * 0.66
         }
 
         return UITableViewAutomaticDimension
@@ -415,33 +438,97 @@ extension ChatViewController: ConversationServiceDelegate {
     
     internal func didReceiveMessageForTexttoSpeech(withText text: String){
         
-        print("myyyyyfirstTeexxttt>>>\(text)")
-        var foundText = text.replacingOccurrences(of: "<[^>]+>", with: " ", options: .regularExpression, range: nil)
+        var foundText = ""
+        var text = text
+        
+        if text.contains("tts="){
+            
+            let rangetts = text.range(of: "(?<=tts=)[^><]+(?=>)", options: .regularExpression)
+            
+            if rangetts != nil {
+                var optionsString = text.substring(with: rangetts!)
+                optionsString = optionsString.replacingOccurrences(of: "\"", with: "")
+                print(optionsString)
+                
+                let rangeImage = text.range(of:"<a[^>]*>(.*?)</a>", options:.regularExpression)
+                if rangeImage != nil {
+                    let optionsStringNew = text.substring(with: rangeImage!)
+                    print(optionsStringNew)
+                    if optionsString == "false" {
+                        text = text.replacingOccurrences(of: optionsStringNew, with: "")
+                    }
+                    print(text)
+                }
+                
+                
+            }
+        }
+        
+        if text.contains("<wcs:input>"){
+            text = text.replacingOccurrences(of: "<wcs:input>", with: "PauseVT")
+        }
+        
+        let range2 = text.range(of: "(?<=<sub alias=)[^><]+(?=>)", options: .regularExpression)
+        
+        if range2 != nil {
+            var optionsString = text.substring(with: range2!)
+            optionsString = optionsString.replacingOccurrences(of: "\"", with: "")
+            optionsString = optionsString.replacingOccurrences(of: "\\", with: "")
+            //optionsString = optionsString.replacingOccurrences(of: "<br>", with: "")
+            //print(optionsString)
+            
+            let rangeImage = text.range(of:"<a[^>]*>(.*?)</a>", options:.regularExpression)
+            if rangeImage != nil {
+                let optionsStringNew = text.substring(with: rangeImage!)
+                //print(optionsStringNew)
+                foundText = text.replacingOccurrences(of: optionsStringNew, with: optionsString)
+                foundText = foundText.replacingOccurrences(of: "<[^>]+>", with: " ", options: .regularExpression, range: nil)
+                //print(text)
+            }else{
+                let rangeImage = text.range(of:"<sub[^>]*>(.*?)</sub>", options:.regularExpression)
+                if rangeImage != nil {
+                    let optionsStringNew = text.substring(with: rangeImage!)
+                    //print(optionsStringNew)
+                    foundText = text.replacingOccurrences(of: optionsStringNew, with: optionsString)
+                    foundText = foundText.replacingOccurrences(of: "<[^>]+>", with: " ", options: .regularExpression, range: nil)
+                    //print(text)
+                }
+            }
+            
+            
+        }else{
+            foundText = text.replacingOccurrences(of: "<[^>]+>", with: " ", options: .regularExpression, range: nil)
+            let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+            let nsString = foundText as NSString
+            if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
+                let optionsString = nsString.substring(with: result.range)
+                //print("With optionsString..\(optionsString)")
+                foundText = foundText.replacingOccurrences(of: optionsString, with: "")
+                //print("Speech textt>URRRRLLL>>>\(foundText)")
+            }else{
+                foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            }
+            
+        }
+        
+        //print("myyyyyfirstTeexxttt>>>\(text)")
         let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
         let nsString = foundText as NSString
         if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
             let optionsString = nsString.substring(with: result.range)
-            print("With optionsString..\(optionsString)")
+            //print("With optionsString..\(optionsString)")
             foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-            print("Speech textt>URRRRLLL>>>\(foundText)")
-        }else{
-            foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-        }
-        
-        //<sub alias="prescription">Rx</sub>
-        let rangeImage = foundText.range(of:"<sub alias=(.*?)</sub>", options:.regularExpression)
-        if rangeImage != nil {
-            let optionsString = foundText.substring(with: rangeImage!)
-            print(optionsString)
+         //   print("Speech textt>URRRRLLL>>>\(foundText)")
         }
         
         
         
-        foundText = foundText.replacingOccurrences(of: "résumé", with: "resumay")
+        //foundText = foundText.replacingOccurrences(of: "résumé", with: "resumay")
         foundText = foundText.replacingOccurrences(of: "\",\"", with: "<paragraph> </paragraph>")
+        foundText = foundText.replacingOccurrences(of: "PauseVT", with: "<paragraph> </paragraph>")
         foundText = foundText.replacingOccurrences(of: " – ", with: " ")
-        print("<<<<<<<<NEWW<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
-        print("Speech textt>>WITHOUT>>\(foundText)")
+        //print("<<<<<<<<NEWW<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
+        //print("Speech textt>>Final>>\(foundText)")
         if (sharedInstnce.isVoiceOn == true){
             
             self.textToSpeechService.synthesizeSpeech(withText: foundText)

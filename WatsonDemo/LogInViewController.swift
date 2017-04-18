@@ -9,6 +9,7 @@
 import UIKit
 
 class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
+    var  indicatorView = ActivityView()
     @IBOutlet weak var userNameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var signInButton: UIButton!
@@ -38,7 +39,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         
 //         userValue = UserDefaults.standard.value(forKey: "UserDetail") as? NSArray
 //        if userValue.count>0 {
-          // self.logInUser()
+           //self.logInUser()
 //        }
         
         self.signInButton.layer.cornerRadius = 3.0
@@ -81,11 +82,12 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     }
     
     func validateSigningUser(userName:String, password:String) {
+        StartAnimating()
         logInService.serviceCallforLogin(withText: userName, and: password)
     }
     
     func didReceiveMessage(withText text: Any){
-        
+        stopAnimating()
         print("myValue>>>\(text)")
         self.logIndata = text as! NSArray
         
@@ -215,6 +217,25 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     
     
     
+    func StartAnimating() {
+        
+        indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
+        //indicatorView.sizeThatFits(CGSize(width:150,height:150))
+        indicatorView.center = self.view.center//CGPoint(x:self.view.center,y:self.view)
+        indicatorView.lineWidth = 5.0
+        indicatorView.strokeColor = .green
+        self.view.addSubview(indicatorView)
+        indicatorView.startAnimating()
+        
+        
+    }
+    func stopAnimating() {
+        indicatorView.stopAnimating()
+        indicatorView.hidesWhenStopped = true
+        indicatorView.removeFromSuperview()
+        
+        
+    }
     
     
 //    func keyboardNotification(notification: NSNotification) {

@@ -45,6 +45,7 @@
 		B4D160FB1DDBF19D00D436F1 /* SpeechToTextService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D160FA1DDBF19D00D436F1 /* SpeechToTextService.swift */; };
 		B4D161021DDBF2C600D436F1 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D161011DDBF2C600D436F1 /* Dictionary+Extension.swift */; };
 		B4F56E881DF722550068A426 /* UIImage+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F56E871DF722550068A426 /* UIImage+Assets.swift */; };
+		B70341061EA53D4500C52E47 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70341051EA53D4500C52E47 /* ActivityView.swift */; };
 		B705A6F31E96224900D5512A /* WatsonSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B705A6F21E96224900D5512A /* WatsonSingleton.swift */; };
 		B705A6F61E96520600D5512A /* AutoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B705A6F51E96520600D5512A /* AutoViewCell.swift */; };
 		B70967901E92624A0097AEFE /* ToolBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709678F1E92624A0097AEFE /* ToolBoxViewController.swift */; };
@@ -143,6 +144,7 @@
 		B4D160FA1DDBF19D00D436F1 /* SpeechToTextService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechToTextService.swift; sourceTree = "<group>"; };
 		B4D161011DDBF2C600D436F1 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		B4F56E871DF722550068A426 /* UIImage+Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Assets.swift"; sourceTree = "<group>"; };
+		B70341051EA53D4500C52E47 /* ActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		B705A6F21E96224900D5512A /* WatsonSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatsonSingleton.swift; sourceTree = "<group>"; };
 		B705A6F51E96520600D5512A /* AutoViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoViewCell.swift; sourceTree = "<group>"; };
 		B709678F1E92624A0097AEFE /* ToolBoxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBoxViewController.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				B7B5F6161E8A5C40000335B3 /* CustomTabBarItem.swift */,
 				B7A471C51EA0C77C00B10E22 /* ToolBoxDetailView.swift */,
 				B7A471C31EA0C6D500B10E22 /* ToolBoxDetailView.xib */,
+				B70341051EA53D4500C52E47 /* ActivityView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				B48B187F1DDB8D80008CE7C2 /* GlobalConstants.swift in Sources */,
 				B48B18621DD96859008CE7C2 /* ChatViewController.swift in Sources */,
 				B48B18691DD96FC5008CE7C2 /* CustomLabel.swift in Sources */,
+				B70341061EA53D4500C52E47 /* ActivityView.swift in Sources */,
 				B4F56E881DF722550068A426 /* UIImage+Assets.swift in Sources */,
 				B48B18811DDB908E008CE7C2 /* ConversationService.swift in Sources */,
 				B7A50BEC1E82812C00D82A84 /* MiscellaneousService.swift in Sources */,

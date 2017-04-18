@@ -22,7 +22,7 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
     var chatViewController: ChatViewController?
     var message: Message?
     var ytplayer = YTPlayerView()
-    
+    let detailWebView = UIWebView()
 
     // MARK: - VideoUrl
     var videoUrls = [URL]()
@@ -65,22 +65,31 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
                 playerViewController.player?.volume = 0
             #endif
             playerViewController.view.frame = CGRect(x: 20,
-                                                     y: 20,
+                                                     y: 0,
                                                      width: frame.size.width - 40,
-                                                     height: frame.size.height - 35)
+                                                     height: frame.size.height)
             self.addSubview(playerViewController.view)
             
             if videoUrls.contains(message.videoUrl!) == false {
-                playerViewController.player?.play()
+                //playerViewController.player?.play()
                 videoUrls.append(message.videoUrl!)
             }
             
         }else{
-            ytplayer.frame = CGRect(x: 20,y: 20,width: frame.size.width - 40,height: frame.size.height - 35)
-            self.addSubview(ytplayer)
-            ytplayer.delegate = self
-            //ytplayer.
-            self.ytplayer.load(withVideoId: videoId!)
+            
+            
+            detailWebView.frame = CGRect(x:20,y:0,width:frame.size.width - 40,height:frame.size.height)
+            
+            let embededHTML = "<html><body style='margin:0px;padding:0px;'><script type='text/javascript' src='http://www.youtube.com/iframe_api'></script><script type='text/javascript'>function onYouTubeIframeAPIReady(){ytplayer=new YT.Player('playerId',{events:{onReady:onPlayerReady}})}function onPlayerReady(a){;}</script><iframe id='playerId' type='text/html' width='\(detailWebView.frame.size.width)' height='\(detailWebView.frame.size.height)' src='http://www.youtube.com/embed/\(videoId!)?enablejsapi=1&rel=0&playsinline=1&autoplay=0' frameborder='0'></body></html>"
+            
+            // Load your webView with the HTML we just set up
+            detailWebView.loadHTMLString(embededHTML, baseURL: Bundle.main.bundleURL)
+            self.addSubview(detailWebView)
+//            ytplayer.frame = CGRect(x: 20,y: 0,width: frame.size.width - 40,height: frame.size.height)
+//            self.addSubview(ytplayer)
+//            ytplayer.delegate = self
+//            //ytplayer.
+//            self.ytplayer.load(withVideoId: videoId!)
             
             
         }

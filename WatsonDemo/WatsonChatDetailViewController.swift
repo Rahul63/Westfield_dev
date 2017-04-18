@@ -11,8 +11,10 @@ import UIKit
 class WatsonChatDetailViewController: UIViewController,UIWebViewDelegate {
     @IBOutlet weak var detailWebView: UIWebView!
     var urlStr: String?
-    
+    var helpViewBG = UIView()
+    var indicatorView = ActivityView()
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("myUrl>>>>>>\(urlStr)")
@@ -57,19 +59,49 @@ class WatsonChatDetailViewController: UIViewController,UIWebViewDelegate {
     
     
     func webViewDidStartLoad(_ webView: UIWebView){
-        self.activityIndicator.startAnimating()
+        //self.activityIndicator.startAnimating()
+        StartAnimating()
         
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView){
-        self.activityIndicator.stopAnimating()
+        //self.activityIndicator.stopAnimating()
+        stopAnimating()
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error){
-        self.activityIndicator.stopAnimating()
+        //self.activityIndicator.stopAnimating()
+        stopAnimating()
         
     }
     
+    
+    func StartAnimating() {
+        let screenSize: CGRect = UIScreen.main.bounds
+        
+        helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
+        helpViewBG.alpha = 0.4
+        helpViewBG.backgroundColor = UIColor.darkGray
+        
+        indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
+        //indicatorView.sizeThatFits(CGSize(width:150,height:150))
+        indicatorView.center = self.helpViewBG.center//CGPoint(x:self.view.center,y:self.view)
+        indicatorView.lineWidth = 5.0
+        indicatorView.strokeColor = .green
+        self.view.addSubview(helpViewBG)
+        helpViewBG.addSubview(indicatorView)
+        indicatorView.startAnimating()
+        
+        
+    }
+    func stopAnimating() {
+        indicatorView.stopAnimating()
+        indicatorView.hidesWhenStopped = true
+        helpViewBG.removeFromSuperview()
+        indicatorView.removeFromSuperview()
+        
+        
+    }
     
     
     override func didReceiveMemoryWarning() {
@@ -104,6 +136,8 @@ class WatsonChatDetailViewController: UIViewController,UIWebViewDelegate {
     */
 
 }
+
+
 
 extension WatsonChatDetailViewController{
     func extractYoutubeIdFromLink(link: String) -> String? {

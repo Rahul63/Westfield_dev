@@ -62,7 +62,7 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
         
         var text = message.text!//"rahul , I happen to have one (insert Box link here) in my toolkit.  You will see it’s short and simple, but powerful.  Take a look at it, if you agree, place it on your letterhead, add your name and sign it. Management commitment is step one; your employees need to take ownership as well.  As part of your training program, watch and share <a href=\\\"https://www.youtube.com/watch?v=Km8XxRCuCho\\\">this video</a> with your team. After they have watched it, conduct a brief meeting with them to share your safety policy and discuss the video with them. May I continue?"//message.text!
         
-        //print("My final text..>\(text)")
+        //print("My final text.To chat buuble.>\(text)")
         messageLabel.delegate = self
         
         for aView in chatStackView.arrangedSubviews{
@@ -117,15 +117,22 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
         else{
             
             var foundNew = ""
-            var inputText = ""
-            inputText = text.replacingOccurrences(of: "<[^>]+>", with: "        ", options: .regularExpression, range: nil)
-            inputText = inputText.replacingOccurrences(of: "  ,", with: "")
             
-            //print("mytext is..ELSEEEEEE.<<<<<<<.\(text)")
-           // messageLabel.text = inputText
+            if text.contains("</sub>"){
+                
+                let rangeImage = text.range(of:"<sub[^>]*>(.*?)</sub>", options:.regularExpression)
+                if rangeImage != nil {
+                    let optionsStringNew = text.substring(with: rangeImage!)
+                    print(optionsStringNew)
+                    foundNew = text.replacingOccurrences(of: "<sub[^>]*>(.*?)</sub>", with: "", options: .regularExpression, range: nil)
+                    print(foundNew)
+                }
+            }else{
+                foundNew = text
+            }
             
-            let rangeNew = text.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
-            let rangeNew2 = text.range(of:"(?=<)[^.]+(?=<\\)", options:.regularExpression)
+            let rangeNew = foundNew.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
+            let rangeNew2 = foundNew.range(of:"(?=<)[^.]+(?=<\\)", options:.regularExpression)
             if (rangeNew != nil || rangeNew2 != nil) {
                  foundNew = text.substring(with: rangeNew!)
                 
@@ -139,9 +146,11 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
                 messageLabel.text = strinLength
                 //print(strinLength)
                 var foundNewData = foundNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                if foundNewData.contains("</wcs:input") {
+                    foundNewData = foundNewData.replacingOccurrences(of: "</wcs:input", with: "")
+                    foundNewData = foundNewData.replacingOccurrences(of: "\n\n", with: "n&n")
+                }
                 
-                foundNewData = foundNewData.replacingOccurrences(of: "</wcs:input", with: "")
-                foundNewData = foundNewData.replacingOccurrences(of: "\n\n", with: "n&n")
                 optionData = foundNewData.components(separatedBy: "n&n")
                 //print(optionData)
                 
@@ -151,6 +160,7 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
                 //print("found ALL>>>>>: \(foundNew)")
                 //print("found ALL>>>OPTION>>: \(optionData) and count\(optionData.count)")
             }else{
+                text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
                 messageLabel.text = text
             }
         }

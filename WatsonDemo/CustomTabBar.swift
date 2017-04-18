@@ -33,6 +33,8 @@ class CustomTabBar: UIView {
     var tabBarItemWidth: CGFloat!
     var leftMask: UIView!
     var rightMask: UIView!
+    let selectedImageArray = ["advice_selected","toolBox_selected","news_selected","progress_selected","settings_selected"]
+    let unSelectedImageArray = ["Advice_icon","ToolBoxNew","NewsNew","Progress_icon","SettingsNew"]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,7 +53,7 @@ class CustomTabBar: UIView {
         customTabBarItems = []
         tabBarButtons = []
         
-        initialTabBarItemIndex = 1
+        initialTabBarItemIndex = 0
         selectedTabBarItemIndex = initialTabBarItemIndex
         
         slideAnimationDuration = 0.6
@@ -89,7 +91,8 @@ class CustomTabBar: UIView {
         }
         
         
-        self.customTabBarItems[initialTabBarItemIndex].iconView.tintColor = UIColor.blue
+        self.customTabBarItems[0].iconView.image = UIImage(named : "advice_selected")
+        self.customTabBarItems[0].titleLbl.textColor = UIColor.brown
         self.customTabBarItems[2].iconView.alpha = 0.5
         self.customTabBarItems[3].iconView.alpha = 0.5
     }
@@ -146,9 +149,10 @@ class CustomTabBar: UIView {
     func barItemTapped(_ sender : UIButton) {
         let index = tabBarButtons.index(of: sender)!
         
-        self.customTabBarItems[selectedTabBarItemIndex].iconView.tintColor = UIColor.black
-        
-        self.customTabBarItems[index].iconView.tintColor = UIColor.blue
+        self.customTabBarItems[selectedTabBarItemIndex].iconView.image = UIImage(named : unSelectedImageArray[selectedTabBarItemIndex])
+        self.customTabBarItems[selectedTabBarItemIndex].titleLbl.textColor = UIColor.white
+        self.customTabBarItems[index].iconView.image = UIImage(named : selectedImageArray[index])
+        self.customTabBarItems[index].titleLbl.textColor = UIColor.brown
         //animateTabBarSelection(from: selectedTabBarItemIndex, to: index)
         selectedTabBarItemIndex = index
         delegate.didSelectViewController(self, atIndex: index)

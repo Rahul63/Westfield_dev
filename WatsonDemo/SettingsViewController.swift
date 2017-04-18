@@ -17,6 +17,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     lazy var distributionService: DistributionListService = DistributionListService(delegate:self)
 
     @IBOutlet weak var settingsTableView: UITableView!
+    var  indicatorView = ActivityView()
     var store = CNContactStore()
     var helpView = UIView()
     var helpViewBG = UIView()
@@ -287,6 +288,8 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+        self.StartAnimating()
+        //self.view.alpha = 0.5
         profileService.serviceCallforGettingProfile(With: idValue)
         
 //        UserDefaults.standard.setValue(self.firstNameFld.text, forKey: "frstName")
@@ -347,9 +350,11 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     
     func SendMessageWithSwitchValue(with valueOnOff:String){
+        //self.view.isUserInteractionEnabled = false
         print(valueOnOff)
         isFromVoiceUpdate = true
         let tempData = self.userData[0]
+        self.StartAnimating()
         profileService.serviceCallforUserUpdate(withText: tempData.firstName, and: tempData.lastName, and: tempData.phoneNumber, and: tempData.email, and: idValue, and: valueOnOff)
         self.onOffValue = valueOnOff
     }
@@ -415,6 +420,9 @@ func pressed(sender: UIButton!) {
     
     
     func didReceiveMessage(withText text: Any){
+        //self.view.isUserInteractionEnabled = true
+        stopAnimating()
+        self.view.alpha = 1.0
         print("\(text)")
         
         if isFromVoiceUpdate! {
@@ -491,6 +499,34 @@ func pressed(sender: UIButton!) {
         //self.value = json["docs"] as! [String]
         //let text = json["docs"] as! NSArray
        // self.delegate?.didReceiveDistributionList(withText: text)
+        
+    }
+    
+    
+    func StartAnimating() {
+        let screenSize: CGRect = UIScreen.main.bounds
+        
+        helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
+        helpViewBG.alpha = 0.4
+        helpViewBG.backgroundColor = UIColor.darkGray
+        
+        indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
+        //indicatorView.sizeThatFits(CGSize(width:150,height:150))
+        indicatorView.center = self.view.center//CGPoint(x:self.view.center,y:self.view)
+        indicatorView.lineWidth = 5.0
+        indicatorView.strokeColor = .green
+        self.view.addSubview(helpViewBG)
+        helpViewBG.addSubview(indicatorView)
+        indicatorView.startAnimating()
+        
+        
+    }
+    func stopAnimating() {
+        indicatorView.stopAnimating()
+        indicatorView.hidesWhenStopped = true
+        helpViewBG.removeFromSuperview()
+        indicatorView.removeFromSuperview()
+        
         
     }
     

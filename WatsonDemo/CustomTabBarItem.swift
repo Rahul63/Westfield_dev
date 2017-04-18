@@ -43,7 +43,7 @@ class CustomTabBarItem: UIView {
         iconView.image = image
         iconView.sizeToFit()
         
-        titleLbl = UILabel(frame: CGRect(x: (self.frame.width-image.size.width)/2, y: (self.frame.height-14), width: self.frame.width, height: 14))
+        titleLbl = UILabel(frame: CGRect(x: (self.frame.width-image.size.width)/2-6, y: (self.frame.height-14), width: self.frame.width, height: 14))
         titleLbl.font = UIFont.boldSystemFont(ofSize: 11)
         titleLbl.textAlignment = NSTextAlignment.center
         titleLbl.textColor = UIColor.white

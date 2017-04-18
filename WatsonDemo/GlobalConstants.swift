@@ -45,7 +45,7 @@ struct GlobalConstants {
     
    //static let wcsWorkflowURL = "https://gateway.watsonplatform.net/conversation/api/v1/workspaces?version=2017-02-03"
     
-    static let wcsWorkflowURL = "http://westfiledlossadvisorpilot.mybluemix.net/cognitiveorchestrator2"
+    static let wcsWorkflowURL = "http://westfiledlossadvisorpilot.mybluemix.net/cognitiveorchestrator"
     
     static let valuesCall = "https://ineedawar.mybluemix.net/SimpleServlet?token=5531999940875&id=e562a47f-bfb3-4b74-a641-af5336591652&claimNumber=0001546961"
     
