@@ -17,6 +17,16 @@ class WatsonChatDetailViewController: UIViewController,UIWebViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let screenSize: CGRect = UIScreen.main.bounds
+        helpViewBG = UIView(frame: CGRect(x: 0, y: 60, width: screenSize.width , height: screenSize.height))
+        helpViewBG.alpha = 0.4
+        helpViewBG.backgroundColor = UIColor.darkGray
+        
+        indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
+        indicatorView.center = self.helpViewBG.center
+        self.view.addSubview(helpViewBG)
+        helpViewBG.addSubview(indicatorView)
+        helpViewBG.isHidden = true
         print("myUrl>>>>>>\(urlStr)")
         
         let videoID = self.extractYoutubeIdFromLink(link: urlStr!)
@@ -24,6 +34,8 @@ class WatsonChatDetailViewController: UIViewController,UIWebViewDelegate {
         if videoID != nil{
             detailWebView.allowsInlineMediaPlayback = true
             detailWebView.mediaPlaybackRequiresUserAction = false
+            
+
             print(videoID!)
             // get the ID of the video you want to play
              //videoID = "Km8XxRCuCho" // https://www.youtube.com/watch?v=zN-GGeNPQEg
@@ -77,27 +89,22 @@ class WatsonChatDetailViewController: UIViewController,UIWebViewDelegate {
     
     
     func StartAnimating() {
-        let screenSize: CGRect = UIScreen.main.bounds
-        
-        helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
-        helpViewBG.alpha = 0.4
-        helpViewBG.backgroundColor = UIColor.darkGray
-        
-        indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
-        //indicatorView.sizeThatFits(CGSize(width:150,height:150))
-        indicatorView.center = self.helpViewBG.center//CGPoint(x:self.view.center,y:self.view)
+        helpViewBG.isHidden = false
+                //indicatorView.sizeThatFits(CGSize(width:150,height:150))
+        //CGPoint(x:self.view.center,y:self.view)
         indicatorView.lineWidth = 5.0
-        indicatorView.strokeColor = .green
-        self.view.addSubview(helpViewBG)
-        helpViewBG.addSubview(indicatorView)
+        indicatorView.strokeColor = UIColor(red: 0.0/255, green: 122.0/255, blue: 255.0/255, alpha: 1)
+        
         indicatorView.startAnimating()
         
         
     }
     func stopAnimating() {
+        
+        helpViewBG.removeFromSuperview()
         indicatorView.stopAnimating()
         indicatorView.hidesWhenStopped = true
-        helpViewBG.removeFromSuperview()
+        
         indicatorView.removeFromSuperview()
         
         

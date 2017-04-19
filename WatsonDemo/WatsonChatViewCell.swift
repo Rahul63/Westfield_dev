@@ -73,27 +73,33 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
                 aView.removeFromSuperview()
             }
         }
+        
+        if text.contains("</sub>"){
+            let rangeImage = text.range(of:"<sub[^>]*>(.*\n?)</sub>", options:.regularExpression)
+            if rangeImage != nil {
+                let optionsStringNew = text.substring(with: rangeImage!)
+                let textStr = optionsStringNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                //print("optionsStringNew>>>>>>>>>>*********>>>>>>>\(optionsStringNew)")
+                //print(">>>>>>>>>textStr<<<<<<<<<BTWN.............&&&&&&...\(textStr)")
+                text = text.replacingOccurrences(of: optionsStringNew, with: textStr)
+                print(text)
+            }
+        }
+        
         text = text.replacingOccurrences(of: "<br>", with: "\n")
-        optionData = [""]
+        optionData.removeAll()
         text = text.replacingOccurrences(of: "\",\"", with: "\n\n")
 
-        print(self.chatBGvw.frame.width)
         let nsString = text as NSString
-        //let regex = try! NSRegularExpression(pattern: "<.*?>")
         let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
         
         if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
             var optionsString = nsString.substring(with: result.range)
             optionsString = optionsString.replacingOccurrences(of: "\\", with: "")
-            
             Doc.linkUrl = optionsString
-            
             //print("myOptionalString is...<<<<<<<.\(optionsString)")
-            
             text = text.replacingOccurrences(of: optionsString, with: "")
-            
             let range = text.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
-            
             if range != nil {
                 var found = text.substring(with: range!)
                 //print("found: \(found)") // found: google
@@ -116,43 +122,30 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
             
         else{
             
-            var foundNew = ""
-            
-            if text.contains("</sub>"){
-                
-                let rangeImage = text.range(of:"<sub[^>]*>(.*?)</sub>", options:.regularExpression)
-                if rangeImage != nil {
-                    let optionsStringNew = text.substring(with: rangeImage!)
-                    print(optionsStringNew)
-                    foundNew = text.replacingOccurrences(of: "<sub[^>]*>(.*?)</sub>", with: "", options: .regularExpression, range: nil)
-                    print(foundNew)
-                }
-            }else{
-                foundNew = text
-            }
+            var foundNew = text
+           // print("nextStep...\(text)")
             
             let rangeNew = foundNew.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
             let rangeNew2 = foundNew.range(of:"(?=<)[^.]+(?=<\\)", options:.regularExpression)
             if (rangeNew != nil || rangeNew2 != nil) {
-                 foundNew = text.substring(with: rangeNew!)
-                
-                var strinLength = text.replacingOccurrences(of: foundNew, with: "")
-                //print(strinLength)
-                //strinLength = strinLength.replacingOccurrences(of: " ", with: "")
+                let subString = foundNew.substring(with: rangeNew!)
+               // print("lets internal Value..\(foundNew)")
+                //print("lets internal subString..\(subString)")
+                var strinLength = foundNew.replacingOccurrences(of: subString, with: "")
+                //print("Strint to bubble...\(strinLength)")
                 strinLength = strinLength.replacingOccurrences(of: ">,", with: "")
                 strinLength = strinLength.replacingOccurrences(of: ">", with: "")
-                //let strinLengthCount:Int = strinLength.characters.count
-                //print("mystringLength>>>>\(strinLengthCount)")
+                strinLength = strinLength.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
                 messageLabel.text = strinLength
                 //print(strinLength)
-                var foundNewData = foundNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                if foundNewData.contains("</wcs:input") {
-                    foundNewData = foundNewData.replacingOccurrences(of: "</wcs:input", with: "")
-                    foundNewData = foundNewData.replacingOccurrences(of: "\n\n", with: "n&n")
+                if subString.contains("<wcs:input>") {
+                    var foundRedioBtnData = subString.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                    foundRedioBtnData = foundRedioBtnData.replacingOccurrences(of: "</wcs:input", with: "")
+                    foundRedioBtnData = foundRedioBtnData.replacingOccurrences(of: "\n\n", with: "n&n")
+                    optionData = foundRedioBtnData.components(separatedBy: "n&n")
+                    print(optionData)
                 }
                 
-                optionData = foundNewData.components(separatedBy: "n&n")
-                //print(optionData)
                 
                 if optionData.count>0 {
                     self.addRadioButtonsWithTitle(count: optionData.count)
@@ -160,12 +153,13 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
                 //print("found ALL>>>>>: \(foundNew)")
                 //print("found ALL>>>OPTION>>: \(optionData) and count\(optionData.count)")
             }else{
-                text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                messageLabel.text = text
+                foundNew = foundNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                messageLabel.text = foundNew
             }
         }
         
-        }
+        
+    }
     
     
     func addItemsInStckView() {

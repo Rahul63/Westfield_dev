@@ -351,105 +351,56 @@ extension ChatViewController: ConversationServiceDelegate {
         var opt = [String]()
         
         //print("<<<<<<<<<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
-        if (sharedInstnce.isVoiceOn == true){
+
+        let rangeN = text.range(of:"\",\"", options:.regularExpression)
+        if (rangeN != nil) {
+            let textN = text.replacingOccurrences(of: "\",\"", with: "n&n")
+            opt = textN.components(separatedBy: "n&n")
+            //print("my Watson message>>>>>>>>>>>>>>>>>>>\(textN)")
+            //print("my Watson message>>>>>>>>>>>>>>>>>>>\(opt)")
+            var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
             
-            let rangeN = text.range(of:"\",\"", options:.regularExpression)
-            if (rangeN != nil) {
-                let textN = text.replacingOccurrences(of: "\",\"", with: "n&n")
-                opt = textN.components(separatedBy: "n&n")
-                //print("my Watson message>>>>>>>>>>>>>>>>>>>\(textN)")
-                //print("my Watson message>>>>>>>>>>>>>>>>>>>\(opt)")
-                var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                
-                let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
-                let nsString = foundText as NSString
-                if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
-                    let optionsString = nsString.substring(with: result.range)
-                    foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-                    //print("With url.Newchat.\(foundText)")
-                }else{
-                   // print("With Normal new Chat..\(foundText)")
-                }
-                for item in 0..<opt.count{
-                    self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil))
-                }
-                
+            let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+            let nsString = foundText as NSString
+            if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
+                let optionsString = nsString.substring(with: result.range)
+                foundText = foundText.replacingOccurrences(of: optionsString, with: "")
+                //print("With url.Newchat.\(foundText)")
             }else{
-                
-                var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
-                let nsString = foundText as NSString
-                if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
-                    let optionsString = nsString.substring(with: result.range)
-                    //print("With optionsString..\(optionsString)")
-                    foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-                }else{
-                    //print("With Normal..\(foundText)")
-                }
-                self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
+                // print("With Normal new Chat..\(foundText)")
+            }
+            for item in 0..<opt.count{
+                self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil))
             }
             
         }else{
             
-            
-            let rangeN = text.range(of:"\",\"", options:.regularExpression)
-            if (rangeN != nil) {
-                let textN = text.replacingOccurrences(of: "\",\"", with: "n&n")
-                opt = textN.components(separatedBy: "n&n")
-                var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                
-                let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
-                let nsString = foundText as NSString
-                if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
-                    let optionsString = nsString.substring(with: result.range)
-                    foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-                    //print("With url.Newchat.\(foundText)")
-                }else{
-                 //   print("With Normal new Chat..\(foundText)")
-                }
-                for item in 0..<opt.count{
-                    //                 let foundText = opt[item].replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                    //
-                    //                self.textToSpeechService.synthesizeSpeech(withText: foundText)
-                    self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil))
-                }
-                
+            var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
+            let nsString = foundText as NSString
+            if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
+                let optionsString = nsString.substring(with: result.range)
+                //print("With optionsString..\(optionsString)")
+                foundText = foundText.replacingOccurrences(of: optionsString, with: "")
             }else{
-                
-                var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
-                let nsString = foundText as NSString
-                if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
-                    let optionsString = nsString.substring(with: result.range)
-                    //print("With optionsString..\(optionsString)")
-                    foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-                    //print("With url..\(foundText)")
-                }else{
-                    //print("With Normal..\(foundText)")
-                    //self.textToSpeechService.synthesizeSpeech(withText: foundText)
-                }
-                //self.textToSpeechService.synthesizeSpeech(withText: foundText)
-                self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
+                //print("With Normal..\(foundText)")
             }
-            
+            self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
         }
-
-    }
     
+    }
+
     internal func didReceiveMessageForTexttoSpeech(withText text: String){
         
         var foundText = ""
         var text = text
-        
+        print(text)
         if text.contains("tts="){
-            
             let rangetts = text.range(of: "(?<=tts=)[^><]+(?=>)", options: .regularExpression)
-            
             if rangetts != nil {
                 var optionsString = text.substring(with: rangetts!)
                 optionsString = optionsString.replacingOccurrences(of: "\"", with: "")
                 print(optionsString)
-                
                 let rangeImage = text.range(of:"<a[^>]*>(.*?)</a>", options:.regularExpression)
                 if rangeImage != nil {
                     let optionsStringNew = text.substring(with: rangeImage!)
@@ -459,8 +410,6 @@ extension ChatViewController: ConversationServiceDelegate {
                     }
                     print(text)
                 }
-                
-                
             }
         }
         
@@ -469,46 +418,45 @@ extension ChatViewController: ConversationServiceDelegate {
         }
         
         let range2 = text.range(of: "(?<=<sub alias=)[^><]+(?=>)", options: .regularExpression)
-        
         if range2 != nil {
-            var optionsString = text.substring(with: range2!)
-            optionsString = optionsString.replacingOccurrences(of: "\"", with: "")
-            optionsString = optionsString.replacingOccurrences(of: "\\", with: "")
-            //optionsString = optionsString.replacingOccurrences(of: "<br>", with: "")
-            //print(optionsString)
-            
-            let rangeImage = text.range(of:"<a[^>]*>(.*?)</a>", options:.regularExpression)
-            if rangeImage != nil {
-                let optionsStringNew = text.substring(with: rangeImage!)
-                //print(optionsStringNew)
-                foundText = text.replacingOccurrences(of: optionsStringNew, with: optionsString)
-                foundText = foundText.replacingOccurrences(of: "<[^>]+>", with: " ", options: .regularExpression, range: nil)
-                //print(text)
-            }else{
-                let rangeImage = text.range(of:"<sub[^>]*>(.*?)</sub>", options:.regularExpression)
-                if rangeImage != nil {
-                    let optionsStringNew = text.substring(with: rangeImage!)
-                    //print(optionsStringNew)
-                    foundText = text.replacingOccurrences(of: optionsStringNew, with: optionsString)
-                    foundText = foundText.replacingOccurrences(of: "<[^>]+>", with: " ", options: .regularExpression, range: nil)
-                    //print(text)
+            var correctedArray = [String]()
+            let nsString = text as NSString
+            let regex = try! NSRegularExpression(pattern: "(?<=<sub alias=)[^><]+(?=>)")
+            for text in regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)) {
+                print(text.numberOfRanges)
+                for i in 0..<text.numberOfRanges{
+                    let  rangg = text.rangeAt(i)
+                    
+                    var stringST = nsString.substring(with: rangg)
+                    stringST = stringST.replacingOccurrences(of: "\"", with: "")
+                    stringST = stringST.replacingOccurrences(of: "\\", with: "")
+                    //print(stringST)
+                    correctedArray.append(stringST)
+                    
                 }
             }
+            foundText = text
             
+            if correctedArray.count>0{
+                
+                for i in 0..<correctedArray.count{
+                    let rangeText2 = foundText.range(of:"<sub[^>]*>(.*?)</sub>", options:.regularExpression)
+                    
+                    if rangeText2 != nil {
+                        let optionsStringNew = foundText.substring(with: rangeText2!)
+                        print(optionsStringNew)
+                        foundText = foundText.replacingOccurrences(of: optionsStringNew, with: correctedArray[i])
+                        print(foundText)
+                            //print(text)
+                        
+                    }
+                }
+                foundText = foundText.replacingOccurrences(of: "<[^>]+>", with: " ", options: .regularExpression, range: nil)
+                
+            }
             
         }else{
             foundText = text.replacingOccurrences(of: "<[^>]+>", with: " ", options: .regularExpression, range: nil)
-            let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
-            let nsString = foundText as NSString
-            if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
-                let optionsString = nsString.substring(with: result.range)
-                //print("With optionsString..\(optionsString)")
-                foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-                //print("Speech textt>URRRRLLL>>>\(foundText)")
-            }else{
-                foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-            }
-            
         }
         
         //print("myyyyyfirstTeexxttt>>>\(text)")

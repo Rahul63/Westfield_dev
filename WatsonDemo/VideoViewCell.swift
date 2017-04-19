@@ -61,6 +61,7 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
             
             playerViewController = AVPlayerViewController()
             playerViewController.player = player
+            playerViewController.showsPlaybackControls = false
             #if DEBUG
                 playerViewController.player?.volume = 0
             #endif
@@ -71,7 +72,7 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
             self.addSubview(playerViewController.view)
             
             if videoUrls.contains(message.videoUrl!) == false {
-                //playerViewController.player?.play()
+                playerViewController.player?.play()
                 videoUrls.append(message.videoUrl!)
             }
             
@@ -79,9 +80,10 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
             
             
             detailWebView.frame = CGRect(x:20,y:0,width:frame.size.width - 40,height:frame.size.height)
-            
+            detailWebView.scrollView.isScrollEnabled = false
             let embededHTML = "<html><body style='margin:0px;padding:0px;'><script type='text/javascript' src='http://www.youtube.com/iframe_api'></script><script type='text/javascript'>function onYouTubeIframeAPIReady(){ytplayer=new YT.Player('playerId',{events:{onReady:onPlayerReady}})}function onPlayerReady(a){;}</script><iframe id='playerId' type='text/html' width='\(detailWebView.frame.size.width)' height='\(detailWebView.frame.size.height)' src='http://www.youtube.com/embed/\(videoId!)?enablejsapi=1&rel=0&playsinline=1&autoplay=0' frameborder='0'></body></html>"
             
+            //a.target.playVideo()
             // Load your webView with the HTML we just set up
             detailWebView.loadHTMLString(embededHTML, baseURL: Bundle.main.bundleURL)
             self.addSubview(detailWebView)

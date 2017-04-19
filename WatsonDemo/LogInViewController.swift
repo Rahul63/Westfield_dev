@@ -39,7 +39,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         
 //         userValue = UserDefaults.standard.value(forKey: "UserDetail") as? NSArray
 //        if userValue.count>0 {
-           //self.logInUser()
+    //       self.logInUser()
 //        }
         
         self.signInButton.layer.cornerRadius = 3.0
@@ -223,7 +223,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         //indicatorView.sizeThatFits(CGSize(width:150,height:150))
         indicatorView.center = self.view.center//CGPoint(x:self.view.center,y:self.view)
         indicatorView.lineWidth = 5.0
-        indicatorView.strokeColor = .green
+        indicatorView.strokeColor = UIColor(red: 0.0/255, green: 122.0/255, blue: 255.0/255, alpha: 1)
         self.view.addSubview(indicatorView)
         indicatorView.startAnimating()
         
