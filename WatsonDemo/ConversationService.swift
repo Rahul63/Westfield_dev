@@ -11,7 +11,8 @@ import Foundation
 protocol ConversationServiceDelegate: class {
     func didReceiveMessage(withText text: String, options: [String]?)
     func didReceiveMap(withUrl mapUrl: URL)
-    func didReceiveImage(withUrl imageUrl: URL)
+    func didReceiveImage(withUrl imageUrl: URL, andScale:String)
+    func didReceiveImageResizeFactor(with Value:Float)
     func didReceiveVideo(withUrl videoUrl: URL)
     
     func didReceiveMessageForTexttoSpeech(withText text: String)
@@ -161,6 +162,8 @@ class ConversationService {
         self.context = json["context"] as! String
         var text = json["text"] as! String//"<vid:src>https://ibm.box.com/shared/static/xlpe595snnem4swkvtihq0cz024un5s5.mp4</vid:src><br>Hi, I am glad you stopped by.  C’mon in.  I’m Max Safety, you can call me Max. I see you are from CIX DIRECT, LLC.  Good to meet you, what’s your name?" //json["text"] as! String//"Take a quick look at this Picture.  What do you see?<br><img:src>https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg</img:src>"//json["text"] as! String
         
+        // "<img:src resize=0.75>https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg</img:src> That’s great, glad to hear it.<br>,Hey Rahul , please take a quick look at my <a href=\"https://ibm.box.com/shared/static/3dp3x8gc7ar1t5orlaa0zcayjzejwfox.png\"><sub alias=\"resumay\">résumé</sub></a>"//
+        
        // var text  = "<img:src>https://ibm.box.com/shared/static/3cxzelnbpjm1og53abxnt3x5cjs1fbus.jpg</img:src><br>I’m sure your employees only want to work hard for you. They might not realize that what seems like a routine pill for pain could negatively impact their driving ability.\",\"Give me your best guess on how many adults you think have used prescription drugs in the past 30 days.<br><br><wcs:input>80%</wcs:input><br><br><wcs:input>50%</wcs:input><br><br><wcs:input>30%</wcs:input>"
         
          //var text  = "<vid:src>https://ibm.box.com/shared/static/xlpe595snnem4swkvtihq0cz024un5s5.mp4</vid:src><br>That’s great $User_First_Name, you are ahead of the competition. Most app stores have apps that can send an automatic text saying they are driving or even block incoming call alerts or test messages. Here is a <a href=\"https://www.verizonwireless.com/archive/mobile-living/home-and-family/apps-to-block-texting-while-driving\">list of apps</a> you can use on your company phones.<br><br>Ready to continue?"
@@ -171,17 +174,38 @@ class ConversationService {
         
         self.delegate?.didReceiveMessageForTexttoSpeech(withText: text)
         
-        var textN = text.replacingOccurrences(of: "", with: " ")
+        
         
         //<badgeCount>(\\d+)</badgeCount>
         
+        var scaleValue = ""
         
+        let range2 = text.range(of: "(?<=<img:src resize=)[^><]+(?=>)", options: .regularExpression)
+        if range2 != nil {
+            var optionsString = text.substring(with: range2!)
+            optionsString = optionsString.replacingOccurrences(of: "\"", with: "")
+            //print(optionsString)
+            scaleValue = optionsString
+            //self.delegate?.didReceiveImageResizeFactor(with: Float(optionsString)! )
+            let rangeReplace = text.range(of: "<img:src[^>]*>", options: .regularExpression)
+            if rangeReplace != nil {
+                var optionsStringIm = text.substring(with: rangeReplace!)
+                optionsStringIm = optionsStringIm.replacingOccurrences(of: "\"", with: "")
+                //print(optionsStringIm)
+                //print(text)
+                text = text.replacingOccurrences(of: optionsStringIm, with: "<img:src>")
+                //print(text)
+            }
+            
+        }
+        var textN = text.replacingOccurrences(of: "", with: " ")
         //var foundText = textN.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         //let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\"\\]\\)])")
         let rangeImage = text.range(of:"<img:src>(.*?)</img:src>", options:.regularExpression)
         let rangeVideo = text.range(of:"<vid:src>(.*?)</vid:src>", options:.regularExpression)
         
         if (rangeImage != nil) {
+        
             var optionsString = text.substring(with: rangeImage!)
             textN = textN.replacingOccurrences(of: optionsString, with: "MIVD.n&n")
             textN = textN.replacingOccurrences(of: "\",\"", with: "n&n")
@@ -193,7 +217,7 @@ class ConversationService {
             //print("With optionsString..\(optionsString)>>>>>>>>>>>>>>")
             
             opt = textN.components(separatedBy: "n&n")
-            print(opt)
+            //print(opt)
             if opt.count > 0{
                 for item in 0..<opt.count{
                     /// sleep(1)
@@ -209,7 +233,12 @@ class ConversationService {
                         }
                         
                         let imageUrl = URL(string: optionsString)
-                        self.delegate?.didReceiveImage(withUrl: imageUrl!)
+                        if scaleValue != "" {
+                            self.delegate?.didReceiveImage(withUrl: imageUrl!, andScale: scaleValue)
+                        }else{
+                            self.delegate?.didReceiveImage(withUrl: imageUrl!, andScale: "1.0")
+                        }
+                        
                     }else{
                         self.delegate?.didReceiveMessage(withText: chatTxt, options: nil)
                     }
@@ -235,12 +264,12 @@ class ConversationService {
             //print("With optionsString.Video.\(optionsString)>>>>>>>>>>>>>>")
             opt = textN.components(separatedBy: "n&n")
             
-            print(opt)
+            //print(opt)
             if opt.count > 0{
                 for item in 0..<opt.count{
                     /// sleep(1)
                     var chatTxt = opt[item]
-                    print(chatTxt)
+                    //print(chatTxt)
                     chatTxt = chatTxt.replacingOccurrences(of: "</vid:src>", with: "")
                     chatTxt = chatTxt.replacingOccurrences(of: "</img:src>", with: "")
                     if chatTxt.contains("MIVD.") {

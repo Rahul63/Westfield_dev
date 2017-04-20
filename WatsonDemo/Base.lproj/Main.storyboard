@@ -462,10 +462,10 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="UserViewCell" rowHeight="170" id="29N-9W-NYm" customClass="UserViewCell" customModule="WatsonDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="56" width="383" height="170"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="383" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="29N-9W-NYm" id="3fF-K8-HEr">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="169"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="169.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="settings_Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="fFR-oC-lN8">
@@ -527,10 +527,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="VoiceViewCell" rowHeight="56" id="h7c-wC-1ot" customClass="VoiceViewCell" customModule="WatsonDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="226" width="383" height="56"/>
+                                        <rect key="frame" x="0.0" y="225.5" width="383" height="56"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="h7c-wC-1ot" id="lT3-yb-Nzw">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="55"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="55.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Voice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G1x-vP-Bbk">
@@ -563,10 +563,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DistributionViewCell" rowHeight="56" id="12B-dm-aoc" customClass="DistributionViewCell" customModule="WatsonDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="282" width="383" height="56"/>
+                                        <rect key="frame" x="0.0" y="281.5" width="383" height="56"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="12B-dm-aoc" id="4fh-V8-cOF">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="55"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="55.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Distribution List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r8t-IW-ZS7">
@@ -595,10 +595,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DistListViewCell" rowHeight="89" id="279-2H-n51" customClass="DistListViewCell" customModule="WatsonDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="338" width="383" height="89"/>
+                                        <rect key="frame" x="0.0" y="337.5" width="383" height="89"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="279-2H-n51" id="7R7-jM-iKm">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="88"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="88.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1y3-UI-UmI">
@@ -2055,17 +2055,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="140"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ETF-5d-NVy" userLabel="MapImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ETF-5d-NVy" userLabel="MapImageView">
                                                     <rect key="frame" x="13" y="5" width="350" height="130"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstItem="ETF-5d-NVy" firstAttribute="width" secondItem="0hf-wd-wKg" secondAttribute="width" priority="750" constant="-25" id="Lmi-rp-3vF"/>
-                                                <constraint firstAttribute="topMargin" secondItem="ETF-5d-NVy" secondAttribute="top" priority="750" constant="3" id="OXA-8B-nrm"/>
-                                                <constraint firstItem="ETF-5d-NVy" firstAttribute="centerX" secondItem="0hf-wd-wKg" secondAttribute="centerX" priority="750" id="ZT1-cY-NsI"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="ETF-5d-NVy" secondAttribute="bottom" constant="-3" id="uNW-hq-OBh"/>
+                                                <constraint firstItem="ETF-5d-NVy" firstAttribute="centerY" secondItem="0hf-wd-wKg" secondAttribute="centerY" id="IM1-UJ-EQr"/>
+                                                <constraint firstItem="ETF-5d-NVy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0hf-wd-wKg" secondAttribute="leadingMargin" constant="5" id="UIQ-KN-zGq"/>
+                                                <constraint firstItem="ETF-5d-NVy" firstAttribute="centerX" secondItem="0hf-wd-wKg" secondAttribute="centerX" id="aAG-XK-Cnx"/>
+                                                <constraint firstItem="ETF-5d-NVy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="0hf-wd-wKg" secondAttribute="topMargin" constant="-3" id="hX2-yl-5tu"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

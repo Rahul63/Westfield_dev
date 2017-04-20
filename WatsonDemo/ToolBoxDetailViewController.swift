@@ -59,15 +59,16 @@ class ToolBoxDetailViewController: UIViewController {
     
     @IBAction func shareButtonTapped(_ sender: Any) {
         
-        let image = UIImage(named: "watson_icon")
+        //let image = UIImage(named: "watson_icon")
         
         // set up activity view controller
-        let imageToShare = [ image! ]
-        let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+        let itemToShare = [ loadUrlStr! ]
+        let activityViewController = UIActivityViewController(activityItems: itemToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
         
         // exclude some activity types from the list (optional)
-        //activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook,UIActivityType.addToReadingList,UIActivityType.print,UIActivityType.copyToPasteboard,UIActivityType.postToVimeo,UIActivityType.assignToContact,UIActivityType.saveToCameraRoll,UIActivityType.openInIBooks,UIActivityType.postToWeibo,UIActivityType(rawValue: "com.apple.mobilenotes.SharingExtension"),UIActivityType(rawValue: "com.apple.reminders.RemindersEditorExtension")]
+        //activityViewController.
         
         // present the view controller
         self.present(activityViewController, animated: true, completion: nil)

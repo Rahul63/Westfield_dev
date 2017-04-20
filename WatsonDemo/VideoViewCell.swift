@@ -75,20 +75,25 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
                 playerViewController.player?.play()
                 videoUrls.append(message.videoUrl!)
             }
+            NotificationCenter.default.addObserver(self,selector: #selector(VideoViewCell.playerDidFinishPlaying),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,object: player.currentItem)
             
         }else{
             
             
             detailWebView.frame = CGRect(x:20,y:0,width:frame.size.width - 40,height:frame.size.height)
             detailWebView.scrollView.isScrollEnabled = false
-            let embededHTML = "<html><body style='margin:0px;padding:0px;'><script type='text/javascript' src='http://www.youtube.com/iframe_api'></script><script type='text/javascript'>function onYouTubeIframeAPIReady(){ytplayer=new YT.Player('playerId',{events:{onReady:onPlayerReady}})}function onPlayerReady(a){;}</script><iframe id='playerId' type='text/html' width='\(detailWebView.frame.size.width)' height='\(detailWebView.frame.size.height)' src='http://www.youtube.com/embed/\(videoId!)?enablejsapi=1&rel=0&playsinline=1&autoplay=0' frameborder='0'></body></html>"
+            let embededHTML = "<html><body style='margin:0px;padding:0px;'><script type='text/javascript' src='http://www.youtube.com/iframe_api'></script><script type='text/javascript'>function onYouTubeIframeAPIReady(){ytplayer=new YT.Player('playerId',{events:{onReady:onPlayerReady}})}function onPlayerReady(a){;}</script><iframe id='playerId' type='text/html' width='\(detailWebView.frame.size.width)' height='\(detailWebView.frame.size.height)' src='http://www.youtube.com/embed/\(videoId!)?enablejsapi=1&rel=0&playsinline=1&autoplay=1&fs=0&showinfo=0' frameborder='0'></body></html>"
             
             //a.target.playVideo()
             // Load your webView with the HTML we just set up
             detailWebView.loadHTMLString(embededHTML, baseURL: Bundle.main.bundleURL)
+            detailWebView.allowsInlineMediaPlayback = true
             self.addSubview(detailWebView)
 //            ytplayer.frame = CGRect(x: 20,y: 0,width: frame.size.width - 40,height: frame.size.height)
 //            self.addSubview(ytplayer)
+//            ytplayer.showinfo = 0
+//            ytplayer.playsinline = 0
+//            
 //            ytplayer.delegate = self
 //            //ytplayer.
 //            self.ytplayer.load(withVideoId: videoId!)
@@ -121,11 +126,8 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
 //            videoUrls.append(message.videoUrl!)
 //        }
 
-//        NotificationCenter.default.addObserver(self,
-//                                               selector: #selector(VideoViewCell.playerDidFinishPlaying),
-//                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-//                                               object: player.currentItem)
-//
+       
+
 
 //        let player = AVPlayer(url: message.videoUrl!)
 //        let playerLayer = AVPlayerLayer(player: player)
@@ -168,8 +170,9 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
     }
 
     func playerDidFinishPlaying() {
+        print("videooooooEEENNDDEEDD")
 //        if chatViewController?.messages.last?.type == message?.type {
-//            chatViewController?.conversationService.sendMessage(withText: "OK")
+//            chatViewController?.conversationService.sendMessage(withText: "-2")
 //        }
     }
 

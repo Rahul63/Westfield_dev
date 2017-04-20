@@ -18,6 +18,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         static let conversationKickoffMessage = "Hi"
     }
 
+    var heightAtIndexPath = NSMutableDictionary()
     @IBOutlet weak var chatTableHeight: NSLayoutConstraint!
     // MARK: - Outlets
     @IBOutlet weak var chatTableBottomConstraint: NSLayoutConstraint!
@@ -26,6 +27,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var micButton: UIButton!
     @IBOutlet weak var micImage: UIImageView!
+    var imageDimensionReduced : CGFloat = 1.0
     let sharedInstnce = watsonSingleton.sharedInstance
     // MARK: - Properties
     var audioPlayer = AVAudioPlayer()
@@ -39,6 +41,10 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(imageDidLoadNotification(notification:)), name:NSNotification.Name(rawValue: "CellDidLoadImageDidLoadNotification"), object: nil)
+        
+        
         
         
         gettabbarInfo()
@@ -77,10 +83,26 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         
     }
     
+    func imageDidLoadNotification(notification: NSNotification) {
+        //print("notificationImage")
+        if  let cell = notification.object as? MapViewCell{
+        
+           // print("notificationImageCell")
+            if let indexPath = chatTableView.indexPath(for: cell){
+            print(indexPath)
+                //let indexPath = NSIndexPath(row: messages.count - 1, section: 0) as IndexPath
+                chatTableView.reloadRows(at: [indexPath], with: .none)
+                
+                //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+            }
+            
+        }
+        
+    }
+    
 
     // MARK: - Actions
     @IBAction func micButtonTapped() {
-        
         
         if micButton.isSelected {
             micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOff")
@@ -112,7 +134,6 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         let logInVc = storyBoard.instantiateViewController(withIdentifier: "LogInVC") as! LogInViewController
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window?.rootViewController = logInVc
-
         
     }
     
@@ -172,8 +193,9 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
             chatTableView.endUpdates()
             let when = DispatchTime.now()
             DispatchQueue.main.asyncAfter(deadline: when + 0.1) {
-                self.scrollChatTableToBottom()
+                //self.scrollChatTableToBottom()
             }
+            self.scrollChatTableToBottom()
         }
 
         //self.chatTableView.reloadData()
@@ -287,6 +309,7 @@ extension ChatViewController: UITableViewDataSource {
         case MessageType.image:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MapViewCell.self),
                                                      for: indexPath) as! MapViewCell
+            //cell.imageSizeScale = self.imageDimensionReduced
             cell.configure(withMessage: message)
             return cell
         }
@@ -302,7 +325,15 @@ extension ChatViewController: UITableViewDelegate {
         let message = messages[indexPath.row]
 
         if message.type == MessageType.image {
-            return 220
+            //print(message.text ?? "")
+            if message.text == "1"{
+                return 200
+            }else{
+                let value = CGFloat(Float(message.text!)!)
+                
+                return 200*value
+            }
+            
         }
 
         if message.type == MessageType.Video {
@@ -310,6 +341,20 @@ extension ChatViewController: UITableViewDelegate {
         }
 
         return UITableViewAutomaticDimension
+    }
+    
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let height = heightAtIndexPath.object(forKey: indexPath) as? NSNumber {
+            return CGFloat(height.floatValue)
+        } else {
+            return UITableViewAutomaticDimension
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let height = NSNumber(value: Float(cell.frame.size.height))
+        heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
     }
     
 }
@@ -391,16 +436,16 @@ extension ChatViewController: ConversationServiceDelegate {
     }
 
     internal func didReceiveMessageForTexttoSpeech(withText text: String){
-        
+        self.imageDimensionReduced = 1.0
         var foundText = ""
         var text = text
-        print(text)
+       // print(text)
         if text.contains("tts="){
             let rangetts = text.range(of: "(?<=tts=)[^><]+(?=>)", options: .regularExpression)
             if rangetts != nil {
                 var optionsString = text.substring(with: rangetts!)
                 optionsString = optionsString.replacingOccurrences(of: "\"", with: "")
-                print(optionsString)
+                //print(optionsString)
                 let rangeImage = text.range(of:"<a[^>]*>(.*?)</a>", options:.regularExpression)
                 if rangeImage != nil {
                     let optionsStringNew = text.substring(with: rangeImage!)
@@ -408,7 +453,7 @@ extension ChatViewController: ConversationServiceDelegate {
                     if optionsString == "false" {
                         text = text.replacingOccurrences(of: optionsStringNew, with: "")
                     }
-                    print(text)
+                    //print(text)
                 }
             }
         }
@@ -444,15 +489,14 @@ extension ChatViewController: ConversationServiceDelegate {
                     
                     if rangeText2 != nil {
                         let optionsStringNew = foundText.substring(with: rangeText2!)
-                        print(optionsStringNew)
+                        //print(optionsStringNew)
                         foundText = foundText.replacingOccurrences(of: optionsStringNew, with: correctedArray[i])
-                        print(foundText)
+                        //print(foundText)
                             //print(text)
                         
                     }
                 }
                 foundText = foundText.replacingOccurrences(of: "<[^>]+>", with: " ", options: .regularExpression, range: nil)
-                
             }
             
         }else{
@@ -471,7 +515,6 @@ extension ChatViewController: ConversationServiceDelegate {
         
         
         
-        //foundText = foundText.replacingOccurrences(of: "résumé", with: "resumay")
         foundText = foundText.replacingOccurrences(of: "\",\"", with: "<paragraph> </paragraph>")
         foundText = foundText.replacingOccurrences(of: "PauseVT", with: "<paragraph> </paragraph>")
         foundText = foundText.replacingOccurrences(of: " – ", with: " ")
@@ -481,6 +524,12 @@ extension ChatViewController: ConversationServiceDelegate {
             
             self.textToSpeechService.synthesizeSpeech(withText: foundText)
         }
+    }
+    
+    internal func didReceiveImageResizeFactor(with Value:Float){
+       // print(Value)
+        self.imageDimensionReduced = CGFloat(Value)
+       // self.chatTableView.reloadData()
     }
 
     internal func didReceiveMap(withUrl mapUrl: URL) {
@@ -495,9 +544,10 @@ extension ChatViewController: ConversationServiceDelegate {
         self.appendChat(withMessage: message)
     }
 
-    internal func didReceiveImage(withUrl imageUrl: URL) {
+    internal func didReceiveImage(withUrl imageUrl: URL, andScale:String) {
         var message = Message(type: MessageType.image, text: "", options: nil)
         message.imageUrl = imageUrl
+        message.text = andScale
         self.appendChat(withMessage: message)
     }
 
