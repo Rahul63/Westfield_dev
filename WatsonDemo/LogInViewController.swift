@@ -28,6 +28,10 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        userNameField.attributedPlaceholder = NSAttributedString(string: "User Name", attributes: [NSForegroundColorAttributeName : UIColor.white])
+        passwordField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName : UIColor.white])
+        
         self.registerForKeyboardNotifications()
        // NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
         

@@ -72,4 +72,28 @@ extension ChatInputAccessoryView: UITextFieldDelegate {
         return true
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        //let whitespaceSet = NSCharacterSet.whitespaces
+        
+        if (range.location == 0 && (string == " ")){
+            return false
+        }else{
+            return true
+        }
+        
+//        if let _ = string.rangeOfCharacter(from: whitespaceSet) {
+//            return false
+//        }
+//        else {
+//            return true
+//        }
+    //}
+//        if string == " " {
+//            return false
+//        }
+//        
+//        return true
+        
+    }
+    
 }

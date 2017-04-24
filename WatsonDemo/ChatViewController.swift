@@ -18,9 +18,12 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         static let conversationKickoffMessage = "Hi"
     }
 
+    @IBOutlet weak var chatFieldBgImage: UIImageView!
     var heightAtIndexPath = NSMutableDictionary()
     @IBOutlet weak var chatTableHeight: NSLayoutConstraint!
     // MARK: - Outlets
+    var aboutToBecomeInvisibleCell = -1
+    var visibleIP : IndexPath?
     @IBOutlet weak var chatTableBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var chatTextField: ChatTextField!
@@ -32,6 +35,12 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     // MARK: - Properties
     var audioPlayer = AVAudioPlayer()
     var messages = [Message]()
+    var isTableScrolling : Bool = false
+    var isSignOut : Bool = false
+    var completedVideoURL = [URL]()
+    var urlValue : URL? = nil
+    
+    
 
     // MARK: - Services
     lazy var conversationService: ConversationService = ConversationService(delegate:self)
@@ -42,10 +51,11 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.removeObserver(self)
-        NotificationCenter.default.addObserver(self, selector: #selector(imageDidLoadNotification(notification:)), name:NSNotification.Name(rawValue: "CellDidLoadImageDidLoadNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(imageDidLoadNotification(notification:)), name:NSNotification.Name(rawValue: "videoPlayingNotification"), object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(videoEndedPlaying),name: NSNotification.Name(rawValue: "videoEndedPlayingNotification"),object: nil)
         
         
-        
+        visibleIP = IndexPath.init(row: 0, section: 0)
         
         gettabbarInfo()
         _ = "7d80a6ad-74ee-4564-9f5f-3bc54324028e"
@@ -83,20 +93,60 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         
     }
     
-    func imageDidLoadNotification(notification: NSNotification) {
-        //print("notificationImage")
-        if  let cell = notification.object as? MapViewCell{
-        
-           // print("notificationImageCell")
-            if let indexPath = chatTableView.indexPath(for: cell){
-            print(indexPath)
-                //let indexPath = NSIndexPath(row: messages.count - 1, section: 0) as IndexPath
-                chatTableView.reloadRows(at: [indexPath], with: .none)
-                
-                //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
-            }
-            
+    func signOutActivity()  {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "SignOutNotification"), object:self)
+        isSignOut = true
+        if let url = Bundle.main.url(forResource: "Test", withExtension: "m4a"){
+            audioPlayer = try! AVAudioPlayer(contentsOf: url)
+            audioPlayer.pause()
         }
+        chatTextField.resignFirstResponder()
+     //   let when = DispatchTime.now()
+//        DispatchQueue.main.asyncAfter(deadline: when + 0.1) {
+//            self.dismissKeyboard()
+//        }
+        
+    }
+    
+    
+    func videoEndedPlaying() {
+        
+        if chatTextField != nil{
+            self.chatTextField.isEnabled = true
+            self.micButton.isEnabled = true
+            self.chatFieldBgImage.alpha = 1.0
+            self.micImage.alpha = 1.0
+        }
+        
+        if urlValue != nil{
+            self.completedVideoURL.append(urlValue!)
+        }
+        print("Chat Notif video Ended")
+    }
+    
+    func imageDidLoadNotification(notification: NSNotification) {
+        print("VideoPlaying")
+        if chatTextField != nil{
+            self.chatTextField.isEnabled = false
+            self.micButton.isEnabled = false
+            self.chatFieldBgImage.alpha = 0.5
+            self.micImage.alpha = 0.5
+        }
+        
+        
+        
+//        if  let cell = notification.object as? MapViewCell{
+//        
+//           // print("notificationImageCell")
+//            if let indexPath = chatTableView.indexPath(for: cell){
+//            print(indexPath)
+//                //let indexPath = NSIndexPath(row: messages.count - 1, section: 0) as IndexPath
+//                chatTableView.reloadRows(at: [indexPath], with: .none)
+//                
+//                //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+//            }
+//            
+//        }
         
     }
     
@@ -128,6 +178,17 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
             if audioPlayer.isPlaying{
                 audioPlayer.stop()
             }
+        }
+        self.dismissKeyboard()
+        for aview in self.view.subviews{
+            aview.removeFromSuperview()
+        }
+        signOutActivity()
+        self.view.removeFromSuperview()
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        var vc = sb.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
+        if vc != nil {
+            vc = nil
         }
         
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
@@ -194,8 +255,9 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
             let when = DispatchTime.now()
             DispatchQueue.main.asyncAfter(deadline: when + 0.1) {
                 //self.scrollChatTableToBottom()
+                self.scrollChatTableToBottom()
             }
-            self.scrollChatTableToBottom()
+            
         }
 
         //self.chatTableView.reloadData()
@@ -302,7 +364,11 @@ extension ChatViewController: UITableViewDataSource {
         case MessageType.Video:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: VideoViewCell.self),
                                                      for: indexPath) as! VideoViewCell
+            urlValue = message.videoUrl!
+            cell.videoUrls = completedVideoURL
+            //print(completedVideoURL)
             cell.configure(withMessage: message)
+            
             cell.chatViewController = self
             return cell
         
@@ -357,6 +423,98 @@ extension ChatViewController: UITableViewDelegate {
         heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
     }
     
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
+        isTableScrolling = true
+        //print("ViewIsScrollinggggggggDragginngg>>>>>>>>>")
+    }
+    
+  
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool){
+        isTableScrolling = false
+        //print("ViewIsScrollinggggggggDragginngg>>>>>>>>>STOPPED")
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if isTableScrolling == true{
+            //print("ViewIsScrollingggggggg")
+            let indexPaths = self.chatTableView.indexPathsForVisibleRows
+            var cells = [Any]()
+            for ip in indexPaths!{
+                if let videoCell = self.chatTableView.cellForRow(at: ip) as? VideoViewCell{
+                    cells.append(videoCell)
+                }
+            }
+           // print(cells,cells.count)
+            let cellCount = cells.count
+            if cellCount == 0 {return}
+            if cellCount == 1{
+                if visibleIP != indexPaths?[0]{
+                    visibleIP = indexPaths?[0]
+                }
+                if let videoCell = cells.last! as? VideoViewCell{
+                    self.playVideoOnTheCell(cell: videoCell, indexPath: (indexPaths?.last)!)
+                }
+            }
+            if cellCount >= 2 {
+                for i in 0..<cellCount{
+                    let cellRect = self.chatTableView.rectForRow(at: (indexPaths?[i])!)
+                    let intersect = cellRect.intersection(self.chatTableView.bounds)
+                    
+                    //print(cellRect)
+                    //print(intersect)
+                    //                curerntHeight is the height of the cell that
+                    //                is visible
+                    let currentHeight = intersect.height
+                    //print("\n \(currentHeight)")
+                    let cellHeight = (cells[i] as AnyObject).frame.size.height
+                    //                0.95 here denotes how much you want the cell to display
+                    //                for it to mark itself as visible,
+                    //                .95 denotes 95 percent,
+                    //                you can change the values accordingly
+                    print(currentHeight)
+                    print(cellHeight * 0.95)
+                    if currentHeight > (cellHeight * 0.95){
+                        if visibleIP != indexPaths?[i]{
+                            visibleIP = indexPaths?[i]
+                            //print ("visible = \(indexPaths?[i])")
+                            if let videoCell = cells[i] as? VideoViewCell{
+                                self.playVideoOnTheCell(cell: videoCell, indexPath: (indexPaths?[i])!)
+                            }
+                        }
+                    }
+                    else{
+                        if aboutToBecomeInvisibleCell != indexPaths?[i].row{
+                            aboutToBecomeInvisibleCell = (indexPaths?[i].row)!
+                            if let videoCell = cells[i] as? VideoViewCell{
+                                self.stopPlayBack(cell: videoCell, indexPath: (indexPaths?[i])!)
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func playVideoOnTheCell(cell : VideoViewCell, indexPath : IndexPath){
+        cell.startPlayback()
+    }
+    
+    func stopPlayBack(cell : VideoViewCell, indexPath : IndexPath){
+        cell.stopPlayback()
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        //print("end = \(indexPath)")
+        if let videoCell = cell as? VideoViewCell {
+            videoCell.stopPlayback()
+        }
+    }
+    
+    
+    
+    
 }
 
 
@@ -374,15 +532,20 @@ extension ChatViewController: SpeechToTextServiceDelegate {
 extension ChatViewController: TextToSpeechServiceDelegate {
 
     func textToSpeechDidFinishSynthesizing(withAudioData audioData: Data) {
-        audioPlayer = try! AVAudioPlayer(data: audioData)
-        #if !DEBUG
+        
+        if isSignOut == false{
+            audioPlayer = try! AVAudioPlayer(data: audioData)
+            #if !DEBUG
+                
+                do {
+                    try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+                } catch _ {
+                }
+                audioPlayer.play()
+            #endif
             
-            do {
-                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
-            } catch _ {
-            }
-            audioPlayer.play()
-        #endif
+        }
+        
     }
     
 }
@@ -525,6 +688,10 @@ extension ChatViewController: ConversationServiceDelegate {
             self.textToSpeechService.synthesizeSpeech(withText: foundText)
         }
     }
+
+    
+    
+    
     
     internal func didReceiveImageResizeFactor(with Value:Float){
        // print(Value)

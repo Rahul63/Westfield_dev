@@ -30,7 +30,20 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let screenSize: CGRect = UIScreen.main.bounds
         
+        helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
+        helpViewBG.alpha = 0.4
+        helpViewBG.backgroundColor = UIColor.darkGray
+        
+        indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
+        //indicatorView.sizeThatFits(CGSize(width:150,height:150))
+        indicatorView.center = self.view.center//CGPoint(x:self.view.center,y:self.view)
+        indicatorView.lineWidth = 5.0
+        indicatorView.strokeColor = UIColor(red: 0.0/255, green: 122.0/255, blue: 255.0/255, alpha: 1)
+        self.view.addSubview(helpViewBG)
+        helpViewBG.addSubview(indicatorView)
+        helpViewBG.isHidden = true
         ToolBxV.delegate = self
         let boxContent = BOXContentClient.default()
         boxContent?.authenticate(completionBlock:{(file: BOXUser?, err:Error?) -> Void in
@@ -324,19 +337,7 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     
     func StartAnimating() {
-        let screenSize: CGRect = UIScreen.main.bounds
-        
-        helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
-        helpViewBG.alpha = 0.4
-        helpViewBG.backgroundColor = UIColor.darkGray
-        
-        indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
-        //indicatorView.sizeThatFits(CGSize(width:150,height:150))
-        indicatorView.center = self.helpViewBG.center//CGPoint(x:self.view.center,y:self.view)
-        indicatorView.lineWidth = 5.0
-        indicatorView.strokeColor = UIColor(red: 0.0/255, green: 122.0/255, blue: 255.0/255, alpha: 1)
-        self.view.addSubview(helpViewBG)
-        helpViewBG.addSubview(indicatorView)
+        helpViewBG.isHidden = false
         indicatorView.startAnimating()
         
         

@@ -85,7 +85,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     
     func numberOfSections(in tableView: UITableView) -> Int{
-        return 3
+        return 2
     }
     
     
@@ -447,7 +447,7 @@ func pressed(sender: UIButton!) {
             
             // self.userData = (text as? [String : String])!
             settingsTableView.reloadData()
-            self.getDistributionListDetail()
+            //self.getDistributionListDetail()
         }
         
         
