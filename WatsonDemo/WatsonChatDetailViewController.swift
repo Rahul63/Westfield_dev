@@ -23,10 +23,11 @@ class WatsonChatDetailViewController: UIViewController,UIWebViewDelegate {
         helpViewBG.backgroundColor = UIColor.darkGray
         
         indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
-        indicatorView.center = self.helpViewBG.center
+        indicatorView.center = self.view.center
         self.view.addSubview(helpViewBG)
-        helpViewBG.addSubview(indicatorView)
+        self.view.addSubview(indicatorView)
         helpViewBG.isHidden = true
+        indicatorView.isHidden = true
         print("myUrl>>>>>>\(urlStr)")
         
         let videoID = self.extractYoutubeIdFromLink(link: urlStr!)
@@ -90,6 +91,7 @@ class WatsonChatDetailViewController: UIViewController,UIWebViewDelegate {
     
     func StartAnimating() {
         helpViewBG.isHidden = false
+        indicatorView.isHidden = false
                 //indicatorView.sizeThatFits(CGSize(width:150,height:150))
         //CGPoint(x:self.view.center,y:self.view)
         indicatorView.lineWidth = 5.0

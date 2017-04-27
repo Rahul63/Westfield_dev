@@ -25,15 +25,28 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
     var ytplayer = YTPlayerView()
     let detailWebView = UIWebView()
     var firstTimeLoad : Bool = true
+    var watsonSpeaking : Bool = false
 
     // MARK: - VideoUrl
    // var videoUrls = [URL]()
 
+    
     // MARK: - Cell Lifecycle
     override func prepareForReuse() {
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(signOutNotif), name: NSNotification.Name(rawValue : "SignOutNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(watsonSpeakingNotif), name: NSNotification.Name(rawValue : "watsonSpeakingNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(watsonStopSpeakingNotif), name: NSNotification.Name(rawValue : "watsonStopSpeakingNotification"), object: nil)
         
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(signOutNotif), name: NSNotification.Name(rawValue : "SignOutNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(watsonSpeakingNotif), name: NSNotification.Name(rawValue : "watsonSpeakingNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(watsonStopSpeakingNotif), name: NSNotification.Name(rawValue : "watsonStopSpeakingNotification"), object: nil)
+        // Initialization code
     }
 
     /// Configure video chat table view cell with user message
@@ -163,6 +176,9 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
     
     func handlePlayerStatus(time: CMTime) {
         if playerViewController.player?.status == .readyToPlay {
+            if watsonSpeaking{
+                playerViewController.player?.pause()
+            }
             // buffering is finished, the player is ready to play
            // print("playing")
         }
@@ -205,6 +221,49 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
         //
     }
     
+    func watsonSpeakingNotif() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue : "watsonSpeakingNotification"), object: nil)
+        print("WATSONNNNNN Start.....")
+        watsonSpeaking = true
+        if (playerViewController != nil){
+            //print("StopeddddBox")
+            let currentPlayer = playerViewController.player
+            if (currentPlayer?.isPlaying)!{
+                print("BOx STOOPPEDD..")
+                playerViewController.player?.pause()
+            }
+            
+        }else{
+            ytplayer.stopVideo()
+            print("StopeddddYoutube")
+        }
+        
+        //
+    }
+    
+    func watsonStopSpeakingNotif() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue : "watsonStopSpeakingNotification"), object: nil)
+        print("WATSONNNNNN STOPPEDDD")
+        watsonSpeaking = false
+        if videoUrls.contains((message?.videoUrl!)!) == false {
+            
+            if (playerViewController != nil){
+                print("PlayeeddBox")
+                playerViewController.player?.play()
+            }
+            else{
+                print("PlayyyeeddYoutube")
+                ytplayer.playVideo()
+            }
+            //videoUrls.append(message.videoUrl!)
+            //ytplayer.playVideo()
+            
+            //}
+        }
+        
+        //
+    }
+    
     func stopPlayback() {
         //YTPlayerState.playing
         
@@ -241,13 +300,16 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
     
     func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
         if videoUrls.contains((message?.videoUrl!)!) == false {
-            ytplayer.playVideo()
+            if watsonSpeaking == false{
+                ytplayer.playVideo()
+            }
+            
         }
     }
 
     func playerDidFinishPlaying() {
-        //let url = message?.videoUrl!
-        //videoUrls.append(url!)
+        let url = message?.videoUrl!
+        videoUrls.append(url!)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
        // print(url!)
         //print(Array(Set(videoUrls)))

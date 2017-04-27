@@ -11,7 +11,7 @@ import UIKit
 import UserNotifications
 import TextToSpeechV1
 
-class ChatViewController: UIViewController,watsonChatCellDelegate {
+class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerDelegate {
 
     // MARK: - Constants
     private struct Constants {
@@ -31,9 +31,11 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     @IBOutlet weak var micButton: UIButton!
     @IBOutlet weak var micImage: UIImageView!
     var imageDimensionReduced : CGFloat = 1.0
+    var timerAudio : Timer?
     let sharedInstnce = watsonSingleton.sharedInstance
     // MARK: - Properties
-    var audioPlayer = AVAudioPlayer()
+    var audioPlayer : AVAudioPlayer? = nil
+    
     var messages = [Message]()
     var isTableScrolling : Bool = false
     var isSignOut : Bool = false
@@ -98,7 +100,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         isSignOut = true
         if let url = Bundle.main.url(forResource: "Test", withExtension: "m4a"){
             audioPlayer = try! AVAudioPlayer(contentsOf: url)
-            audioPlayer.pause()
+            audioPlayer?.pause()
         }
         chatTextField.resignFirstResponder()
      //   let when = DispatchTime.now()
@@ -121,6 +123,12 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         if urlValue != nil{
             self.completedVideoURL.append(urlValue!)
         }
+//        if sharedInstnce.isVoiceOn == true {
+//            if audioPlayer != nil{
+//                audioPlayer?.play()
+//            }
+//            
+//        }
         print("Chat Notif video Ended")
     }
     
@@ -132,7 +140,14 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
             self.chatFieldBgImage.alpha = 0.5
             self.micImage.alpha = 0.5
         }
-        
+        if sharedInstnce.isVoiceOn == true {
+            if (audioPlayer?.isPlaying)!{
+                //audioPlayer?.pause()
+                timerAudio?.invalidate()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "watsonSpeakingNotification"), object:self)
+            }
+            
+        }
         
         
 //        if  let cell = notification.object as? MapViewCell{
@@ -160,8 +175,8 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         } else {
             micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOn")
             if sharedInstnce.isVoiceOn == true {
-                if audioPlayer.isPlaying{
-                    audioPlayer.stop()
+                if (audioPlayer?.isPlaying)!{
+                    audioPlayer?.stop()
                 }
                 
             }
@@ -175,10 +190,12 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
     
     @IBAction func SignOutButtonPressed(_ sender: Any) {
         if (sharedInstnce.isVoiceOn == true){
-            if audioPlayer.isPlaying{
-                audioPlayer.stop()
+            if (audioPlayer?.isPlaying)!{
+                audioPlayer?.stop()
             }
         }
+        timerAudio?.invalidate()
+        completedVideoURL.removeAll()
         self.dismissKeyboard()
         for aview in self.view.subviews{
             aview.removeFromSuperview()
@@ -203,8 +220,8 @@ class ChatViewController: UIViewController,watsonChatCellDelegate {
         super.viewWillDisappear(animated)
         if (sharedInstnce.isVoiceOn == true){
             do {
-            if audioPlayer.isPlaying{
-                audioPlayer.stop()
+            if (audioPlayer?.isPlaying)!{
+                audioPlayer?.stop()
             }
         }
         
@@ -512,7 +529,9 @@ extension ChatViewController: UITableViewDelegate {
         }
     }
     
-    
+    func watsonStopedSpeaking() {
+        //
+    }
     
     
 }
@@ -535,20 +554,42 @@ extension ChatViewController: TextToSpeechServiceDelegate {
         
         if isSignOut == false{
             audioPlayer = try! AVAudioPlayer(data: audioData)
+            audioPlayer?.delegate = self
+           
             #if !DEBUG
                 
                 do {
                     try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
                 } catch _ {
                 }
-                audioPlayer.play()
+                
+                audioPlayer?.play()
+                timerAudio = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(playingAudio), userInfo: nil, repeats: true)
+                //NotificationCenter.default.addObserver(self,selector: #selector(watsonStopedSpeaking),name: NSNotification.Nam,object:nil)
             #endif
             
         }
         
     }
     
+    func playingAudio()  {
+        print("timerRunning")
+        if (audioPlayer?.isPlaying)!{
+            timerAudio?.invalidate()
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "watsonSpeakingNotification"), object:self)
+            
+        }
+    }
+    
+    public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        print("AUDIOOOO ENDDED")
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "watsonStopSpeakingNotification"), object:self)
+    }
+    
 }
+
+
 
 // MARK: - ConversationServiceDelegate
 extension ChatViewController: ConversationServiceDelegate {
@@ -681,6 +722,7 @@ extension ChatViewController: ConversationServiceDelegate {
         foundText = foundText.replacingOccurrences(of: "\",\"", with: "<paragraph> </paragraph>")
         foundText = foundText.replacingOccurrences(of: "PauseVT", with: "<paragraph> </paragraph>")
         foundText = foundText.replacingOccurrences(of: " – ", with: " ")
+        foundText = foundText.replacingOccurrences(of: ";", with: ",")
         //print("<<<<<<<<NEWW<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
         //print("Speech textt>>Final>>\(foundText)")
         if (sharedInstnce.isVoiceOn == true){

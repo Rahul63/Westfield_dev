@@ -82,13 +82,14 @@ class ConversationService {
         
        // let requestParameters = [workspace_id: '25dfa8a0-0263-471b-8980-317e68c30488',
                                 // input: {'text': 'Turn on the lights'}]
-        
+        let trimmedString = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        print(trimmedString)
         let userDataId = UserDefaults.standard.value(forKey: "UserDetail") as! NSArray
         let dict2 = userDataId[0] as? Dictionary<String,AnyObject>
         let idValue = (dict2?["_id"] as? String!)!
         
         let requestParameters =
-            [Key.input: text,
+            [Key.input: trimmedString,
 //             Key.workspaceID: GlobalConstants.newConversationWorkspaceID, //changed
 //             Key.firstName: firstName,
 //             Key.lastName: Constants.lastName,
@@ -160,6 +161,14 @@ class ConversationService {
     func parseJson(json: [String:AnyObject]) { 
 
         self.context = json["context"] as! String
+        
+        //var text = "Let's start <sub alias=\"pudding\">putting</sub> together the framework and when we are done we will have a well built program in place. <a href=\"https://ibm.box.com/shared/static/tgxbpkxsudj64ob0v5uc3gkaowj81f7g.docx\">Here</a> you will find the outline of a simple auto safety policy you can create and share. <br><br>We finished that one fast. I barely broke a sweat. We’ve got everything lined up. Are you ready for:<br><br><wcs:input>Another Meeting</wcs:input><br><br><wcs:input>Take a Break</wcs:input><br><br><wcs:input>Something Else</wcs:input>"
+        
+        
+        //var text = "A majority of accidents are caused by repeat offenders of moving violations. Give me a guess of how likely you think someone is to wreck your company truck if they have <sub alias=\"three or more\">3+</sub> moving violations on their MVR.<br><br><wcs:input><sub alias=\"two times\">2X</sub></wcs:input><br><br><wcs:input><sub alias=\"four times\">4X</sub></wcs:input><br><br><wcs:input><sub alias=\"ten times\">10X</sub></wcs:input>"
+        
+        
+        
         var text = json["text"] as! String//"<vid:src>https://ibm.box.com/shared/static/xlpe595snnem4swkvtihq0cz024un5s5.mp4</vid:src><br>Hi, I am glad you stopped by.  C’mon in.  I’m Max Safety, you can call me Max. I see you are from CIX DIRECT, LLC.  Good to meet you, what’s your name?" //json["text"] as! String//"Take a quick look at this Picture.  What do you see?<br><img:src>https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg</img:src>"//json["text"] as! String
         
         // "<img:src resize=0.75>https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg</img:src> That’s great, glad to hear it.<br>,Hey Rahul , please take a quick look at my <a href=\"https://ibm.box.com/shared/static/3dp3x8gc7ar1t5orlaa0zcayjzejwfox.png\"><sub alias=\"resumay\">résumé</sub></a>"//

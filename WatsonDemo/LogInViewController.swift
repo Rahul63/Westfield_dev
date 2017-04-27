@@ -14,7 +14,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var activeTextfield : UITextField!
-    
+    var timerTest : Timer?
     @IBOutlet weak var scrollView: UIScrollView!
     let button = KGRadioButton(frame: CGRect(x: 20, y: 170, width: 25, height: 25))
     let label2 = UILabel(frame: CGRect(x: 90, y: 160, width: 200, height: 70))
@@ -28,6 +28,10 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        let string = " this text has spaces before and after "
+//        let trimmedString = string.trimmingCharacters(in: .whitespacesAndNewlines)
+//        print(trimmedString)
         
         userNameField.attributedPlaceholder = NSAttributedString(string: "User Name", attributes: [NSForegroundColorAttributeName : UIColor.white])
         passwordField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName : UIColor.white])
@@ -73,7 +77,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     
     @IBAction func SignButtonPressed(_ sender: Any) {
         
-        if self.userNameField.text == "" && self.passwordField.text == "" {
+        if self.userNameField.text == "" || self.passwordField.text == "" {
             let alert = UIAlertController(title: "Alert", message: "Username/Password should not be empty", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
@@ -87,11 +91,19 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     
     func validateSigningUser(userName:String, password:String) {
         StartAnimating()
+        signInButton.isEnabled = false
+        signInButton.alpha = 0.5
+        timerTest = Timer.scheduledTimer(timeInterval: 45.0, target: self, selector: #selector(enableLogIn), userInfo: nil, repeats: false)
+        //signInButton.backgroundColor = UIColor.gray
         logInService.serviceCallforLogin(withText: userName, and: password)
     }
     
     func didReceiveMessage(withText text: Any){
         stopAnimating()
+        if timerTest != nil {
+            timerTest?.invalidate()
+            timerTest = nil
+        }
         print("myValue>>>\(text)")
         self.logIndata = text as! NSArray
         
@@ -121,6 +133,8 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     
     
     func logInError() {
+        signInButton.isEnabled = true
+        signInButton.alpha = 1.0
         let alert = UIAlertController(title: "Error", message: "The username or password you entered is not correct.  Please try again.", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -218,11 +232,19 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         activeTextfield = nil
     }
     
-    
+    func enableLogIn() {
+        stopAnimating()
+        signInButton.isEnabled = true
+        signInButton.alpha = 1.0
+        let alert = UIAlertController(title: "Error", message: "Session expired, please try again", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
     
     
     func StartAnimating() {
         
+        //signInButton.backgroundColor = UIColor(red: 0.0/255, green: 122.0/255, blue: 255.0/255, alpha: 1)
         indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
         //indicatorView.sizeThatFits(CGSize(width:150,height:150))
         indicatorView.center = self.view.center//CGPoint(x:self.view.center,y:self.view)
@@ -231,9 +253,11 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         self.view.addSubview(indicatorView)
         indicatorView.startAnimating()
         
-        
     }
+    
     func stopAnimating() {
+        signInButton.isEnabled = true
+        signInButton.alpha = 1.0
         indicatorView.stopAnimating()
         indicatorView.hidesWhenStopped = true
         indicatorView.removeFromSuperview()

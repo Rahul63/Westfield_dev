@@ -12,7 +12,7 @@ import Contacts
 import ContactsUI
 
 
-class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,CNContactViewControllerDelegate,DistributionServiceDelegate,MiscellaneousServiceDelegate,voiceCellDelegate {
+class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,CNContactViewControllerDelegate,DistributionServiceDelegate,MiscellaneousServiceDelegate,voiceCellDelegate,userCellDelegate {
     lazy var profileService: MiscellaneousService = MiscellaneousService(delegate:self)
     lazy var distributionService: DistributionListService = DistributionListService(delegate:self)
 
@@ -118,13 +118,14 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
             if (self.userData != nil) {
                 
                 let tempData = self.userData[0]
-                
-                userCell.fullNameLbl.text = String(format: "%@ %@",tempData.firstName,tempData.lastName)//self.userData
+                userCell.delegate = self
+                userCell.firstNameFld.text = String(format: "%@",tempData.firstName)//self.userData
                 //let dict = self.userData[0] as? Dictionary<String,AnyObject>
-                userCell.firstNameLbl.text = tempData.firstName
-                userCell.policyNumLbl.text = tempData.policyNumber
-                userCell.phoneLbl.text = tempData.phoneNumber
-                userCell.emailLbl.text = tempData.email
+                userCell.lastNameFld.text = tempData.lastName
+                userCell.policyNumberFld.text = tempData.policyNumber
+                userCell.mobileNumFld.text = tempData.phoneNumber
+                userCell.emailFld.text = tempData.email
+                userCell.idValue = self.idValue
                 
 //                if ((self.userData["preferredfirstname"]) != nil) {
 //                    userCell.fullNameLbl.text = String(format: "%@ %@", (self.userData["preferredfirstname"])!,(self.userData["preferredlastname"])!)
@@ -214,14 +215,24 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
             }
         }
         else{
-           return 167
+           return 385
         }
         
         //return UITableViewAutomaticDimension
     }
 
     
+    func emailAddressIsNotValid(){
+        let alert = UIAlertController(title: "Error", message: "Please enter valid email address", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
     
+    func nameFieldIsEmpty(){
+        let alert = UIAlertController(title: "Error", message: "Please enter first name", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
     
     
     @IBAction func addContactPressed(_ sender: AnyObject) {
@@ -282,7 +293,14 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         //
     }
     
-    
+   
+    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        let indexPath = NSIndexPath(row: 0, section: 0) as IndexPath
+//        
+//        let cell = settingsTableView.cellForRow(at: indexPath) as! UserViewCell
+//        cell.serviceCallUserUdate()
+    }
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -365,7 +383,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     @IBAction func helpButtonPressed(_ sender: Any) {
         
         let screenSize: CGRect = UIScreen.main.bounds
-        helpView = UIView(frame: CGRect(x: 10, y: screenSize.height/2-50, width: screenSize.width - 20, height: 110))
+        helpView = UIView(frame: CGRect(x: 10, y: screenSize.height/2-50, width: screenSize.width - 20, height: 100))
         helpView.layer.cornerRadius = 10
         helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
         helpViewBG.backgroundColor = UIColor.gray
@@ -373,7 +391,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         helpView.backgroundColor = UIColor.white
         
         
-        let cancelButton = UIButton(frame : CGRect(x: screenSize.width-50, y: 03, width: 25, height: 25))
+        let cancelButton = UIButton(frame : CGRect(x: screenSize.width-60, y: 02, width: 35, height: 35))
         cancelButton.setImage(#imageLiteral(resourceName: "cancelBtn"), for: .normal)
        // cancelButton.setTitleColor(UIColor.blue, for: .normal)
         //cancelButton.frame = CGRect(x: screenSize.width-50, y: 03, width: 25, height: 25)
@@ -384,7 +402,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         label.numberOfLines = 0
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.textAlignment = .left
-        label.text = "Use the right arrow '>' to edit your profile or distribution list details. You can also turn the voice of Max on or off."
+        label.text = "Use the right arrow '>' to edit your profile. You can also turn the voice of Max on or off."
         label.sizeToFit()
         label.textColor = UIColor.black
         helpView.addSubview(label)
@@ -414,7 +432,6 @@ func pressed(sender: UIButton!) {
         let logInVc = storyBoard.instantiateViewController(withIdentifier: "LogInVC") as! LogInViewController
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window?.rootViewController = logInVc
-        
         
     }
     
@@ -450,8 +467,6 @@ func pressed(sender: UIButton!) {
             //self.getDistributionListDetail()
         }
         
-        
-        
     }
     
     
@@ -465,9 +480,6 @@ func pressed(sender: UIButton!) {
                 let distDetailVc = storyBoard.instantiateViewController(withIdentifier: "DistDetailViewController") as! DistDetailViewController
                 distDetailVc.distributionData = distDict! as! [String : String]
                 self.navigationController?.pushViewController(distDetailVc, animated: true)
-                
-                
-                
                 
                 
             }
@@ -521,6 +533,7 @@ func pressed(sender: UIButton!) {
         
         
     }
+    
     func stopAnimating() {
         indicatorView.stopAnimating()
         indicatorView.hidesWhenStopped = true

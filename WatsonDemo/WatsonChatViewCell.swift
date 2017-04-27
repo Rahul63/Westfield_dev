@@ -75,17 +75,64 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
         }
         
         if text.contains("</sub>"){
-            let rangeImage = text.range(of:"<sub[^>]*>(.*\n?)</sub>", options:.regularExpression)
-            if rangeImage != nil {
-                let optionsStringNew = text.substring(with: rangeImage!)
-                let textStr = optionsStringNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                //print("optionsStringNew>>>>>>>>>>*********>>>>>>>\(optionsStringNew)")
-                //print(">>>>>>>>>textStr<<<<<<<<<BTWN.............&&&&&&...\(textStr)")
-                text = text.replacingOccurrences(of: optionsStringNew, with: textStr)
-                print(text)
+            
+            var foundText = ""
+            
+            
+            let range2 = text.range(of: "(?<=<sub alias=)[^><]+(?=>)", options: .regularExpression)
+            if range2 != nil {
+                var correctedArray = [String]()
+                let nsString = text as NSString
+                let regex = try! NSRegularExpression(pattern: "(?<=<sub alias=)[^><]+(?=>)")
+                for text in regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)) {
+                    print(text.numberOfRanges)
+                    for i in 0..<text.numberOfRanges{
+                        let  rangg = text.rangeAt(i)
+                        
+                        var stringST = nsString.substring(with: rangg)
+                        stringST = stringST.replacingOccurrences(of: "\"", with: "")
+                        stringST = stringST.replacingOccurrences(of: "\\", with: "")
+                       // print(stringST)
+                        correctedArray.append(stringST)
+                        
+                    }
+                }
+                foundText = text
+                
+                if correctedArray.count>0{
+                    
+                    for i in 0..<correctedArray.count{
+                        let rangeText2 = foundText.range(of:"<sub[^>]*>(.*?)</sub>", options:.regularExpression)
+                        print(i)
+                        if rangeText2 != nil {
+                            let optionsStringNew = foundText.substring(with: rangeText2!)
+                            print(optionsStringNew)
+                            let replaceStr = optionsStringNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                            foundText = foundText.replacingOccurrences(of: optionsStringNew, with: replaceStr)
+                            //print(foundText)
+                            //print(text)
+                            text = foundText
+                            
+                        }
+                    }
+                }
+                
             }
+            
+            
+            
+            
+//            let rangeImage = text.range(of:"<sub[^>]*>(.*\n?)</sub>", options:.regularExpression)
+//            if rangeImage != nil {
+//                let optionsStringNew = text.substring(with: rangeImage!)
+//                let textStr = optionsStringNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+//                print("optionsStringNew>>>>>>>>>>*********>>>>>>>\(optionsStringNew)")
+//                print(">>>>>>>>>textStr<<<<<<<<<BTWN.............&&&&&&...\(textStr)")
+//                text = text.replacingOccurrences(of: optionsStringNew, with: "")
+//                print(text)
+//            }
         }
-        
+        var range1: NSRange? = nil
         text = text.replacingOccurrences(of: "<br>", with: "\n")
         optionData.removeAll()
         text = text.replacingOccurrences(of: "\",\"", with: "\n\n")
@@ -99,69 +146,82 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
             Doc.linkUrl = optionsString
             //print("myOptionalString is...<<<<<<<.\(optionsString)")
             text = text.replacingOccurrences(of: optionsString, with: "")
-            let range = text.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
+            let range = text.range(of:"<a[^>]*>(.*?)</a>", options:.regularExpression)
             if range != nil {
-                var found = text.substring(with: range!)
+                let found = text.substring(with: range!)
                 //print("found: \(found)") // found: google
-                found = found.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                found = found.replacingOccurrences(of: "</a", with: "")
-                    //print("found:>>>> \(found)")
-                text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                text = text.replacingOccurrences(of: ">", with: "")
+                let foundStr = found.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                //found = found.replacingOccurrences(of: "</a", with: "")
+                //print("found:>>>> \(foundStr)")
+                text = text.replacingOccurrences(of: found, with: foundStr)
+                //text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                //text = text.replacingOccurrences(of: ">", with: "")
                 let nsText = text as NSString
-                let range1: NSRange = nsText.range(of: found)
-                messageLabel.text = text
+                range1 = nsText.range(of: foundStr)
+               // messageLabel.text = text
                     // print("MyURLLL>>>>\(Doc.linkUrl)")
-                messageLabel.addLink(to: URL(string: Doc.linkUrl) , with: range1)
+                //messageLabel.addLink(to: URL(string: Doc.linkUrl) , with: range1)
                     
                // }
             }
             //print("mytext is...<<<<<<<.\(text)")
             
         }
-            
-        else{
-            
-            var foundNew = text
-           // print("nextStep...\(text)")
-            
-            let rangeNew = foundNew.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
-            let rangeNew2 = foundNew.range(of:"(?=<)[^.]+(?=<\\)", options:.regularExpression)
-            if (rangeNew != nil || rangeNew2 != nil) {
-                let subString = foundNew.substring(with: rangeNew!)
-               // print("lets internal Value..\(foundNew)")
-                //print("lets internal subString..\(subString)")
-                var strinLength = foundNew.replacingOccurrences(of: subString, with: "")
-                //print("Strint to bubble...\(strinLength)")
-                strinLength = strinLength.replacingOccurrences(of: ">,", with: "")
-                strinLength = strinLength.replacingOccurrences(of: ">", with: "")
-                strinLength = strinLength.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                messageLabel.text = strinLength
-                //print(strinLength)
-                if subString.contains("<wcs:input>") {
-                    var foundRedioBtnData = subString.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                    foundRedioBtnData = foundRedioBtnData.replacingOccurrences(of: "</wcs:input", with: "")
-                    foundRedioBtnData = foundRedioBtnData.replacingOccurrences(of: "\n\n", with: "n&n")
-                    optionData = foundRedioBtnData.components(separatedBy: "n&n")
-                    print(optionData)
-                }
-                
-                
-                if optionData.count>0 {
-                    self.addRadioButtonsWithTitle(count: optionData.count)
-                }
-                //print("found ALL>>>>>: \(foundNew)")
-                //print("found ALL>>>OPTION>>: \(optionData) and count\(optionData.count)")
-            }else{
-                foundNew = foundNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                messageLabel.text = foundNew
+        
+        
+        var foundNew = text
+        // print("nextStep...\(foundNew)")
+        
+        let rangeNew = foundNew.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
+        let rangeNew2 = foundNew.range(of:"(?=<)[^.]+(?=<\\)", options:.regularExpression)
+        if (rangeNew != nil || rangeNew2 != nil) {
+            let subString = foundNew.substring(with: rangeNew!)
+            // print("lets internal Value..\(foundNew)")
+            //print("lets internal subString..\(subString)")
+            foundNew = foundNew.replacingOccurrences(of: subString, with: "")
+            //print("Strint to bubble...\(strinLength)")
+//            strinLength = strinLength.replacingOccurrences(of: ">,", with: "")
+//            strinLength = strinLength.replacingOccurrences(of: ">", with: "")
+            //strinLength = strinLength.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            //messageLabel.text = strinLength
+            //print(strinLength)
+            if subString.contains("<wcs:input>") {
+                var foundRedioBtnData = subString.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                foundRedioBtnData = foundRedioBtnData.replacingOccurrences(of: "</wcs:input", with: "")
+                foundRedioBtnData = foundRedioBtnData.replacingOccurrences(of: "\n\n", with: "n&n")
+                optionData = foundRedioBtnData.components(separatedBy: "n&n")
+                //print(optionData)
             }
+            
+            if optionData.count>0 {
+                self.addRadioButtonsWithTitle(count: optionData.count)
+            }
+            //print("found ALL>>>>>: \(foundNew)")
+            //print("found ALL>>>OPTION>>: \(optionData) and count\(optionData.count)")
+        }//else{
+        foundNew = foundNew.replacingOccurrences(of: ">,", with: "")
+        foundNew = foundNew.replacingOccurrences(of: ">", with: "")
+        foundNew = foundNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+        messageLabel.text = foundNew
+        if range1 != nil{
+            messageLabel.addLink(to: URL(string: Doc.linkUrl) , with: range1!)
         }
         
-        
+        //}
+    //}
+
+    
+    
+    
+    
+    
+        //else{
+    
+    
+    
     }
-    
-    
+
+
     func addItemsInStckView() {
         
         chatStackView.axis  = UILayoutConstraintAxis.vertical
@@ -315,7 +375,7 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
                 textCell = (tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as? ChatTextCell)!
             }
             textCell.selectionStyle = UITableViewCellSelectionStyle.none
-            textCell.messageLabel.text = "fdsfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsfsfsfsdfsdfdsfdsfdsfsdKSADASAADASDASDASdsaFDFDSFDSFSDFEWfwfwefwefewfwwefwefwwfwefwfewfewfewfwefwefwfwefwefewfwefewfwefwefwefwefwefwgrtgregfsvsdfgdscdsfddadfasfefasftewfafewfdfewgwegewrgwegergwegregwwegwrgEND"
+    
             return textCell
         }
         else{
