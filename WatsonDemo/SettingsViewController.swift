@@ -229,7 +229,13 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     
     func nameFieldIsEmpty(){
-        let alert = UIAlertController(title: "Error", message: "Please enter first name", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Error", message: "First name cann't be blank", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func phoneFieldError(){
+        let alert = UIAlertController(title: "Error", message: "Please enter 10 digit valid phone number", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
@@ -295,11 +301,11 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
    
     override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        let indexPath = NSIndexPath(row: 0, section: 0) as IndexPath
-//        
-//        let cell = settingsTableView.cellForRow(at: indexPath) as! UserViewCell
-//        cell.serviceCallUserUdate()
+        super.viewWillDisappear(animated)
+        let indexPath = NSIndexPath(row: 0, section: 0) as IndexPath
+        
+        let cell = settingsTableView.cellForRow(at: indexPath) as! UserViewCell
+        cell.serviceCallUserUdate()
     }
     
     
@@ -383,7 +389,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     @IBAction func helpButtonPressed(_ sender: Any) {
         
         let screenSize: CGRect = UIScreen.main.bounds
-        helpView = UIView(frame: CGRect(x: 10, y: screenSize.height/2-50, width: screenSize.width - 20, height: 100))
+        helpView = UIView(frame: CGRect(x: 10, y: screenSize.height/2-50, width: screenSize.width - 20, height: 80))
         helpView.layer.cornerRadius = 10
         helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
         helpViewBG.backgroundColor = UIColor.gray
@@ -391,18 +397,18 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         helpView.backgroundColor = UIColor.white
         
         
-        let cancelButton = UIButton(frame : CGRect(x: screenSize.width-60, y: 02, width: 35, height: 35))
+        let cancelButton = UIButton(frame : CGRect(x: screenSize.width-55, y: 0, width: 35, height: 35))
         cancelButton.setImage(#imageLiteral(resourceName: "cancelBtn"), for: .normal)
        // cancelButton.setTitleColor(UIColor.blue, for: .normal)
         //cancelButton.frame = CGRect(x: screenSize.width-50, y: 03, width: 25, height: 25)
         cancelButton.addTarget(self, action: #selector(self.pressed(sender:)), for: .touchUpInside)
         helpView.addSubview(cancelButton)
         
-        let label = UILabel(frame: CGRect(x: 10, y: 25, width: screenSize.width - 30, height: 100))
+        let label = UILabel(frame: CGRect(x: 10, y: 25, width: screenSize.width - 50, height: 100))
         label.numberOfLines = 0
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.textAlignment = .left
-        label.text = "Use the right arrow '>' to edit your profile. You can also turn the voice of Max on or off."
+        label.text = "Here you can turn the voice of Max on or off."
         label.sizeToFit()
         label.textColor = UIColor.black
         helpView.addSubview(label)

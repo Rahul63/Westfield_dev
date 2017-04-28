@@ -12,6 +12,7 @@ protocol userCellDelegate
 {
     func emailAddressIsNotValid()
     func nameFieldIsEmpty()
+    func phoneFieldError()
 }
 
 
@@ -71,7 +72,17 @@ class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDele
     func serviceCallUserUdate()  {
         
         //userUpdateService.serviceCallforUserUpdate(withText:  self.firstNameFld.text!, and: self.lastNameFld.text!, and: self.idValue)
-        userUpdateService.serviceCallforUserUpdate(withText: self.firstNameFld.text!, and: self.lastNameFld.text!, and: self.mobileNumFld.text!, and: self.emailFld.text!, and: self.idValue, and: isVoiceOn)
+        
+        if (self.firstNameFld.text?.characters.count)! > 0  {
+            if (self.mobileNumFld.text?.characters.count)! < 12{
+                self.mobileNumFld.text = ""
+            }
+            userUpdateService.serviceCallforUserUpdate(withText: self.firstNameFld.text!, and: self.lastNameFld.text!, and: self.mobileNumFld.text!, and: self.emailFld.text!, and: self.idValue, and: isVoiceOn)
+        }else{
+            delegate.nameFieldIsEmpty()
+        }
+        
+        
     }
     
     
@@ -79,19 +90,19 @@ class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDele
         
         // self.serviceCallforUserUpdate(withText: self.firstNameFld.text!, and: self.lastNameFld.text!)
         
-        if textField==self.firstNameFld {
-            
-            self.lastNameFld.becomeFirstResponder()
-        }
-        else if textField == self.lastNameFld{
-            self.mobileNumFld.becomeFirstResponder()
-        }
-        else if textField == self.mobileNumFld{
-            self.emailFld.becomeFirstResponder()
-        }
-        else{
+//        if textField==self.firstNameFld {
+//            
+//            self.lastNameFld.becomeFirstResponder()
+//        }
+//        else if textField == self.lastNameFld{
+//            self.mobileNumFld.becomeFirstResponder()
+//        }
+//        else if textField == self.mobileNumFld{
+//            self.emailFld.becomeFirstResponder()
+//        }
+//        else{
             textField.resignFirstResponder()
-        }
+       // }
         
         return true
     }
@@ -140,13 +151,13 @@ class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDele
         self.scrollView.scrollIndicatorInsets = contentInsets
         self.endEditing(true)
         self.scrollView.isScrollEnabled = false
-        if self.firstNameFld.text != ""  || self.firstNameFld.text != " "{
-            deregisterFromKeyboardNotifications()
-            serviceCallUserUdate()
-            
-        }else{
-            delegate.nameFieldIsEmpty()
-        }
+//        if self.firstNameFld.text != ""  || self.firstNameFld.text != " "{
+//            //deregisterFromKeyboardNotifications()
+//            serviceCallUserUdate()
+//            
+//        }else{
+//            delegate.nameFieldIsEmpty()
+//        }
         
     }
     
@@ -166,6 +177,17 @@ class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDele
                 
             }
             
+        }
+        if textField == self.mobileNumFld {
+            if (textField.text?.characters.count)! < 12 {
+                self.mobileNumFld.text = ""
+                delegate.phoneFieldError()
+            }
+        }
+        if textField == firstNameFld{
+            if self.firstNameFld.text == ""  || self.firstNameFld.text == " "{
+                delegate.nameFieldIsEmpty()
+            }
         }
         
     }

@@ -26,6 +26,7 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
     let detailWebView = UIWebView()
     var firstTimeLoad : Bool = true
     var watsonSpeaking : Bool = false
+    var currentVideoType = ""
 
     // MARK: - VideoUrl
    // var videoUrls = [URL]()
@@ -69,7 +70,7 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
         let videoId = self.extractYoutubeIdFromLink(link: urlString)
         
         if videoId == nil {
-            
+            currentVideoType = "BOX"
             let player = AVPlayer(url: message.videoUrl!)
             playerViewController = AVPlayerViewController()
             playerViewController.player = player
@@ -106,6 +107,7 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
 //            detailWebView.loadHTMLString(embededHTML, baseURL: Bundle.main.bundleURL)
 //            detailWebView.allowsInlineMediaPlayback = true
 //            self.addSubview(detailWebView)
+            currentVideoType = "YOUTUBE"
             ytplayer.frame = CGRect(x: 20,y: 0,width: frame.size.width - 40,height: frame.size.height)
             self.addSubview(ytplayer)
             ytplayer.delegate = self
@@ -198,7 +200,7 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
         //print(message?.videoUrl! ?? "")
         if videoUrls.contains((message?.videoUrl!)!) == false {
             
-            if (playerViewController != nil){
+            if (currentVideoType == "BOX"){
                 print("PlayeeddBox")
                 playerViewController.player?.play()
             }
@@ -222,10 +224,10 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
     }
     
     func watsonSpeakingNotif() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue : "watsonSpeakingNotification"), object: nil)
+        //NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue : "watsonSpeakingNotification"), object: nil)
         print("WATSONNNNNN Start.....")
         watsonSpeaking = true
-        if (playerViewController != nil){
+        if (currentVideoType == "BOX"){
             //print("StopeddddBox")
             let currentPlayer = playerViewController.player
             if (currentPlayer?.isPlaying)!{
@@ -242,18 +244,20 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
     }
     
     func watsonStopSpeakingNotif() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue : "watsonStopSpeakingNotification"), object: nil)
+        
         print("WATSONNNNNN STOPPEDDD")
         watsonSpeaking = false
         if videoUrls.contains((message?.videoUrl!)!) == false {
             
-            if (playerViewController != nil){
+            if (currentVideoType == "BOX"){
                 print("PlayeeddBox")
                 playerViewController.player?.play()
+               // NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue : "watsonStopSpeakingNotification"), object: nil)
             }
             else{
                 print("PlayyyeeddYoutube")
                 ytplayer.playVideo()
+               // NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue : "watsonStopSpeakingNotification"), object: nil)
             }
             //videoUrls.append(message.videoUrl!)
             //ytplayer.playVideo()
@@ -267,7 +271,7 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
     func stopPlayback() {
         //YTPlayerState.playing
         
-        if (playerViewController != nil){
+        if (currentVideoType == "BOX"){
             //print("StopeddddBox")
             let currentPlayer = playerViewController.player
             if (currentPlayer?.isPlaying)!{

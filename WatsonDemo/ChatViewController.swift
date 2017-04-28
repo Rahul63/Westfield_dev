@@ -195,6 +195,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
             }
         }
         timerAudio?.invalidate()
+        timerAudio = nil
         completedVideoURL.removeAll()
         self.dismissKeyboard()
         for aview in self.view.subviews{
@@ -582,7 +583,7 @@ extension ChatViewController: TextToSpeechServiceDelegate {
     }
     
     public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        print("AUDIOOOO ENDDED")
+        //print("AUDIOOOO ENDDED")
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "watsonStopSpeakingNotification"), object:self)
     }
@@ -598,7 +599,8 @@ extension ChatViewController: ConversationServiceDelegate {
         guard text.characters.count > 0 else { return }
         
         var opt = [String]()
-        
+        timerAudio?.invalidate()
+        timerAudio = nil
         //print("<<<<<<<<<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
 
         let rangeN = text.range(of:"\",\"", options:.regularExpression)
@@ -723,6 +725,7 @@ extension ChatViewController: ConversationServiceDelegate {
         foundText = foundText.replacingOccurrences(of: "PauseVT", with: "<paragraph> </paragraph>")
         foundText = foundText.replacingOccurrences(of: " – ", with: " ")
         foundText = foundText.replacingOccurrences(of: ";", with: ",")
+        foundText = foundText.replacingOccurrences(of: ":", with: ".")
         //print("<<<<<<<<NEWW<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
         //print("Speech textt>>Final>>\(foundText)")
         if (sharedInstnce.isVoiceOn == true){
