@@ -106,7 +106,7 @@ class ConversationService {
 //            context: context
 //        }  
         
-       // print("Send Msg called with Request.Para.\(requestParameters)")
+      //  print("Send Msg called with Request.Para.\(requestParameters)")
         var request = URLRequest(url: URL(string: GlobalConstants.wcsWorkflowURL)!)
         
         //var request = URLRequest(url: URL(string: GlobalConstants.wcsWorkflowURL)!)
@@ -139,7 +139,7 @@ class ConversationService {
                 if let data = responseString?.data(using: String.Encoding.utf8) {
                     do {
                         if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject] {
-                           // print("JSON Value...\(json)")
+                            //print("JSON Value...\(json)")
                             self?.parseJson(json: json)
                         }
                     } catch {
@@ -160,7 +160,7 @@ class ConversationService {
 
     func parseJson(json: [String:AnyObject]) { 
 
-        self.context = json["context"] as! String
+        self.context = (json["context"] as? String)!
         
         //var text = "Let's start <sub alias=\"pudding\">putting</sub> together the framework and when we are done we will have a well built program in place. <a href=\"https://ibm.box.com/shared/static/tgxbpkxsudj64ob0v5uc3gkaowj81f7g.docx\">Here</a> you will find the outline of a simple auto safety policy you can create and share. <br><br>We finished that one fast. I barely broke a sweat. We’ve got everything lined up. Are you ready for:<br><br><wcs:input>Another Meeting</wcs:input><br><br><wcs:input>Take a Break</wcs:input><br><br><wcs:input>Something Else</wcs:input>"
         

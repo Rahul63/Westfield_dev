@@ -50,6 +50,7 @@
 		B705A6F61E96520600D5512A /* AutoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B705A6F51E96520600D5512A /* AutoViewCell.swift */; };
 		B70967901E92624A0097AEFE /* ToolBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709678F1E92624A0097AEFE /* ToolBoxViewController.swift */; };
 		B72162781E9796FF00848D08 /* Test.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B72162771E9796FF00848D08 /* Test.m4a */; };
+		B73272061EB909E60055A599 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73272051EB909E60055A599 /* NavigationController.swift */; };
 		B78234BA1E88F682000C5338 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78234B91E88F682000C5338 /* Settings.swift */; };
 		B7873FD11E7BD58000935479 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7873FD01E7BD58000935479 /* UserDetailViewController.swift */; };
 		B7890F171E90411500F55E5E /* SpeechToTextV1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7ABDBED1E903F2300D503CE /* SpeechToTextV1.framework */; };
@@ -149,6 +150,7 @@
 		B705A6F51E96520600D5512A /* AutoViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoViewCell.swift; sourceTree = "<group>"; };
 		B709678F1E92624A0097AEFE /* ToolBoxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBoxViewController.swift; sourceTree = "<group>"; };
 		B72162771E9796FF00848D08 /* Test.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Test.m4a; sourceTree = "<group>"; };
+		B73272051EB909E60055A599 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		B78234B91E88F682000C5338 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		B7873FD01E7BD58000935479 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		B78A6F6C1E7927540081CFE1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 				B7A471C51EA0C77C00B10E22 /* ToolBoxDetailView.swift */,
 				B7A471C31EA0C6D500B10E22 /* ToolBoxDetailView.xib */,
 				B70341051EA53D4500C52E47 /* ActivityView.swift */,
+				B73272051EB909E60055A599 /* NavigationController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -455,7 +458,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
 				LastUpgradeCheck = 0810;
-				ORGANIZATIONNAME = "Etay Luz";
+				ORGANIZATIONNAME = IBM;
 				TargetAttributes = {
 					B4CBCF901DD91EA70003074A = {
 						CreatedOnToolsVersion = 8.1;
@@ -590,6 +593,7 @@
 				B4F56E881DF722550068A426 /* UIImage+Assets.swift in Sources */,
 				B48B18811DDB908E008CE7C2 /* ConversationService.swift in Sources */,
 				B7A50BEC1E82812C00D82A84 /* MiscellaneousService.swift in Sources */,
+				B73272061EB909E60055A599 /* NavigationController.swift in Sources */,
 				B7B5F6181E8A5C40000335B3 /* CustomTabBar.swift in Sources */,
 				B7E63DFE1E9CE73A009E0483 /* ChatTextCell.swift in Sources */,
 				B4CBCF971DD91EA70003074A /* OverviewViewController.swift in Sources */,

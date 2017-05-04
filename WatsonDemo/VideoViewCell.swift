@@ -111,7 +111,7 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
             ytplayer.frame = CGRect(x: 20,y: 0,width: frame.size.width - 40,height: frame.size.height)
             self.addSubview(ytplayer)
             ytplayer.delegate = self
-            self.ytplayer.load(withVideoId: videoId!, playerVars: ["enablejsapi":"1","showinfo":"0","rel":"0","playsinline":"1","fs":"0","autoplay":"1"])
+            self.ytplayer.load(withVideoId: videoId!, playerVars: ["enablejsapi":"1","showinfo":"0","rel":"0","playsinline":"1","fs":"1","autoplay":"1"])
             if videoUrls.contains(message.videoUrl!) == false {
                 
                

@@ -38,7 +38,7 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
         //indicatorView.sizeThatFits(CGSize(width:150,height:150))
-        indicatorView.center = self.view.center//CGPoint(x:self.view.center,y:self.view)
+        indicatorView.center = CGPoint(x: self.view.frame.size.width/2,y: self.view.frame.size.height/2-100)//CGPoint(x:self.view.center,y:self.view)
         indicatorView.lineWidth = 5.0
         indicatorView.strokeColor = UIColor(red: 0.0/255, green: 122.0/255, blue: 255.0/255, alpha: 1)
         self.view.addSubview(helpViewBG)

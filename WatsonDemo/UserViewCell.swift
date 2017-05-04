@@ -52,7 +52,8 @@ class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDele
     
     var userDataValue : [ProfileModel] = []
     var idValue = ""
-    var isVoiceOn = "on"
+    var isVoiceOn = ""
+    let sharedInstnce = watsonSingleton.sharedInstance
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -70,6 +71,11 @@ class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDele
     
     
     func serviceCallUserUdate()  {
+        if sharedInstnce.isVoiceOn == true {
+            isVoiceOn = "on"
+        }else{
+            isVoiceOn = "off"
+        }
         
         //userUpdateService.serviceCallforUserUpdate(withText:  self.firstNameFld.text!, and: self.lastNameFld.text!, and: self.idValue)
         
@@ -79,7 +85,7 @@ class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDele
             }
             userUpdateService.serviceCallforUserUpdate(withText: self.firstNameFld.text!, and: self.lastNameFld.text!, and: self.mobileNumFld.text!, and: self.emailFld.text!, and: self.idValue, and: isVoiceOn)
         }else{
-            delegate.nameFieldIsEmpty()
+            //delegate.nameFieldIsEmpty()
         }
         
         
@@ -90,10 +96,13 @@ class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDele
         
         // self.serviceCallforUserUpdate(withText: self.firstNameFld.text!, and: self.lastNameFld.text!)
         
-//        if textField==self.firstNameFld {
-//            
-//            self.lastNameFld.becomeFirstResponder()
-//        }
+        if textField==self.firstNameFld {
+            if (self.firstNameFld.text == "") || (self.firstNameFld.text == " "){
+                self.delegate.nameFieldIsEmpty()
+            }
+            
+            //self.lastNameFld.becomeFirstResponder()
+        }
 //        else if textField == self.lastNameFld{
 //            self.mobileNumFld.becomeFirstResponder()
 //        }

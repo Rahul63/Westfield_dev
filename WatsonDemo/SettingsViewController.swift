@@ -215,7 +215,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
             }
         }
         else{
-           return 385
+           return 375
         }
         
         //return UITableViewAutomaticDimension
@@ -229,7 +229,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     
     func nameFieldIsEmpty(){
-        let alert = UIAlertController(title: "Error", message: "First name cann't be blank", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Error", message: "First name can't be blank", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }

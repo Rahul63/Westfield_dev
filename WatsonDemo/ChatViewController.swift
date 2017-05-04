@@ -30,6 +30,8 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var micButton: UIButton!
     @IBOutlet weak var micImage: UIImageView!
+    var helpView = UIView()
+    var helpViewBG = UIView()
     var imageDimensionReduced : CGFloat = 1.0
     var timerAudio : Timer?
     let sharedInstnce = watsonSingleton.sharedInstance
@@ -52,7 +54,9 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.shared.isStatusBarHidden = false
         NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self,selector: #selector(self.playerDidFinishPlaying),name:NSNotification.Name.UIWindowDidBecomeHidden,object:nil)
         NotificationCenter.default.addObserver(self, selector: #selector(imageDidLoadNotification(notification:)), name:NSNotification.Name(rawValue: "videoPlayingNotification"), object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(videoEndedPlaying),name: NSNotification.Name(rawValue: "videoEndedPlayingNotification"),object: nil)
         
@@ -73,13 +77,14 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         chatTableView.autoresizingMask = UIViewAutoresizing.flexibleHeight;
         chatTableView.rowHeight = UITableViewAutomaticDimension
         chatTableView.estimatedRowHeight = 140
+        chatTableView.scrollsToTop = false
 
         // We need to send some dummy text to keep off the conversation
         conversationService.getValues()
 
-        let gestureTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
-        gestureTap.cancelsTouchesInView = false
-        chatTableView.addGestureRecognizer(gestureTap)
+//        let gestureTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
+//        gestureTap.cancelsTouchesInView = false
+//        chatTableView.addGestureRecognizer(gestureTap)
         
         
         
@@ -93,6 +98,14 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         
         
         
+    }
+    
+    func playerDidFinishPlaying() {
+        UIApplication.shared.isStatusBarHidden = false
+        //self.headerView.frame = CGRect(x:0,y:0,width:self.view.frame.size.width,height:self.headerView.frame.size.height)
+        //self.headerView.setNeedsDisplay()
+        
+        // print("ppppppppppppp>>>>>>>>>>>PPPPPPPPlayeeeerrrrrrrMethod")
     }
     
     func signOutActivity()  {
@@ -112,7 +125,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
     
     
     func videoEndedPlaying() {
-        
+        self.setNeedsStatusBarAppearanceUpdate()
         if chatTextField != nil{
             self.chatTextField.isEnabled = true
             self.micButton.isEnabled = true
@@ -130,6 +143,9 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
 //            
 //        }
         print("Chat Notif video Ended")
+    }
+    override var prefersStatusBarHidden: Bool{
+        return false
     }
     
     func imageDidLoadNotification(notification: NSNotification) {
@@ -187,6 +203,49 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         micButton.isSelected = !micButton.isSelected
     }
     
+    @IBAction func HelpButtonPressed(_ sender: Any) {
+        let screenSize: CGRect = UIScreen.main.bounds
+        helpView = UIView(frame: CGRect(x: 10, y: screenSize.height/2-50, width: screenSize.width - 20, height: 80))
+        helpView.layer.cornerRadius = 10
+        helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
+        helpViewBG.backgroundColor = UIColor.gray
+        helpViewBG.alpha = 0.4
+        helpView.backgroundColor = UIColor.white
+        
+        
+        let cancelButton = UIButton(frame : CGRect(x: screenSize.width-55, y: 0, width: 35, height: 35))
+        cancelButton.setImage(#imageLiteral(resourceName: "cancelBtn"), for: .normal)
+        // cancelButton.setTitleColor(UIColor.blue, for: .normal)
+        //cancelButton.frame = CGRect(x: screenSize.width-50, y: 03, width: 25, height: 25)
+        cancelButton.addTarget(self, action: #selector(self.pressed(sender:)), for: .touchUpInside)
+        helpView.addSubview(cancelButton)
+        
+        let label = UILabel(frame: CGRect(x: 10, y: 25, width: screenSize.width - 50, height: 100))
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.textAlignment = .left
+        label.text = "Advice help text is under review, will display Soon"
+        label.sizeToFit()
+        label.textColor = UIColor.black
+        helpView.addSubview(label)
+        //helpView.heightAnchor.constraint(equalTo: label.heightAnchor, multiplier: 1.5)
+        
+        helpView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+        UIView.animate(withDuration: 1.0, delay: 0.5, options: .curveEaseOut, animations: {() -> Void in
+            self.helpView.transform = CGAffineTransform.identity
+        }, completion: {(finished: Bool) -> Void in
+            self.view.addSubview(self.helpViewBG)
+            self.view.addSubview(self.helpView)
+            // do something once the animation finishes, put it here
+        })
+        
+    }
+    
+    func pressed(sender: UIButton!) {
+        self.helpView.removeFromSuperview()
+        self.helpViewBG.removeFromSuperview()
+        
+    }
     
     @IBAction func SignOutButtonPressed(_ sender: Any) {
         if (sharedInstnce.isVoiceOn == true){
@@ -231,7 +290,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        UIApplication.shared.isStatusBarHidden = false
         if (sharedInstnce.isVoiceOn == true){
             if let url = Bundle.main.url(forResource: "Test", withExtension: "m4a"){
                 audioPlayer = try! AVAudioPlayer(contentsOf: url)
@@ -534,6 +593,16 @@ extension ChatViewController: UITableViewDelegate {
         //
     }
     
+//    override var shouldAutorotate: Bool {
+//        return false
+//    }
+//    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+//        return .portrait
+//    }
+//    
+//    override var prefersStatusBarHidden: Bool{
+//        return false
+//    }
     
 }
 
@@ -587,6 +656,25 @@ extension ChatViewController: TextToSpeechServiceDelegate {
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "watsonStopSpeakingNotification"), object:self)
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if UIDevice.current.orientation.isLandscape {
+            print("Landscape")
+        } else {
+            print("Portrait")
+        }
+    }
+    
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        //swift 3
+        //getScreenSize()
+        if UIDevice.current.orientation.isLandscape {
+            print("Landscape1")
+        } else {
+            print("Portrait1")
+        }
+    }
+
     
 }
 

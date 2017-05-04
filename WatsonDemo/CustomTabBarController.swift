@@ -65,6 +65,39 @@ class CustomTabBarViewController: UITabBarController, CustomTabBarDataSource, Cu
     
     func didSelectViewController(_ tabBarView: CustomTabBar, atIndex index: Int) {
         self.selectedIndex = index
+        self.setNeedsStatusBarAppearanceUpdate()
+        //self.prefersStatusBarHidden
+    }
+    
+//    override var shouldAutorotate: Bool {
+//        return false
+//    }
+    
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        //swift 3
+        //getScreenSize()
+        if UIDevice.current.orientation.isLandscape {
+            print("Landscape")
+        } else {
+            print("Portrait")
+        }
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if UIDevice.current.orientation.isLandscape {
+            print("Landscape")
+        } else {
+            print("Portrait")
+        }
+    }
+    
+
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return .portrait
+    }
+//
+    override var prefersStatusBarHidden: Bool{
+        return false
     }
     
     // MARK: - UITabBarControllerDelegate

@@ -50,15 +50,27 @@ struct GlobalConstants {
     static let valuesCall = "https://ineedawar.mybluemix.net/SimpleServlet?token=5531999940875&id=e562a47f-bfb3-4b74-a641-af5336591652&claimNumber=0001546961"
     
     static let logInAuthenticationUrl = "http://westfiledlossadvisorpilot.mybluemix.net/authenticate"
-    
     static let userDetailUpdateUrl = "http://westfiledlossadvisorpilot.mybluemix.net/userprofile"
-    
     static let getDistributionList = "http://westfiledlossadvisorpilot.mybluemix.net/userdistributionlist?_id=%@"
     
     static let getProfileData = "http://westfiledlossadvisorpilot.mybluemix.net/userprofile?_id=%@"
-    
     static let updateDistributionList = "http://westfiledlossadvisorpilot.mybluemix.net/userdistributionlist"
     
+    
+    
+//    static let wcsWorkflowURL = "https://westfiledlossadvisornodejsorchestrator.mybluemix.net/cognitiveorchestrator"
+//    
+//    static let valuesCall = "https://ineedawar.mybluemix.net/SimpleServlet?token=5531999940875&id=e562a47f-bfb3-4b74-a641-af5336591652&claimNumber=0001546961"
+//    
+//    static let logInAuthenticationUrl = "https://westfiledlossadvisornodejsorchestrator.mybluemix.net/authenticate"
+//    static let userDetailUpdateUrl = "https://westfiledlossadvisornodejsorchestrator.mybluemix.net/userprofile"
+//    static let getDistributionList = "https://westfiledlossadvisornodejsorchestrator.mybluemix.net/userdistributionlist?_id=%@"
+//    
+//    static let getProfileData = "https://westfiledlossadvisornodejsorchestrator.mybluemix.net/userprofile?_id=%@"
+//    static let updateDistributionList = "http://westfiledlossadvisorpilot.mybluemix.net/userdistributionlist"
+//    
+    
+   // https://westfiledlossadvisornodejsorchestrator.mybluemix.net
     
     
 //        {

@@ -255,6 +255,13 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         
     }
     
+    override var shouldAutorotate: Bool {
+        return false
+    }
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
     func stopAnimating() {
         signInButton.isEnabled = true
         signInButton.alpha = 1.0
