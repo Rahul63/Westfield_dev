@@ -279,7 +279,10 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate,AutoViewDeleg
     }
     
     @IBAction func SignOutButtonPressed(_ sender: Any) {
-                
+        
+        for aview in self.view.subviews{
+            aview.removeFromSuperview()
+        }
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let logInVc = storyBoard.instantiateViewController(withIdentifier: "LogInVC") as! LogInViewController
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

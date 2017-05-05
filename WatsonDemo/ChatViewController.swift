@@ -157,11 +157,15 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
             self.micImage.alpha = 0.5
         }
         if sharedInstnce.isVoiceOn == true {
-            if (audioPlayer?.isPlaying)!{
-                //audioPlayer?.pause()
-                timerAudio?.invalidate()
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "watsonSpeakingNotification"), object:self)
+            if audioPlayer != nil{
+                if (audioPlayer?.isPlaying)!{
+                    //audioPlayer?.pause()
+                    timerAudio?.invalidate()
+                    timerAudio = nil
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "watsonSpeakingNotification"), object:self)
+                }
             }
+            
             
         }
         
@@ -191,9 +195,12 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         } else {
             micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOn")
             if sharedInstnce.isVoiceOn == true {
-                if (audioPlayer?.isPlaying)!{
-                    audioPlayer?.stop()
+                if audioPlayer != nil{
+                    if (audioPlayer?.isPlaying)!{
+                        audioPlayer?.stop()
+                    }
                 }
+                
                 
             }
             
@@ -249,9 +256,12 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
     
     @IBAction func SignOutButtonPressed(_ sender: Any) {
         if (sharedInstnce.isVoiceOn == true){
-            if (audioPlayer?.isPlaying)!{
-                audioPlayer?.stop()
+            if audioPlayer != nil{
+                if (audioPlayer?.isPlaying)!{
+                    audioPlayer?.stop()
+                }
             }
+            
         }
         timerAudio?.invalidate()
         timerAudio = nil
@@ -280,16 +290,29 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         super.viewWillDisappear(animated)
         if (sharedInstnce.isVoiceOn == true){
             do {
-            if (audioPlayer?.isPlaying)!{
-                audioPlayer?.stop()
-            }
+                if let url = Bundle.main.url(forResource: "Test", withExtension: "m4a"){
+                    audioPlayer = try! AVAudioPlayer(contentsOf: url)
+                    audioPlayer?.stop()
+                    audioPlayer?.currentTime = 0.0
+                    audioPlayer = nil
+                    isSignOut = true
+                }
+//            if (audioPlayer?.isPlaying)!{
+//                audioPlayer?.stop()
+//            }
+//                audioPlayer = nil
+                
         }
-        
-    }
+        }
+        timerAudio?.invalidate()
+        timerAudio = nil
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "watsonSpeakingNotification"), object:self)
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        isSignOut = false
         UIApplication.shared.isStatusBarHidden = false
         if (sharedInstnce.isVoiceOn == true){
             if let url = Bundle.main.url(forResource: "Test", withExtension: "m4a"){
@@ -644,11 +667,14 @@ extension ChatViewController: TextToSpeechServiceDelegate {
     
     func playingAudio()  {
         print("timerRunning")
-        if (audioPlayer?.isPlaying)!{
-            timerAudio?.invalidate()
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "watsonSpeakingNotification"), object:self)
-            
+        if audioPlayer != nil{
+            if (audioPlayer?.isPlaying)!{
+                timerAudio?.invalidate()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "watsonSpeakingNotification"), object:self)
+                
+            }
         }
+        
     }
     
     public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {

@@ -49,6 +49,7 @@ class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDele
     @IBOutlet weak var lastNameFld: UITextField!
     @IBOutlet weak var mobileNumFld: UITextField!
     @IBOutlet weak var emailFld: UITextField!
+    @IBOutlet weak var agencyFld: UITextField!
     
     var userDataValue : [ProfileModel] = []
     var idValue = ""

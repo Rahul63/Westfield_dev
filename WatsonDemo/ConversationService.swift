@@ -158,7 +158,9 @@ class ConversationService {
 
     }
 
-    func parseJson(json: [String:AnyObject]) { 
+    func parseJson(json: [String:AnyObject]) {
+        
+        //var contextValue = (json["context"] as? String)!
 
         self.context = (json["context"] as? String)!
         
@@ -176,7 +178,7 @@ class ConversationService {
        // var text  = "<img:src>https://ibm.box.com/shared/static/3cxzelnbpjm1og53abxnt3x5cjs1fbus.jpg</img:src><br>I’m sure your employees only want to work hard for you. They might not realize that what seems like a routine pill for pain could negatively impact their driving ability.\",\"Give me your best guess on how many adults you think have used prescription drugs in the past 30 days.<br><br><wcs:input>80%</wcs:input><br><br><wcs:input>50%</wcs:input><br><br><wcs:input>30%</wcs:input>"
         
          //var text  = "<vid:src>https://ibm.box.com/shared/static/xlpe595snnem4swkvtihq0cz024un5s5.mp4</vid:src><br>That’s great $User_First_Name, you are ahead of the competition. Most app stores have apps that can send an automatic text saying they are driving or even block incoming call alerts or test messages. Here is a <a href=\"https://www.verizonwireless.com/archive/mobile-living/home-and-family/apps-to-block-texting-while-driving\">list of apps</a> you can use on your company phones.<br><br>Ready to continue?"
-        
+        //text = text.removingPercentEncoding!
         
         //print("JSSSOONN>>>>\(text)")
         var opt = [String]()

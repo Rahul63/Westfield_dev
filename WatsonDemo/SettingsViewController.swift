@@ -29,7 +29,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     var idDvalue: String?
     var isFromVoiceUpdate : Bool?
     var onOffValue : String?
-    
+    var isSignOut : Bool = false
     let sharedInstnce = watsonSingleton.sharedInstance
     var idValue = ""
     
@@ -126,6 +126,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 userCell.mobileNumFld.text = tempData.phoneNumber
                 userCell.emailFld.text = tempData.email
                 userCell.idValue = self.idValue
+                userCell.agencyFld.text = tempData.agencyName
                 
 //                if ((self.userData["preferredfirstname"]) != nil) {
 //                    userCell.fullNameLbl.text = String(format: "%@ %@", (self.userData["preferredfirstname"])!,(self.userData["preferredlastname"])!)
@@ -303,9 +304,13 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         let indexPath = NSIndexPath(row: 0, section: 0) as IndexPath
-        
         let cell = settingsTableView.cellForRow(at: indexPath) as! UserViewCell
-        cell.serviceCallUserUdate()
+        //cell.firstNameFld.resignFirstResponder()
+        if isSignOut == false{
+            
+            cell.serviceCallUserUdate()
+        }
+        
     }
     
     
@@ -313,6 +318,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
         self.StartAnimating()
+        isSignOut = false
         //self.view.alpha = 0.5
         profileService.serviceCallforGettingProfile(With: idValue)
         
@@ -433,12 +439,31 @@ func pressed(sender: UIButton!) {
 }
 
     @IBAction func SignOutButtonPressed(_ sender: Any) {
+        isSignOut = true
+        let indexPath = NSIndexPath(row: 0, section: 0) as IndexPath
+        let cell = settingsTableView.cellForRow(at: indexPath) as! UserViewCell
+        
+        if cell.firstNameFld.text == "" {
+            cell.firstNameFld.resignFirstResponder()
+            cell.firstNameFld.becomeFirstResponder()
+        }else{
+            isSignOut = false
+            signOut()
+        }
+        
+        //Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(signOut), userInfo: nil, repeats: false)
+        
+        
+    }
+    func signOut() {
+        for aview in self.view.subviews{
+            aview.removeFromSuperview()
+        }
         UserDefaults.standard.setValue("", forKey: "UserDetail")
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let logInVc = storyBoard.instantiateViewController(withIdentifier: "LogInVC") as! LogInViewController
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window?.rootViewController = logInVc
-        
     }
     
     
