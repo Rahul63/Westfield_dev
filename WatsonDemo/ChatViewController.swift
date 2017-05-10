@@ -379,10 +379,13 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         #endif
     }
     
-    func SendMessageWithButtonValue(with value:String){
+    func SendMessageWithButtonValue(with value:String, atIndex : Int){
        // print(value)
-        
-        let userMessage = Message(type: MessageType.User, text: value, options: nil)
+        //array.first({$0.eventID == id})?.added = value
+        messages[atIndex].isEnableRdBtn = false
+        messages[atIndex].selectedOption = value
+        chatTableView.reloadData()
+        let userMessage = Message(type: MessageType.User, text: value, options: nil,enableButton : true,selectedOption:"")
         self.appendChat(withMessage: userMessage)
 
         
@@ -451,6 +454,7 @@ extension ChatViewController: UITableViewDataSource {
                                                          for: indexPath) as! WatsonChatViewCell
             
             cell.delegate = self
+            cell.indexNumber = indexPath.row
             cell.configure(withMessage: message)
             return cell
 
@@ -635,7 +639,7 @@ extension ChatViewController: UITableViewDelegate {
 extension ChatViewController: SpeechToTextServiceDelegate {
 
     func didFinishTranscribingSpeech(withText text: String) {
-        appendChat(withMessage: Message(type: MessageType.User, text: text, options: nil))
+        appendChat(withMessage: Message(type: MessageType.User, text: text, options: nil,enableButton : true,selectedOption:""))
     }
     
 }
@@ -711,11 +715,58 @@ extension ChatViewController: ConversationServiceDelegate {
     
     internal func didReceiveMessage(withText text: String, options: [String]?) {
         guard text.characters.count > 0 else { return }
+        var text = text
+        
+        //<pindrop to=\"advice icon\"></pindrop>
+        //        <pindrop to=\"toolbox icon\"></pindrop>
+        //        <pindrop to=\"news icon\"></pindrop>
+        //        <pindrop to=\"progress icon\"></pindrop>
+        //        <pindrop to=\"settings icon\"></pindrop>
+        
+        /*if text.contains("pindrop to"){
+            let range2 = text.range(of: "(?<=<pindrop to=)[^><]+(?=>)", options: .regularExpression)
+            if range2 != nil {
+                let optionsStringNew = text.substring(with: range2!)
+                print(optionsStringNew)
+                if optionsStringNew.contains("advice icon"){
+                    let userInfo = ["to":"0","from":"0"]
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue : "DropPinInView"), object: nil, userInfo: userInfo)
+                }
+                if optionsStringNew.contains("toolbox icon"){
+                    let userInfo = ["to":"1","from":"0"]
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue : "DropPinInView"), object: nil, userInfo: userInfo)
+                }
+                if optionsStringNew.contains("news icon"){
+                    let userInfo = ["to":"2","from":"0"]
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue : "DropPinInView"), object: nil, userInfo: userInfo)
+                }
+                if optionsStringNew.contains("progress icon"){
+                    let userInfo = ["to":"3","from":"0"]
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue : "DropPinInView"), object: nil, userInfo: userInfo)
+                }
+                if optionsStringNew.contains("settings icon"){
+                    let userInfo = ["to":"4","from":"0"]
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue : "DropPinInView"), object: nil, userInfo: userInfo)
+                }
+                let rangeText2 = text.range(of:"<pindrop[^>]*>(.*?)</pindrop>", options:.regularExpression)
+                
+                if rangeText2 != nil {
+                    let optionsStringNewOpt = text.substring(with: rangeText2!)
+                    print(optionsStringNewOpt)
+                    text = text.replacingOccurrences(of: optionsStringNewOpt, with: "")
+                    
+                }
+                
+            }
+        }*/
+        
         
         var opt = [String]()
         timerAudio?.invalidate()
         timerAudio = nil
         //print("<<<<<<<<<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
+        
+        //pindrop to
 
         let rangeN = text.range(of:"\",\"", options:.regularExpression)
         if (rangeN != nil) {
@@ -735,7 +786,7 @@ extension ChatViewController: ConversationServiceDelegate {
                 // print("With Normal new Chat..\(foundText)")
             }
             for item in 0..<opt.count{
-                self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil))
+                self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil,enableButton : true,selectedOption:""))
             }
             
         }else{
@@ -750,7 +801,7 @@ extension ChatViewController: ConversationServiceDelegate {
             }else{
                 //print("With Normal..\(foundText)")
             }
-            self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil))
+            self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil,enableButton : true,selectedOption:""))
         }
     
     }
@@ -859,19 +910,19 @@ extension ChatViewController: ConversationServiceDelegate {
     }
 
     internal func didReceiveMap(withUrl mapUrl: URL) {
-        var message = Message(type: MessageType.Map, text: "", options: nil)
+        var message = Message(type: MessageType.Map, text: "", options: nil,enableButton : true,selectedOption:"")
         message.mapUrl = mapUrl
         self.appendChat(withMessage: message)
     }
 
     internal func didReceiveVideo(withUrl videoUrl: URL) {
-        var message = Message(type: MessageType.Video, text: "", options: nil)
+        var message = Message(type: MessageType.Video, text: "", options: nil,enableButton : true,selectedOption:"")
         message.videoUrl = videoUrl
         self.appendChat(withMessage: message)
     }
 
     internal func didReceiveImage(withUrl imageUrl: URL, andScale:String) {
-        var message = Message(type: MessageType.image, text: "", options: nil)
+        var message = Message(type: MessageType.image, text: "", options: nil,enableButton : true,selectedOption:"")
         message.imageUrl = imageUrl
         message.text = andScale
         self.appendChat(withMessage: message)

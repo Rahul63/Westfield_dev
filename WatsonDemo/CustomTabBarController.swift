@@ -20,7 +20,8 @@ class CustomTabBarViewController: UITabBarController, CustomTabBarDataSource, Cu
         self.tabBar.isHidden = true
         self.selectedIndex = 0
         self.delegate = self
-        
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(showpinInView(notif:)), name: NSNotification.Name(rawValue: "DropPinInView"), object: nil)
         
         //let newFrame =
         
@@ -59,6 +60,21 @@ class CustomTabBarViewController: UITabBarController, CustomTabBarDataSource, Cu
     
     func tabBarItemsInCustomTabBar(_ tabBarView: CustomTabBar) -> [UITabBarItem] {
         return tabBar.items!
+    }
+    
+    func showpinInView(notif:NSNotification){
+        
+        let value = notif.userInfo
+        let fromValue = Int(value?["from"] as? String ?? "")
+        let toValue = Int(value?["to"] as? String ?? "")
+//        print(fromValue)
+//        print(toValue)
+        
+        animateTabb(with: fromValue!, and: toValue!)
+    }
+    
+    func animateTabb(with from: Int,and to: Int) {
+        customTabBar.animateTabBarSelection(from: 0, to: to)
     }
     
     // MARK: - CustomTabBarDelegate

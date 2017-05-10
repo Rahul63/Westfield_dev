@@ -24,7 +24,7 @@ class CustomTabBar: UIView {
     var tabBarItems: [UITabBarItem]!
     var customTabBarItems: [CustomTabBarItem]!
     var tabBarButtons: [UIButton]!
-    
+    var maskImgViewL: UIImageView!
     var initialTabBarItemIndex: Int!
     var selectedTabBarItemIndex: Int!
     var slideMaskDelay: Double!
@@ -61,8 +61,35 @@ class CustomTabBar: UIView {
         
         let containers = createTabBarItemContainers()
         
-        //createTabBarItemSelectionOverlayMask(containers)
+        createTabBarItemSelectionOverlay(containers)
+        createTabBarItemSelectionOverlayMask(containers)
         createTabBarItems(containers)
+    }
+    
+    
+    
+    func createTabBarItemSelectionOverlay(_ containers: [CGRect]) {
+        
+        for index in 0..<tabBarItems.count {
+            let container = containers[index]
+            
+            let view = UIView(frame: container)
+            
+            let selectedItemOverlay = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
+            //selectedItemOverlay.backgroundColor = UIColor.green//overlayColors[index]
+            view.addSubview(selectedItemOverlay)
+            
+            self.addSubview(view)
+        }
+    }
+    
+    func createTabBarItemSelectionOverlayMask(_ containers: [CGRect]) {
+        
+        tabBarItemWidth = self.frame.width / CGFloat(tabBarItems.count)
+        let leftOverlaySlidingMultiplier = CGFloat(1) * tabBarItemWidth
+
+        maskImgViewL = UIImageView(frame: CGRect(x: 0, y: -40, width: 40, height: 60))
+        maskImgViewL.image = UIImage(named : "pin")
     }
     
     
@@ -118,33 +145,22 @@ class CustomTabBar: UIView {
         return tabBarContainerRect
     }
     
-//    func TabBarSelection(from: Int, to: Int) {
-//        
-//        let overlaySlidingMultiplier = CGFloat(to - from) * tabBarItemWidth
-//        
-//        let leftMaskDelay: Double
-//        let rightMaskDelay: Double
-//        if overlaySlidingMultiplier > 0 {
-//            leftMaskDelay = slideMaskDelay
-//            rightMaskDelay = 0
-//        }
-//        else {
-//            leftMaskDelay = 0
-//            rightMaskDelay = slideMaskDelay
-//        }
-//        
-//        UIView.animate(withDuration: slideAnimationDuration - leftMaskDelay, delay: leftMaskDelay, options: UIViewAnimationOptions(), animations: {
-//            self.leftMask.frame.size.width += overlaySlidingMultiplier
-//            }, completion: nil)
-//        
-//        UIView.animate(withDuration: slideAnimationDuration - rightMaskDelay, delay: rightMaskDelay, options: UIViewAnimationOptions(), animations: {
-//            self.rightMask.frame.origin.x += overlaySlidingMultiplier
-//            self.rightMask.frame.size.width += -overlaySlidingMultiplier
-//            self.customTabBarItems[from].iconView.tintColor = UIColor.black
-//            self.customTabBarItems[to].iconView.tintColor = UIColor.blue
-//            }, completion: nil)
-//        
-//    }
+    func animateTabBarSelection(from: Int, to: Int) {
+        
+        let overlaySlidingMultiplier = CGFloat(to - from) * tabBarItemWidth
+        UIView.animate(withDuration: slideAnimationDuration, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 30.0, options: UIViewAnimationOptions.transitionFlipFromTop, animations: {
+            print(overlaySlidingMultiplier)
+            self.addSubview(self.maskImgViewL)
+            self.maskImgViewL.frame.origin.x = overlaySlidingMultiplier+(self.tabBarItemWidth/2-20)
+        }, completion: nil)
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(hidePinView), userInfo: nil, repeats: false)
+    }
+    
+    func hidePinView() {
+        UIView.animate(withDuration: slideAnimationDuration, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 3.0, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
+            self.maskImgViewL.removeFromSuperview()
+        }, completion: nil)
+    }
     
     func barItemTapped(_ sender : UIButton) {
         let index = tabBarButtons.index(of: sender)!

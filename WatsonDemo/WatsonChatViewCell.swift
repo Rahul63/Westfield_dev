@@ -14,7 +14,7 @@ import AVFoundation
 protocol watsonChatCellDelegate
 {
     func loadUrlLink(url : String?)
-    func SendMessageWithButtonValue(with value:String)
+    func SendMessageWithButtonValue(with value:String, atIndex : Int)
     
     // loadUrlLink(result: Int)
 }
@@ -24,6 +24,8 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
     var delegate: watsonChatCellDelegate!
     @IBOutlet weak var chatBubbleTableView: UITableView!
     @IBOutlet weak var chatStackView: UIStackView!
+    var indexNumber : Int!
+    
     
 
     // MARK: - Doc
@@ -44,6 +46,9 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
     @IBOutlet weak var heightLable: UILabel!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     var optionData = [String]()
+    var isbuttonEnable : Bool = true
+    var selectedButtonTitle : String? = ""
+    
     var chatViewController: ChatViewController?
     /// Configure Watson chat table view cell with Watson message
     ///
@@ -64,7 +69,8 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
         
         //print("My final text.To chat buuble.>\(text)")
         messageLabel.delegate = self
-        
+        self.isbuttonEnable = message.isEnableRdBtn
+        self.selectedButtonTitle = message.selectedOption
         for aView in chatStackView.arrangedSubviews{
             //print("Myyy view before remved\(aView)")
             if aView .isKind(of: UIStackView.self) {
@@ -251,6 +257,13 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
          for i in 0..<count{
             let button = makeButtonWithText(tag: i)
             let lable = makeTextLableWithText(index: i)
+            
+            let btnTitle = optionData[i]
+            if btnTitle.contains(self.selectedButtonTitle!){
+                button.isSelected = true
+            }
+            
+            
             var viewArray = [UIView]()
             viewArray += [button]
             viewArray += [lable]
@@ -264,6 +277,7 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
     
     func makeButtonWithText(tag:Int) -> KGRadioButton {
         //Initialize a button
+        print("ENABLE....\(isbuttonEnable)")
         let myButton = KGRadioButton()
         myButton.tag = tag
         //myButton.frame = CGRect(x: 30, y: 0, width: 25, height: 25)
@@ -272,6 +286,11 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
         //myButton.widthAnchor.constraint(equalToConstant: 25)
         myButton.outerCircleColor = UIColor(red: 0.0/255, green: 122.0/255, blue: 255.0/255, alpha: 1)
         myButton.addTarget(self,action:#selector(manualAction(sender:)) ,for: .touchUpInside)
+        if isbuttonEnable == false {
+            myButton.isEnabled = false
+            myButton.alpha = 0.5
+        }
+        
         return myButton
     }
     
@@ -289,7 +308,7 @@ class WatsonChatViewCell: UITableViewCell,UITableViewDelegate,UITableViewDataSou
         
         if sender.isSelected {
             
-            self.delegate?.SendMessageWithButtonValue(with: optionData[sender.tag])
+            self.delegate?.SendMessageWithButtonValue(with: optionData[sender.tag],atIndex: indexNumber)
             
         } else{
         }

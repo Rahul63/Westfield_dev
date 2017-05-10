@@ -26,6 +26,9 @@ public struct Message {
     var mapUrl: URL?
     var videoUrl: URL?
     var imageUrl: URL?
+    var isEnableRdBtn : Bool
+    var selectedOption: String?
+    
 
     /// Initialize Message instance
     ///
@@ -33,10 +36,12 @@ public struct Message {
     ///   - type: type of message
     ///   - text: text of message
     ///   - options: button options
-    init(type: MessageType, text: String?, options: [String]?) {
+    init(type: MessageType, text: String?, options: [String]?, enableButton:Bool,selectedOption: String? ) {
         self.type = type
         self.text = text
         self.options = options
+        self.isEnableRdBtn = enableButton
+        self.selectedOption = selectedOption
     }
 
 }

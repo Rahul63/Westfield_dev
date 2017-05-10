@@ -51,7 +51,7 @@ class ChatInputAccessoryView: NSObject {
 
     /// Send message, append it to chat view - and only then dismiss keyboard
     private func sendMessage() {
-        let userMessage = Message(type: MessageType.User, text: inputTextField.text!, options: nil)
+        let userMessage = Message(type: MessageType.User, text: inputTextField.text!, options: nil,enableButton: true,selectedOption:"")
         self.chatViewController.appendChat(withMessage: userMessage)
         inputTextField.text = ""
 

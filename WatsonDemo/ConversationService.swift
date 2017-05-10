@@ -164,10 +164,16 @@ class ConversationService {
 
         self.context = (json["context"] as? String)!
         
+//        <pindrop to=\"advice icon\"></pindrop>
+//        <pindrop to=\"toolbox icon\"></pindrop>
+//        <pindrop to=\"news icon\"></pindrop>
+//        <pindrop to=\"progress icon\"></pindrop>
+//        <pindrop to=\"settings icon\"></pindrop>
+        
         //var text = "Let's start <sub alias=\"pudding\">putting</sub> together the framework and when we are done we will have a well built program in place. <a href=\"https://ibm.box.com/shared/static/tgxbpkxsudj64ob0v5uc3gkaowj81f7g.docx\">Here</a> you will find the outline of a simple auto safety policy you can create and share. <br><br>We finished that one fast. I barely broke a sweat. We’ve got everything lined up. Are you ready for:<br><br><wcs:input>Another Meeting</wcs:input><br><br><wcs:input>Take a Break</wcs:input><br><br><wcs:input>Something Else</wcs:input>"
         
         
-        //var text = "A majority of accidents are caused by repeat offenders of moving violations. Give me a guess of how likely you think someone is to wreck your company truck if they have <sub alias=\"three or more\">3+</sub> moving violations on their MVR.<br><br><wcs:input><sub alias=\"two times\">2X</sub></wcs:input><br><br><wcs:input><sub alias=\"four times\">4X</sub></wcs:input><br><br><wcs:input><sub alias=\"ten times\">10X</sub></wcs:input>"
+        //var text = "A majority of accidents are caused by <pindrop to=\"toolbox icon\"></pindrop> repeat offenders of moving violations. Give me a guess of how likely you think someone is to wreck your company truck if they have <sub alias=\"three or more\">3+</sub> moving violations on their MVR.<br><br><wcs:input><sub alias=\"two times\">2X</sub></wcs:input><br><br><wcs:input><sub alias=\"four times\">4X</sub></wcs:input><br><br><wcs:input><sub alias=\"ten times\">10X</sub></wcs:input>"
         
         
         

@@ -47,7 +47,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         
 //         userValue = UserDefaults.standard.value(forKey: "UserDetail") as? NSArray
 //        if userValue.count>0 {
-           //self.logInUser()
+          // self.logInUser()
 //        }
         
         self.signInButton.layer.cornerRadius = 3.0
@@ -83,7 +83,18 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
             self.present(alert, animated: true, completion: nil)
         }else{
             
-            self.validateSigningUser(userName: self.userNameField.text!, password: self.passwordField.text!)
+            let isConnectedNetwork = networkConnection()
+            let connected = isConnectedNetwork.isInternetAvailable()
+            
+            if connected{
+                self.validateSigningUser(userName: self.userNameField.text!, password: self.passwordField.text!)
+            }else{
+                logInNetworkError()
+            }
+            
+            
+            
+            
             
         }
         
@@ -93,6 +104,8 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         StartAnimating()
         signInButton.isEnabled = false
         signInButton.alpha = 0.5
+        self.userNameField.isEnabled = false
+        self.passwordField.isEnabled = false
         timerTest = Timer.scheduledTimer(timeInterval: 45.0, target: self, selector: #selector(enableLogIn), userInfo: nil, repeats: false)
         //signInButton.backgroundColor = UIColor.gray
         logInService.serviceCallforLogin(withText: userName, and: password)
@@ -105,7 +118,12 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
             timerTest = nil
         }
         print("myValue>>>\(text)")
-        self.logIndata = text as! NSArray
+        
+        if let logIndata = text as? NSArray{
+            self.logIndata = logIndata
+        }
+        
+       // self.logIndata = text as? NSArray
         
        // guard let count = self.logIndata.count else { return <#return value#> }
         
@@ -134,8 +152,20 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     
     func logInError() {
         signInButton.isEnabled = true
+        self.userNameField.isEnabled = true
+        self.passwordField.isEnabled = true
         signInButton.alpha = 1.0
         let alert = UIAlertController(title: "Error", message: "The username or password you entered is not correct.  Please try again.", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func logInNetworkError() {
+//        signInButton.isEnabled = true
+//        self.userNameField.isEnabled = true
+//        self.passwordField.isEnabled = true
+//        signInButton.alpha = 1.0
+        let alert = UIAlertController(title: "Error", message: "Network is not available.  Please try again once connected to network.", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }

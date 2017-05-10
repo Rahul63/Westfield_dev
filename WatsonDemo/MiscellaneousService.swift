@@ -156,7 +156,7 @@ class MiscellaneousService {
                 if let data = responseString?.data(using: String.Encoding.utf8) {
                     do {
                         if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject] {
-                            print("JSON Value.LogIn..")
+                            print("JSON Value.LogIn..\(json)")
                             self?.parseJson(json: json)
                         }
                     } catch {
@@ -250,8 +250,8 @@ class MiscellaneousService {
     func parseJson(json: [String:AnyObject]) {
         
         //self.value = json["docs"] as! [String]
-        let text = json["docs"] as! NSArray
-        self.delegate?.didReceiveMessage(withText:text)
+        let text = json["docs"] as? NSArray
+        self.delegate?.didReceiveMessage(withText:text ?? "")
         
     }
     
