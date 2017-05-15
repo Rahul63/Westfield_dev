@@ -155,7 +155,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         self.userNameField.isEnabled = true
         self.passwordField.isEnabled = true
         signInButton.alpha = 1.0
-        let alert = UIAlertController(title: "Error", message: "The username or password you entered is not correct.  Please try again.", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Error", message: "The username or password you entered is not correct. Please try again.", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
@@ -165,7 +165,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
 //        self.userNameField.isEnabled = true
 //        self.passwordField.isEnabled = true
 //        signInButton.alpha = 1.0
-        let alert = UIAlertController(title: "Error", message: "Network is not available.  Please try again once connected to network.", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Error", message: "Network is not available. Please try again once connected to network.", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
@@ -266,6 +266,8 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         stopAnimating()
         signInButton.isEnabled = true
         signInButton.alpha = 1.0
+        self.userNameField.isEnabled = true
+        self.passwordField.isEnabled = true
         let alert = UIAlertController(title: "Error", message: "Session expired, please try again", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)

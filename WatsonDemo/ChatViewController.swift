@@ -59,7 +59,8 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         NotificationCenter.default.addObserver(self,selector: #selector(self.playerDidFinishPlaying),name:NSNotification.Name.UIWindowDidBecomeHidden,object:nil)
         NotificationCenter.default.addObserver(self, selector: #selector(imageDidLoadNotification(notification:)), name:NSNotification.Name(rawValue: "videoPlayingNotification"), object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(videoEndedPlaying),name: NSNotification.Name(rawValue: "videoEndedPlayingNotification"),object: nil)
-        
+        NotificationCenter.default.addObserver(self,selector:#selector(audioRouteChangeListener(notification:)),name: NSNotification.Name.AVAudioSessionRouteChange,
+            object: nil)
         
         visibleIP = IndexPath.init(row: 0, section: 0)
         
@@ -198,6 +199,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
                 if audioPlayer != nil{
                     if (audioPlayer?.isPlaying)!{
                         audioPlayer?.stop()
+                        audioPlayer = nil
                     }
                 }
                 
@@ -330,34 +332,36 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
 
     func appendChat(withMessage message: Message) {
         
-        guard let text = message.text,
-            (text.characters.count > 0 || message.options != nil ||
-             message.mapUrl != nil || message.videoUrl != nil || message.imageUrl != nil)
-            else { return }
-
-
-        if message.type == MessageType.User && text.characters.count > 0 {
-            conversationService.sendMessage(withText: text)
-        }
-
-        if let _ = messages.last?.options {
-            /// If user speak or types instead of tapping option button, reload that cell
-            let indexPath = NSIndexPath(row: messages.count - 1, section: 0) as IndexPath
-            messages[messages.count - 1] = message
-            chatTableView.reloadRows(at: [indexPath], with: .none)
-        } else {
-            messages.append(message)
-            /// Add new row to chatTableView
-            let indexPath = NSIndexPath(row: messages.count - 1, section: 0) as IndexPath
-            chatTableView.beginUpdates()
-            chatTableView.insertRows(at: [indexPath], with: .none)
-            chatTableView.endUpdates()
-            let when = DispatchTime.now()
-            DispatchQueue.main.asyncAfter(deadline: when + 0.1) {
-                //self.scrollChatTableToBottom()
-                self.scrollChatTableToBottom()
+        if isSignOut == false{
+            guard let text = message.text,
+                (text.characters.count > 0 || message.options != nil ||
+                    message.mapUrl != nil || message.videoUrl != nil || message.imageUrl != nil)
+                else { return }
+            
+            
+            if message.type == MessageType.User && text.characters.count > 0 {
+                conversationService.sendMessage(withText: text)
             }
             
+            if let _ = messages.last?.options {
+                /// If user speak or types instead of tapping option button, reload that cell
+                let indexPath = NSIndexPath(row: messages.count - 1, section: 0) as IndexPath
+                messages[messages.count - 1] = message
+                chatTableView.reloadRows(at: [indexPath], with: .none)
+            } else {
+                messages.append(message)
+                /// Add new row to chatTableView
+                let indexPath = NSIndexPath(row: messages.count - 1, section: 0) as IndexPath
+                chatTableView.beginUpdates()
+                chatTableView.insertRows(at: [indexPath], with: .none)
+                chatTableView.endUpdates()
+                let when = DispatchTime.now()
+                DispatchQueue.main.asyncAfter(deadline: when + 0.1) {
+                    //self.scrollChatTableToBottom()
+                    self.scrollChatTableToBottom()
+                }
+                
+            }
         }
 
         //self.chatTableView.reloadData()
@@ -648,6 +652,30 @@ extension ChatViewController: SpeechToTextServiceDelegate {
 extension ChatViewController: TextToSpeechServiceDelegate {
 
     func textToSpeechDidFinishSynthesizing(withAudioData audioData: Data) {
+    
+        
+        let currentRoute = AVAudioSession.sharedInstance().currentRoute
+        if currentRoute.outputs.count > 0 {
+            for description in currentRoute.outputs {
+                print(description.portType)
+                if description.portType == AVAudioSessionPortHeadphones {
+                    print("headphone plugged in")
+                }
+                else if description.portType == AVAudioSessionPortBluetoothA2DP{
+                    print("Bluetooth plugged in")
+                }
+                else {
+                    print("headphone pulled out")
+                }
+            }
+        } else {
+            print("requires connection to device")
+        }
+        
+//        if AVAudioSessionRouteChangeReason.newDeviceAvailable.rawValue{
+//            
+//        }
+        
         
         if isSignOut == false{
             audioPlayer = try! AVAudioPlayer(data: audioData)
@@ -655,10 +683,10 @@ extension ChatViewController: TextToSpeechServiceDelegate {
            
             #if !DEBUG
                 
-                do {
-                    try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
-                } catch _ {
-                }
+//                do {
+//                    try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+//                } catch _ {
+//                }
                 
                 audioPlayer?.play()
                 timerAudio = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(playingAudio), userInfo: nil, repeats: true)
@@ -667,6 +695,31 @@ extension ChatViewController: TextToSpeechServiceDelegate {
             
         }
         
+    }
+    
+    func audioRouteChangeListener(notification:NSNotification) {
+        let audioRouteChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as! UInt
+        
+        switch audioRouteChangeReason {
+        case AVAudioSessionRouteChangeReason.newDeviceAvailable.rawValue:
+            print("headphone plugged in")
+            do {
+                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.none)
+                
+            } catch _ {
+                
+            }
+        case AVAudioSessionRouteChangeReason.oldDeviceUnavailable.rawValue:
+            print("headphone pulled out")
+            do {
+                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+                
+            } catch _ {
+                
+            }
+        default:
+            break
+        }
     }
     
     func playingAudio()  {
@@ -716,14 +769,14 @@ extension ChatViewController: ConversationServiceDelegate {
     internal func didReceiveMessage(withText text: String, options: [String]?) {
         guard text.characters.count > 0 else { return }
         var text = text
-        
+        print(text)
         //<pindrop to=\"advice icon\"></pindrop>
         //        <pindrop to=\"toolbox icon\"></pindrop>
         //        <pindrop to=\"news icon\"></pindrop>
         //        <pindrop to=\"progress icon\"></pindrop>
         //        <pindrop to=\"settings icon\"></pindrop>
         
-        /*if text.contains("pindrop to"){
+        if text.contains("pindrop to"){
             let range2 = text.range(of: "(?<=<pindrop to=)[^><]+(?=>)", options: .regularExpression)
             if range2 != nil {
                 let optionsStringNew = text.substring(with: range2!)
@@ -758,7 +811,7 @@ extension ChatViewController: ConversationServiceDelegate {
                 }
                 
             }
-        }*/
+        }
         
         
         var opt = [String]()
@@ -811,6 +864,16 @@ extension ChatViewController: ConversationServiceDelegate {
         var foundText = ""
         var text = text
        // print(text)
+        
+        let rangeText2 = text.range(of:"<pindrop[^>]*>(.*?)</pindrop>", options:.regularExpression)
+        
+        if rangeText2 != nil {
+            let optionsStringNewOpt = text.substring(with: rangeText2!)
+            print(optionsStringNewOpt)
+            text = text.replacingOccurrences(of: optionsStringNewOpt, with: "")
+            
+        }
+        
         if text.contains("tts="){
             let rangetts = text.range(of: "(?<=tts=)[^><]+(?=>)", options: .regularExpression)
             if rangetts != nil {

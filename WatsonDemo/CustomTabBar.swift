@@ -29,7 +29,7 @@ class CustomTabBar: UIView {
     var selectedTabBarItemIndex: Int!
     var slideMaskDelay: Double!
     var slideAnimationDuration: Double!
-    
+    var timerPin : Timer?
     var tabBarItemWidth: CGFloat!
     var leftMask: UIView!
     var rightMask: UIView!
@@ -56,7 +56,7 @@ class CustomTabBar: UIView {
         initialTabBarItemIndex = 0
         selectedTabBarItemIndex = initialTabBarItemIndex
         
-        slideAnimationDuration = 0.6
+        slideAnimationDuration = 1.6
         slideMaskDelay = slideAnimationDuration / 2
         
         let containers = createTabBarItemContainers()
@@ -146,14 +146,15 @@ class CustomTabBar: UIView {
     }
     
     func animateTabBarSelection(from: Int, to: Int) {
-        
+        timerPin?.invalidate()
+        timerPin = nil
         let overlaySlidingMultiplier = CGFloat(to - from) * tabBarItemWidth
-        UIView.animate(withDuration: slideAnimationDuration, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 30.0, options: UIViewAnimationOptions.transitionFlipFromTop, animations: {
+        UIView.animate(withDuration: slideAnimationDuration, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 10.0, options: UIViewAnimationOptions.transitionFlipFromTop, animations: {
             print(overlaySlidingMultiplier)
             self.addSubview(self.maskImgViewL)
             self.maskImgViewL.frame.origin.x = overlaySlidingMultiplier+(self.tabBarItemWidth/2-20)
         }, completion: nil)
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(hidePinView), userInfo: nil, repeats: false)
+        timerPin = Timer.scheduledTimer(timeInterval: 15.0, target: self, selector: #selector(hidePinView), userInfo: nil, repeats: false)
     }
     
     func hidePinView() {

@@ -29,6 +29,7 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate,AutoViewDeleg
     var itemValue = [BOXItem]()
     var  urlStr = ""
     var delegate: ToolBoxSearchDelegate?
+    var isSignOut = false
     
 
     @IBOutlet weak var BackButton: UIButton!
@@ -132,9 +133,11 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate,AutoViewDeleg
     
     
     func playerDidFinishPlaying() {
-        self.headerView.frame = CGRect(x:0,y:0,width:self.view.frame.size.width,height:self.headerView.frame.size.height)
-        self.headerView.setNeedsDisplay()
-        
+        if isSignOut == false{
+            self.headerView.frame = CGRect(x:0,y:0,width:self.view.frame.size.width,height:self.headerView.frame.size.height)
+            self.headerView.setNeedsDisplay()
+        }
+       
        // print("ppppppppppppp>>>>>>>>>>>PPPPPPPPlayeeeerrrrrrrMethod")
     }
     
@@ -271,7 +274,7 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate,AutoViewDeleg
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        isSignOut = false
         // self.view.frame(CGRect(x:0,y:0,width:self.view.frame.size.width, height:self.view.frame.size.height))
         //self.view.frame = CGRect(x:0,y:100,width:self.view.frame.size.width, height:self.view.frame.size.height-100)
         // [self.view setFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height)];
@@ -279,7 +282,7 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate,AutoViewDeleg
     }
     
     @IBAction func SignOutButtonPressed(_ sender: Any) {
-        
+        isSignOut = true
         for aview in self.view.subviews{
             aview.removeFromSuperview()
         }
