@@ -74,6 +74,8 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         setupSimulator()
         chatTextField.chatViewController = self
         
+        micButton.addTarget(self, action: #selector(RecordingEnd(sender:)), for: UIControlEvents.touchUpInside);
+        micButton.addTarget(self, action: #selector(RecordingStart(sender:)), for: UIControlEvents.touchDown)
 
         chatTableView.autoresizingMask = UIViewAutoresizing.flexibleHeight;
         chatTableView.rowHeight = UITableViewAutomaticDimension
@@ -186,30 +188,60 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         
     }
     
+    
+    
+    
+    //target functions
+    func RecordingStart(sender:UIButton)
+    {
+        print("hold down")
+        micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOn")
+        if sharedInstnce.isVoiceOn == true {
+            if audioPlayer != nil{
+                if (audioPlayer?.isPlaying)!{
+                    audioPlayer?.stop()
+                    audioPlayer = nil
+                }
+            }
+            
+            
+        }
+        chatTextField.text = "Recording..."
+        speechToTextService.startRecording()
+    }
+    
+    func RecordingEnd(sender:UIButton)
+    {
+        print("hold release")
+        chatTextField.text = ""
+        micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOff")
+        speechToTextService.finishRecording()
+    }
+    
 
     // MARK: - Actions
     @IBAction func micButtonTapped() {
         
-        if micButton.isSelected {
-            micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOff")
-            speechToTextService.finishRecording()
-        } else {
-            micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOn")
-            if sharedInstnce.isVoiceOn == true {
-                if audioPlayer != nil{
-                    if (audioPlayer?.isPlaying)!{
-                        audioPlayer?.stop()
-                        audioPlayer = nil
-                    }
-                }
-                
-                
-            }
-            
-            speechToTextService.startRecording()
-        }
-
-        micButton.isSelected = !micButton.isSelected
+//        if micButton.isSelected {
+//            micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOff")
+//            speechToTextService.finishRecording()
+//        } else {
+//            micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOn")
+//            if sharedInstnce.isVoiceOn == true {
+//                if audioPlayer != nil{
+//                    if (audioPlayer?.isPlaying)!{
+//                        audioPlayer?.stop()
+//                        audioPlayer = nil
+//                    }
+//                }
+//                
+//                
+//            }
+//            
+//            speechToTextService.startRecording()
+//        }
+//
+//        micButton.isSelected = !micButton.isSelected
     }
     
     @IBAction func HelpButtonPressed(_ sender: Any) {

@@ -68,13 +68,15 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     func getToolBoxData() {
         let boxContent = BOXContentClient.default()
+        let getFiles = boxContent?.folderItemsRequest(withID: "23235938513")
+        
         
         let searchFile = boxContent?.searchRequest(withQuery: "All", in: NSMakeRange(0, 1000))
         
         searchFile?.ancestorFolderIDs = ["0"]
         //searchFile?.fileExtensions = [".pdf","jpg","png"]
         searchFile?.perform(completion: {item in
-            print(" MY Value..\(item)")
+            print(" MY Value..\(item.0)")
             if item.0 != nil {
                 self.stopAnimating()
                 self.itemValue = item.0! as! [BOXItem]
@@ -118,8 +120,6 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                         // request is nil ...
                         
                     }
-                    
-                    
                     //let descr = ((BOXBookmark)self.itemValue[item]).URL.absoluteString
                     //print(self.itemValue[item].sharedLink)
                 }
@@ -133,19 +133,26 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     func searchedWithValue(with value:String){
         print(value)
         searching = true
-        let predicate=NSPredicate(format: "SELF.name CONTAINS[cd] %@", value)
-        let arr=(itemValue as NSArray).filtered(using: predicate)
-        print(arr,arr.count)
-        if arr.count > 0
-        {
-            SearchData.removeAll(keepingCapacity: true)
-            SearchData = arr as! [BOXItem]
-        }
-        else
-        {
+        if value.characters.count > 0{
+            let predicate=NSPredicate(format: "SELF.name CONTAINS[cd] %@", value)
+            let arr=(itemValue as NSArray).filtered(using: predicate)
+            print(arr,arr.count)
+            if arr.count > 0
+            {
+                SearchData.removeAll(keepingCapacity: true)
+                SearchData = arr as! [BOXItem]
+            }
+            else
+            {
+                SearchData.removeAll(keepingCapacity: true)
+                //SearchData=itemValue
+            }
+            autoTableView.reloadData()
+        }else{
             SearchData=itemValue
+            autoTableView.reloadData()
         }
-        autoTableView.reloadData()
+        
         
     }
     
@@ -155,7 +162,12 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         // #warning Incomplete implementation, return the number of rows
         
         if searching {
-            return self.SearchData.count
+            if self.SearchData.count>0{
+                return self.SearchData.count
+            }else{
+               return 1
+            }
+            
         }else{
             return self.itemValue.count
         }
@@ -168,24 +180,49 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         var listCell: AutoViewCell!
         
         if searching {
-            if (listCell == nil) {
-                listCell = (tableView.dequeueReusableCell(withIdentifier: "AutoViewCell") as? AutoViewCell)!
-            }
-            listCell.selectionStyle = UITableViewCellSelectionStyle.none
-            listCell.titleLbl.text = self.SearchData[indexPath.row].name
-            listCell.descriptionLbl.text = self.SearchData[indexPath.row].itemDescription ?? "No description Available"
-            
-            if indexPath.row%2 == 0 {
-                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display3")//UIImage(named:#imageLiteral(resourceName: "display3"))
-            }else if indexPath.row%3 == 0 {
-                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display4")//UIImage(named:#imageLiteral(resourceName: "display3"))
+            if self.SearchData.count > 0 {
+                if (listCell == nil) {
+                    listCell = (tableView.dequeueReusableCell(withIdentifier: "AutoViewCell") as? AutoViewCell)!
+                }
+                listCell.selectionStyle = UITableViewCellSelectionStyle.none
+                listCell.titleLbl.text = self.SearchData[indexPath.row].name
+                listCell.descriptionLbl.text = self.SearchData[indexPath.row].itemDescription ?? "No description Available"
+                listCell.thumbImageVw.isHidden = false
+                listCell.star1ImageVw.isHidden = false
+                listCell.star2ImageVw.isHidden = false
+                listCell.star3ImageVw.isHidden = false
+                listCell.star4ImageVw.isHidden = false
+                listCell.star5ImageVw.isHidden = false
+                listCell.lineImage.isHidden = false
+                
+                if indexPath.row%2 == 0 {
+                    listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display3")//UIImage(named:#imageLiteral(resourceName: "display3"))
+                }else if indexPath.row%3 == 0 {
+                    listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display4")//UIImage(named:#imageLiteral(resourceName: "display3"))
+                }else{
+                    listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display2")
+                }
+                
+                return listCell
+                
             }else{
-                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display2")
+                if (listCell == nil) {
+                    listCell = (tableView.dequeueReusableCell(withIdentifier: "AutoViewCell") as? AutoViewCell)!
+                }
+                listCell.selectionStyle = UITableViewCellSelectionStyle.none
+                listCell.titleLbl.text = "No Record Found"
+                listCell.descriptionLbl.text = ""
+                listCell.thumbImageVw.isHidden = true
+                listCell.star1ImageVw.isHidden = true
+                listCell.star2ImageVw.isHidden = true
+                listCell.star3ImageVw.isHidden = true
+                listCell.star4ImageVw.isHidden = true
+                listCell.star5ImageVw.isHidden = true
+                listCell.lineImage.isHidden = true
+                
+                return listCell
             }
             
-            
-            
-            return listCell
         }else{
             if (listCell == nil) {
                 listCell = (tableView.dequeueReusableCell(withIdentifier: "AutoViewCell") as? AutoViewCell)!

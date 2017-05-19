@@ -18,7 +18,8 @@ class AutoViewCell: UITableViewCell {
     @IBOutlet weak var star3ImageVw: UIImageView!
     @IBOutlet weak var star4ImageVw: UIImageView!
     @IBOutlet weak var star5ImageVw: UIImageView!
-
+    @IBOutlet weak var lineImage: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

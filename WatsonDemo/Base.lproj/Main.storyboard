@@ -1357,6 +1357,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="descriptionLbl" destination="pQD-zQ-qiV" id="ncu-Kf-IJe"/>
+                                            <outlet property="lineImage" destination="Bst-SB-13p" id="nbP-No-Shq"/>
                                             <outlet property="star1ImageVw" destination="BC4-ql-KPn" id="bGW-3g-sqg"/>
                                             <outlet property="star2ImageVw" destination="od3-GX-oni" id="I9p-e1-0M1"/>
                                             <outlet property="star3ImageVw" destination="00e-gt-u6R" id="pOH-mP-i95"/>
@@ -1454,7 +1455,7 @@
                                             <action selector="shareButtonTapped:" destination="8Qt-8q-90g" eventType="touchUpInside" id="7H4-z9-KFH"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NXD-uc-ngq">
+                                    <button hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NXD-uc-ngq">
                                         <rect key="frame" x="107" y="17" width="26" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26" id="59O-wa-TS9"/>
@@ -1465,7 +1466,7 @@
                                             <action selector="starButtonPressed:" destination="8Qt-8q-90g" eventType="touchUpInside" id="UcG-fr-UkH"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4AP-F1-8i0">
+                                    <button hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4AP-F1-8i0">
                                         <rect key="frame" x="141" y="17" width="26" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="26" id="NhB-Tc-RkS"/>
@@ -1476,7 +1477,7 @@
                                             <action selector="starButtonPressed:" destination="8Qt-8q-90g" eventType="touchUpInside" id="QrK-al-2Sm"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DxM-O0-EVT">
+                                    <button hidden="YES" opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DxM-O0-EVT">
                                         <rect key="frame" x="175" y="17" width="26" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="26" id="AiG-bR-whi"/>
@@ -1487,7 +1488,7 @@
                                             <action selector="starButtonPressed:" destination="8Qt-8q-90g" eventType="touchUpInside" id="Xz5-Mm-6FF"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="neE-dL-GjC">
+                                    <button hidden="YES" opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="neE-dL-GjC">
                                         <rect key="frame" x="209" y="17" width="26" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="26" id="kgq-LO-L9D"/>
@@ -1498,7 +1499,7 @@
                                             <action selector="starButtonPressed:" destination="8Qt-8q-90g" eventType="touchUpInside" id="h4P-79-Wz2"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xSo-sL-tDH">
+                                    <button hidden="YES" opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xSo-sL-tDH">
                                         <rect key="frame" x="243" y="17" width="26" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="26" id="YV5-TP-wfi"/>
