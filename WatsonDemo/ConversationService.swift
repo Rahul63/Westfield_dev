@@ -14,6 +14,7 @@ protocol ConversationServiceDelegate: class {
     func didReceiveImage(withUrl imageUrl: URL, andScale:String)
     func didReceiveImageResizeFactor(with Value:Float)
     func didReceiveVideo(withUrl videoUrl: URL)
+    func errorReceiveResponse()
     
     func didReceiveMessageForTexttoSpeech(withText text: String)
     
@@ -161,8 +162,15 @@ class ConversationService {
     func parseJson(json: [String:AnyObject]) {
         
         //var contextValue = (json["context"] as? String)!
+        
+        if (json["context"] as? String) != nil{
+            self.context = (json["context"] as? String)!
+        }
+        else{
+            delegate?.errorReceiveResponse()
+        }
 
-        self.context = (json["context"] as? String)!
+        
         
 //        <pindrop to=\"advice icon\"></pindrop>
 //        <pindrop to=\"toolbox icon\"></pindrop>
@@ -174,10 +182,15 @@ class ConversationService {
         
         
         //var text = "A majority of accidents are caused by <pindrop to=\"toolbox icon\"></pindrop> repeat offenders of moving violations. Give me a guess of how likely you think someone is to wreck your company truck if they have <sub alias=\"three or more\">3+</sub> moving violations on their MVR.<br><br><wcs:input><sub alias=\"two times\">2X</sub></wcs:input><br><br><wcs:input><sub alias=\"four times\">4X</sub></wcs:input><br><br><wcs:input><sub alias=\"ten times\">10X</sub></wcs:input>"
+        var text = ""
+        if (json["text"] as? String) != nil {
+             text = json["text"] as! String
+        }else{
+            delegate?.errorReceiveResponse()
+        }
         
         
-        
-        var text = json["text"] as! String//"<vid:src>https://ibm.box.com/shared/static/xlpe595snnem4swkvtihq0cz024un5s5.mp4</vid:src><br>Hi, I am glad you stopped by.  C’mon in.  I’m Max Safety, you can call me Max. I see you are from CIX DIRECT, LLC.  Good to meet you, what’s your name?" //json["text"] as! String//"Take a quick look at this Picture.  What do you see?<br><img:src>https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg</img:src>"//json["text"] as! String
+        //"<vid:src>https://ibm.box.com/shared/static/xlpe595snnem4swkvtihq0cz024un5s5.mp4</vid:src><br>Hi, I am glad you stopped by.  C’mon in.  I’m Max Safety, you can call me Max. I see you are from CIX DIRECT, LLC.  Good to meet you, what’s your name?" //json["text"] as! String//"Take a quick look at this Picture.  What do you see?<br><img:src>https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg</img:src>"//json["text"] as! String
         
         // "<img:src resize=0.75>https://ibm.box.com/shared/static/umxb5mo37ypc28zz3iptaqqflgt1fk3d.jpg</img:src> That’s great, glad to hear it.<br>,Hey Rahul , please take a quick look at my <a href=\"https://ibm.box.com/shared/static/3dp3x8gc7ar1t5orlaa0zcayjzejwfox.png\"><sub alias=\"resumay\">résumé</sub></a>"//
         

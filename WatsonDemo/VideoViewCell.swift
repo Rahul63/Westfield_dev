@@ -97,16 +97,6 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
             
         }else{
             
-            
-//            detailWebView.frame = CGRect(x:20,y:0,width:frame.size.width - 40,height:frame.size.height)
-//            detailWebView.scrollView.isScrollEnabled = false
-//            let embededHTML = "<html><body style='margin:0px;padding:0px;'><script type='text/javascript' src='http://www.youtube.com/iframe_api'></script><script type='text/javascript'>function onYouTubeIframeAPIReady(){ytplayer=new YT.Player('playerId',{events:{onReady:onPlayerReady}})}function onPlayerReady(a){;}</script><iframe id='playerId' type='text/html' width='\(detailWebView.frame.size.width)' height='\(detailWebView.frame.size.height)' src='http://www.youtube.com/embed/\(videoId!)?enablejsapi=1&rel=0&playsinline=1&autoplay=1&fs=0&showinfo=0' frameborder='0'></body></html>"
-//            
-//            //a.target.playVideo()
-//            // Load your webView with the HTML we just set up
-//            detailWebView.loadHTMLString(embededHTML, baseURL: Bundle.main.bundleURL)
-//            detailWebView.allowsInlineMediaPlayback = true
-//            self.addSubview(detailWebView)
             currentVideoType = "YOUTUBE"
             ytplayer.frame = CGRect(x: 20,y: 0,width: frame.size.width - 40,height: frame.size.height)
             self.addSubview(ytplayer)
@@ -170,6 +160,11 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
             ytplayer.stopVideo()
             //videoUrls.append((message?.videoUrl!)!)
             break
+        case .unstarted:
+            if watsonSpeaking == false{
+                print("PlayyyingYoutube")
+                ytplayer.playVideo()
+            }
         default:
             break
         }
@@ -180,6 +175,8 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
         if playerViewController.player?.status == .readyToPlay {
             if watsonSpeaking{
                 playerViewController.player?.pause()
+            }else{
+                playerViewController.player?.play()
             }
             // buffering is finished, the player is ready to play
            // print("playing")

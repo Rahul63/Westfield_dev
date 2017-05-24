@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import BoxContentSDK
 
 class watsonSingleton {
     
@@ -16,5 +17,7 @@ class watsonSingleton {
     }()
     
     var isVoiceOn : Bool = false
+    var isToolBoxDetailClicked : Bool = false
+    var itemValue = [BOXItem]()
     
 }

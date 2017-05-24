@@ -23,10 +23,26 @@ class ToolBoxDetailViewController: UIViewController {
     @IBOutlet weak var starButton5: UIButton!
     @IBOutlet weak var loadDataWebView: UIWebView!
     @IBOutlet weak var headerView: UIView!
+    var helpViewBG = UIView()
+    var  indicatorView = ActivityView()
     var loadUrlStr : String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let screenSize: CGRect = UIScreen.main.bounds
+        helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
+        helpViewBG.alpha = 0.4
+        helpViewBG.backgroundColor = UIColor.darkGray
+        
+        indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
+        indicatorView.center = CGPoint(x: self.view.frame.size.width/2,y: self.view.frame.size.height/2-100)//CGPoint(x:self.view.center,y:self.view)
+        indicatorView.lineWidth = 5.0
+        indicatorView.strokeColor = UIColor(red: 0.0/255, green: 122.0/255, blue: 255.0/255, alpha: 1)
+        self.view.addSubview(helpViewBG)
+        self.view.addSubview(indicatorView)
+        helpViewBG.isHidden = true
+        indicatorView.isHidden = true
         print("myyyyUURRRRRLLLLLL to load..\(loadUrlStr)")
         loadDataInWebView(linkURL: loadUrlStr!)
         // Do any additional setup after loading the view.
@@ -87,12 +103,13 @@ class ToolBoxDetailViewController: UIViewController {
             
             // Set up your HTML.  The key URL parameters here are playsinline=1 and autoplay=1
             // Replace the height and width of the player here to match your UIWebView's  frame rect
-            let embededHTML = "<html><body style='margin:0px;padding:0px;'><script type='text/javascript' src='http://www.youtube.com/iframe_api'></script><script type='text/javascript'>function onYouTubeIframeAPIReady(){ytplayer=new YT.Player('playerId',{events:{onReady:onPlayerReady}})}function onPlayerReady(a){a.target.playVideo();}</script><iframe id='playerId' type='text/html' width='\(self.view.frame.size.width)' height='\(300)' src='http://www.youtube.com/embed/\(videoID!)?enablejsapi=1&rel=0&playsinline=1&autoplay=1' frameborder='0'></body></html>"
+            let embededHTML = "<html><body style='margin:0px;padding:0px;'><script type='text/javascript' src='http://www.youtube.com/iframe_api'></script><script type='text/javascript'>function onYouTubeIframeAPIReady(){ytplayer=new YT.Player('playerId',{events:{onReady:onPlayerReady}})}function onPlayerReady(a){a.target.playVideo();}</script><iframe id='playerId' type='text/html' width='\(self.view.frame.size.width)' height='\(300)' src='http://www.youtube.com/embed/\(videoID!)?enablejsapi=1&rel=0&playsinline=1&autoplay=1&fs=1&showinfo=0' frameborder='0'></body></html>"
             
             // Load your webView with the HTML we just set up
             loadDataWebView.loadHTMLString(embededHTML, baseURL: Bundle.main.bundleURL)
             
         }else{
+            loadDataWebView.scalesPageToFit = true
             loadDataWebView.loadRequest(NSURLRequest(url: NSURL(string: linkURL!)! as URL) as URLRequest)
         }
     }
@@ -156,6 +173,41 @@ class ToolBoxDetailViewController: UIViewController {
         return nil
     }
     
+    func webViewDidStartLoad(_ webView: UIWebView){
+        //self.activityIndicator.startAnimating()
+        StartAnimating()
+        
+    }
+    
+    func webViewDidFinishLoad(_ webView: UIWebView){
+        //self.activityIndicator.stopAnimating()
+        stopAnimating()
+    }
+    
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error){
+        //self.activityIndicator.stopAnimating()
+        stopAnimating()
+        
+    }
+    
+    
+    func StartAnimating() {
+        helpViewBG.isHidden = false
+        indicatorView.isHidden = false        
+        indicatorView.startAnimating()
+        
+        
+    }
+    func stopAnimating() {
+        
+        helpViewBG.removeFromSuperview()
+        indicatorView.stopAnimating()
+        indicatorView.hidesWhenStopped = true
+        
+        indicatorView.removeFromSuperview()
+        
+        
+    }
     
     
 //    let imgPlay = UIImage(named:"play.png")

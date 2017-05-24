@@ -798,6 +798,13 @@ extension ChatViewController: TextToSpeechServiceDelegate {
 // MARK: - ConversationServiceDelegate
 extension ChatViewController: ConversationServiceDelegate {
     
+    func errorReceiveResponse(){
+        let vc = UIAlertController(title: "Error", message: "Error occured while receiving response", preferredStyle: UIAlertControllerStyle.alert)
+                    vc.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+         self.present(vc, animated: false, completion: nil)
+        
+    }
+    
     internal func didReceiveMessage(withText text: String, options: [String]?) {
         guard text.characters.count > 0 else { return }
         var text = text

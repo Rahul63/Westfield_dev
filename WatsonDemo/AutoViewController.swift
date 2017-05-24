@@ -21,17 +21,21 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var helpViewBG = UIView()
     var  indicatorView = ActivityView()
     var cIndex : Int! = 0
-    var itemValue = [BOXItem]()
+    //var itemValue = [BOXItem]()
+    var videoValue = [BOXItem]()
     @IBOutlet weak var autoTableView: UITableView!
     var searching: Bool = false
     var ToolBxV = ToolBoxViewController()
     var SearchData:[BOXItem] = []
-
+    var isDetailClicked : Bool = false
+    let sharedInstnce = watsonSingleton.sharedInstance
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let screenSize: CGRect = UIScreen.main.bounds
-        
+        if sharedInstnce.isToolBoxDetailClicked == false {
+            self.sharedInstnce.itemValue.removeAll()
+        }
         helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
         helpViewBG.alpha = 0.4
         helpViewBG.backgroundColor = UIColor.darkGray
@@ -61,25 +65,59 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         searching = false
-        StartAnimating()
-        self.getToolBoxData()
+        if sharedInstnce.isToolBoxDetailClicked == false {
+           // self.sharedInstnce.itemValue.removeAll()
+            StartAnimating()
+            self.getToolBoxData()
+        }else{
+            self.isDetailClicked = false
+            sharedInstnce.isToolBoxDetailClicked = false
+        }
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.stopAnimating()
     }
     
     
     func getToolBoxData() {
         let boxContent = BOXContentClient.default()
-        let getFiles = boxContent?.folderItemsRequest(withID: "23235938513")
+        //let getHandoutFiles = boxContent?.folderItemsRequest(withID: "23235938513")
+        let getVideoFiles = boxContent?.folderItemsRequest(withID: "23235938001")
+        //let shared = boxContent
+        getVideoFiles?.perform(completion: {item in
+           // print(" MY Value.Video.\(item.0)")
+            if item.0 != nil {
+                self.videoValue = item.0! as! [BOXItem]
+                
+            }
+            self.addHandouts()
+        })
         
+        //let searchFile = boxContent?.searchRequest(withQuery: "All", in: NSMakeRange(0, 1000))
         
-        let searchFile = boxContent?.searchRequest(withQuery: "All", in: NSMakeRange(0, 1000))
-        
-        searchFile?.ancestorFolderIDs = ["0"]
+        //searchFile?.ancestorFolderIDs = ["0"]
         //searchFile?.fileExtensions = [".pdf","jpg","png"]
-        searchFile?.perform(completion: {item in
-            print(" MY Value..\(item.0)")
+        
+    }
+    
+    func addHandouts()  {
+        let boxContent = BOXContentClient.default()
+        let getHandoutFiles = boxContent?.folderItemsRequest(withID: "23235938513")
+        getHandoutFiles?.perform(completion: {item in
+            //print(" MY Value..\(item.0)")
             if item.0 != nil {
                 self.stopAnimating()
-                self.itemValue = item.0! as! [BOXItem]
+                self.sharedInstnce.itemValue = item.0! as! [BOXItem]
+                if self.videoValue.count > 0{
+                    for item in 0..<self.videoValue.count{
+                        self.sharedInstnce.itemValue.append(self.videoValue[item])
+                       // print("VIDEOOOOO>>\(self.videoValue[item].jsonData)")
+                    }
+                }
+                
             }else{
                 self.stopAnimating()
                 let alert = UIAlertController(title: "Error", message: "Unable to fetch data", preferredStyle: UIAlertControllerStyle.alert)
@@ -87,29 +125,29 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 self.present(alert, animated: true, completion: nil)
             }
             
-            print(self.itemValue)
+            print(self.sharedInstnce.itemValue)
             self.autoTableView.reloadData()
-            for item in 0..<self.itemValue.count{
+            for item in 0..<self.sharedInstnce.itemValue.count{
                 
-                let itemData = self.itemValue[item]
+                let itemData = self.sharedInstnce.itemValue[item]
                 print(itemData)
-                if self.itemValue[item].isFile{
-                    print(self.itemValue[item].name)
-                    print("my URL link..\(self.itemValue[item].sharedLink)")
+                if self.sharedInstnce.itemValue[item].isFile{
+                    print(self.sharedInstnce.itemValue[item].name)
+                    print("my URL link..\(self.sharedInstnce.itemValue[item].sharedLink)")
                     
-                    if self.itemValue[item].sharedLink != nil{
-                        let bxLink = self.itemValue[item].sharedLink as BOXSharedLink
+                    if self.sharedInstnce.itemValue[item].sharedLink != nil{
+                        let bxLink = self.sharedInstnce.itemValue[item].sharedLink as BOXSharedLink
                         print("myShare UUUURRRLL\(bxLink.url)")
                     }
                     
                     
                     
-                    print(self.itemValue[item].jsonData)
+                    print(self.sharedInstnce.itemValue[item].jsonData)
                 }
-                else if self.itemValue[item].isBookmark{
-                    print(self.itemValue[item].name)
+                else if self.sharedInstnce.itemValue[item].isBookmark{
+                    print(self.sharedInstnce.itemValue[item].name)
                     
-                    let bookMarkItem =  self.itemValue[item] as? BOXBookmark
+                    let bookMarkItem =  self.sharedInstnce.itemValue[item] as? BOXBookmark
                     
                     if let currentURL = bookMarkItem?.url.absoluteString {
                         
@@ -135,7 +173,7 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         searching = true
         if value.characters.count > 0{
             let predicate=NSPredicate(format: "SELF.name CONTAINS[cd] %@", value)
-            let arr=(itemValue as NSArray).filtered(using: predicate)
+            let arr=(self.sharedInstnce.itemValue as NSArray).filtered(using: predicate)
             print(arr,arr.count)
             if arr.count > 0
             {
@@ -149,7 +187,7 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
             autoTableView.reloadData()
         }else{
-            SearchData=itemValue
+            SearchData=self.sharedInstnce.itemValue
             autoTableView.reloadData()
         }
         
@@ -169,7 +207,7 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
             
         }else{
-            return self.itemValue.count
+            return self.sharedInstnce.itemValue.count
         }
         
     }
@@ -228,8 +266,8 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 listCell = (tableView.dequeueReusableCell(withIdentifier: "AutoViewCell") as? AutoViewCell)!
             }
             listCell.selectionStyle = UITableViewCellSelectionStyle.none
-            listCell.titleLbl.text = self.itemValue[indexPath.row].name
-            listCell.descriptionLbl.text = self.itemValue[indexPath.row].itemDescription ?? "No description Available"
+            listCell.titleLbl.text = self.sharedInstnce.itemValue[indexPath.row].name
+            listCell.descriptionLbl.text = self.sharedInstnce.itemValue[indexPath.row].itemDescription ?? "No description Available"
             
             if indexPath.row%2 == 0 {
                 listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display3")//UIImage(named:#imageLiteral(resourceName: "display3"))
@@ -249,6 +287,8 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.tableDidSelectCalled()
+        self.isDetailClicked = true
+        sharedInstnce.isToolBoxDetailClicked = true
         if searching {
             let itemData = self.SearchData[indexPath.row]
             print(itemData)
@@ -286,7 +326,7 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
 
         }else{
-            let itemData = self.itemValue[indexPath.row]
+            let itemData = self.sharedInstnce.itemValue[indexPath.row]
             print(itemData)
             print(itemData.jsonData)
             if itemData.isFile{
