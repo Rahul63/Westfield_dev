@@ -2,8 +2,8 @@
 //  ButtonsView.swift
 //  WatsonDemo
 //
-//  Created by Etay Luz on 12/5/16.
-//  Copyright © 2016 Etay Luz. All rights reserved.
+//  Created by RAHUL on 12/5/16.
+//  Copyright © 2016 RAHUL. All rights reserved.
 //
 
 import Foundation

@@ -2,7 +2,7 @@
 //  CustomView.swift
 //  Startbox
 //
-//  Created by Etay Luz on 8/20/16.
+//  Created by RAHUL on 8/20/16.
 //  Copyright © 2016 Startbox. All rights reserved.
 //
 

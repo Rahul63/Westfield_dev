@@ -2,8 +2,8 @@
 //  ChatViewController.swift
 //  WatsonDemo
 //
-//  Created by Etay Luz on 11/13/16.
-//  Copyright © 2016 Etay Luz. All rights reserved.
+//  Created by RAHUL on 11/13/16.
+//  Copyright © 2016 RAHUL. All rights reserved.
 //
 
 import AVFoundation
@@ -84,22 +84,6 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
 
         // We need to send some dummy text to keep off the conversation
         conversationService.getValues()
-
-//        let gestureTap = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
-//        gestureTap.cancelsTouchesInView = false
-//        chatTableView.addGestureRecognizer(gestureTap)
-        
-        
-        
-//        let recentsItem = self.tabBarController!.tabBar.items![0] as UITabBarItem
-//        let recentsItemImage = UIImage(named:"advice_icon.png")!.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-//        let recentsItemImageSelected = UIImage(named: "advice_icon")!.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-//        recentsItem.image = recentsItemImage
-//        recentsItem.selectedImage = recentsItemImageSelected
-        
-        
-        
-        
         
     }
     
@@ -119,10 +103,6 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
             audioPlayer?.pause()
         }
         chatTextField.resignFirstResponder()
-     //   let when = DispatchTime.now()
-//        DispatchQueue.main.asyncAfter(deadline: when + 0.1) {
-//            self.dismissKeyboard()
-//        }
         
     }
     
@@ -139,13 +119,6 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         if urlValue != nil{
             self.completedVideoURL.append(urlValue!)
         }
-//        if sharedInstnce.isVoiceOn == true {
-//            if audioPlayer != nil{
-//                audioPlayer?.play()
-//            }
-//            
-//        }
-        print("Chat Notif video Ended")
     }
     override var prefersStatusBarHidden: Bool{
         return false
@@ -173,18 +146,6 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         }
         
         
-//        if  let cell = notification.object as? MapViewCell{
-//        
-//           // print("notificationImageCell")
-//            if let indexPath = chatTableView.indexPath(for: cell){
-//            print(indexPath)
-//                //let indexPath = NSIndexPath(row: messages.count - 1, section: 0) as IndexPath
-//                chatTableView.reloadRows(at: [indexPath], with: .none)
-//                
-//                //tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
-//            }
-//            
-//        }
         
     }
     
@@ -222,26 +183,6 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
     // MARK: - Actions
     @IBAction func micButtonTapped() {
         
-//        if micButton.isSelected {
-//            micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOff")
-//            speechToTextService.finishRecording()
-//        } else {
-//            micImage.image = UIImage.init(imageLiteralResourceName: "Mic_iconOn")
-//            if sharedInstnce.isVoiceOn == true {
-//                if audioPlayer != nil{
-//                    if (audioPlayer?.isPlaying)!{
-//                        audioPlayer?.stop()
-//                        audioPlayer = nil
-//                    }
-//                }
-//                
-//                
-//            }
-//            
-//            speechToTextService.startRecording()
-//        }
-//
-//        micButton.isSelected = !micButton.isSelected
     }
     
     @IBAction func HelpButtonPressed(_ sender: Any) {
@@ -347,6 +288,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         isSignOut = false
+        chatTableBottomConstraint.constant = 10
         UIApplication.shared.isStatusBarHidden = false
         if (sharedInstnce.isVoiceOn == true){
             if let url = Bundle.main.url(forResource: "Test", withExtension: "m4a"){
@@ -358,7 +300,7 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
 
     /// Dismiss keyboard on screen tap
     func dismissKeyboard() {
-        chatTableBottomConstraint.constant = 0
+        chatTableBottomConstraint.constant = 10
         view.endEditing(true)
     }
 
@@ -416,25 +358,17 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
     }
     
     func SendMessageWithButtonValue(with value:String, atIndex : Int){
-       // print(value)
-        //array.first({$0.eventID == id})?.added = value
         messages[atIndex].isEnableRdBtn = false
         messages[atIndex].selectedOption = value
         chatTableView.reloadData()
         let userMessage = Message(type: MessageType.User, text: value, options: nil,enableButton : true,selectedOption:"")
         self.appendChat(withMessage: userMessage)
+        dismissKeyboard()
 
         
     }
     
     func gettabbarInfo() {
-       // let tabbar = CustomTabBarViewController()
-        
-//        print(tabbar.customTabBar.subviews)
-//        for items in tabbar.customTabBar.subviews{
-//            print("my items...\(items)")
-//            
-//        }
     }
     
     func moveImage(view: UIImageView){
@@ -459,10 +393,6 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         detailVc.urlStr = url
         
         self.navigationController?.pushViewController(detailVc, animated: true)
-        
-//            let vc = UIAlertController(title: "", message: url, preferredStyle: UIAlertControllerStyle.alert)
-//            vc.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-       // self.present(detailVc, animated: false, completion: nil)
 
     }
 
@@ -566,18 +496,15 @@ extension ChatViewController: UITableViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
         isTableScrolling = true
-        //print("ViewIsScrollinggggggggDragginngg>>>>>>>>>")
     }
     
   
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool){
         isTableScrolling = false
-        //print("ViewIsScrollinggggggggDragginngg>>>>>>>>>STOPPED")
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if isTableScrolling == true{
-            //print("ViewIsScrollingggggggg")
             let indexPaths = self.chatTableView.indexPathsForVisibleRows
             var cells = [Any]()
             for ip in indexPaths!{
@@ -585,7 +512,6 @@ extension ChatViewController: UITableViewDelegate {
                     cells.append(videoCell)
                 }
             }
-           // print(cells,cells.count)
             let cellCount = cells.count
             if cellCount == 0 {return}
             if cellCount == 1{
@@ -600,24 +526,13 @@ extension ChatViewController: UITableViewDelegate {
                 for i in 0..<cellCount{
                     let cellRect = self.chatTableView.rectForRow(at: (indexPaths?[i])!)
                     let intersect = cellRect.intersection(self.chatTableView.bounds)
-                    
-                    //print(cellRect)
-                    //print(intersect)
-                    //                curerntHeight is the height of the cell that
-                    //                is visible
                     let currentHeight = intersect.height
-                    //print("\n \(currentHeight)")
                     let cellHeight = (cells[i] as AnyObject).frame.size.height
-                    //                0.95 here denotes how much you want the cell to display
-                    //                for it to mark itself as visible,
-                    //                .95 denotes 95 percent,
-                    //                you can change the values accordingly
                     print(currentHeight)
                     print(cellHeight * 0.95)
                     if currentHeight > (cellHeight * 0.95){
                         if visibleIP != indexPaths?[i]{
                             visibleIP = indexPaths?[i]
-                            //print ("visible = \(indexPaths?[i])")
                             if let videoCell = cells[i] as? VideoViewCell{
                                 self.playVideoOnTheCell(cell: videoCell, indexPath: (indexPaths?[i])!)
                             }
@@ -656,16 +571,6 @@ extension ChatViewController: UITableViewDelegate {
         //
     }
     
-//    override var shouldAutorotate: Bool {
-//        return false
-//    }
-//    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
-//        return .portrait
-//    }
-//    
-//    override var prefersStatusBarHidden: Bool{
-//        return false
-//    }
     
 }
 
@@ -704,10 +609,6 @@ extension ChatViewController: TextToSpeechServiceDelegate {
             print("requires connection to device")
         }
         
-//        if AVAudioSessionRouteChangeReason.newDeviceAvailable.rawValue{
-//            
-//        }
-        
         
         if isSignOut == false{
             audioPlayer = try! AVAudioPlayer(data: audioData)
@@ -715,14 +616,8 @@ extension ChatViewController: TextToSpeechServiceDelegate {
            
             #if !DEBUG
                 
-//                do {
-//                    try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
-//                } catch _ {
-//                }
-                
                 audioPlayer?.play()
                 timerAudio = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(playingAudio), userInfo: nil, repeats: true)
-                //NotificationCenter.default.addObserver(self,selector: #selector(watsonStopedSpeaking),name: NSNotification.Nam,object:nil)
             #endif
             
         }
@@ -809,12 +704,6 @@ extension ChatViewController: ConversationServiceDelegate {
         guard text.characters.count > 0 else { return }
         var text = text
         print(text)
-        //<pindrop to=\"advice icon\"></pindrop>
-        //        <pindrop to=\"toolbox icon\"></pindrop>
-        //        <pindrop to=\"news icon\"></pindrop>
-        //        <pindrop to=\"progress icon\"></pindrop>
-        //        <pindrop to=\"settings icon\"></pindrop>
-        
         if text.contains("pindrop to"){
             let range2 = text.range(of: "(?<=<pindrop to=)[^><]+(?=>)", options: .regularExpression)
             if range2 != nil {
@@ -856,16 +745,11 @@ extension ChatViewController: ConversationServiceDelegate {
         var opt = [String]()
         timerAudio?.invalidate()
         timerAudio = nil
-        //print("<<<<<<<<<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
-        
-        //pindrop to
 
         let rangeN = text.range(of:"\",\"", options:.regularExpression)
         if (rangeN != nil) {
             let textN = text.replacingOccurrences(of: "\",\"", with: "n&n")
             opt = textN.components(separatedBy: "n&n")
-            //print("my Watson message>>>>>>>>>>>>>>>>>>>\(textN)")
-            //print("my Watson message>>>>>>>>>>>>>>>>>>>\(opt)")
             var foundText = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
             
             let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
@@ -873,9 +757,7 @@ extension ChatViewController: ConversationServiceDelegate {
             if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
                 let optionsString = nsString.substring(with: result.range)
                 foundText = foundText.replacingOccurrences(of: optionsString, with: "")
-                //print("With url.Newchat.\(foundText)")
             }else{
-                // print("With Normal new Chat..\(foundText)")
             }
             for item in 0..<opt.count{
                 self.appendChat(withMessage: Message(type: MessageType.Watson, text: opt[item], options: nil,enableButton : true,selectedOption:""))
@@ -888,10 +770,8 @@ extension ChatViewController: ConversationServiceDelegate {
             let nsString = foundText as NSString
             if let result = regex.matches(in: foundText, range: NSRange(location: 0, length: nsString.length)).last {
                 let optionsString = nsString.substring(with: result.range)
-                //print("With optionsString..\(optionsString)")
                 foundText = foundText.replacingOccurrences(of: optionsString, with: "")
             }else{
-                //print("With Normal..\(foundText)")
             }
             self.appendChat(withMessage: Message(type: MessageType.Watson, text: text, options: nil,enableButton : true,selectedOption:""))
         }
@@ -918,7 +798,6 @@ extension ChatViewController: ConversationServiceDelegate {
             if rangetts != nil {
                 var optionsString = text.substring(with: rangetts!)
                 optionsString = optionsString.replacingOccurrences(of: "\"", with: "")
-                //print(optionsString)
                 let rangeImage = text.range(of:"<a[^>]*>(.*?)</a>", options:.regularExpression)
                 if rangeImage != nil {
                     let optionsStringNew = text.substring(with: rangeImage!)
@@ -926,7 +805,6 @@ extension ChatViewController: ConversationServiceDelegate {
                     if optionsString == "false" {
                         text = text.replacingOccurrences(of: optionsStringNew, with: "")
                     }
-                    //print(text)
                 }
             }
         }
@@ -993,8 +871,6 @@ extension ChatViewController: ConversationServiceDelegate {
         foundText = foundText.replacingOccurrences(of: " – ", with: " ")
         foundText = foundText.replacingOccurrences(of: ";", with: ",")
         foundText = foundText.replacingOccurrences(of: ":", with: ".")
-        //print("<<<<<<<<NEWW<<<<<<<<<<<\(sharedInstnce.isVoiceOn)")
-        //print("Speech textt>>Final>>\(foundText)")
         if (sharedInstnce.isVoiceOn == true){
             
             self.textToSpeechService.synthesizeSpeech(withText: foundText)
@@ -1006,7 +882,6 @@ extension ChatViewController: ConversationServiceDelegate {
     
     
     internal func didReceiveImageResizeFactor(with Value:Float){
-       // print(Value)
         self.imageDimensionReduced = CGFloat(Value)
        // self.chatTableView.reloadData()
     }

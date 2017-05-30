@@ -3,7 +3,7 @@
 //  WatsonDemo
 //
 //  Created by RAHUL on 3/28/17.
-//  Copyright © 2017 Etay Luz. All rights reserved.
+//  Copyright © 2017 RAHUL. All rights reserved.
 //
 
 import UIKit
@@ -22,7 +22,8 @@ class CustomTabBarViewController: UITabBarController, CustomTabBarDataSource, Cu
         self.delegate = self
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(showpinInView(notif:)), name: NSNotification.Name(rawValue: "DropPinInView"), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(videoStartPlaying), name:NSNotification.Name(rawValue: "videoPlayingNotification"), object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(videoEndedPlaying),name: NSNotification.Name(rawValue: "videoEndedPlayingNotification"),object: nil)
         //let newFrame =
         
         self.customTabBar.frame = CGRect(x: 0, y: self.view.frame.size.height-60, width: self.view.frame.size.width, height: 60)
@@ -47,6 +48,8 @@ class CustomTabBarViewController: UITabBarController, CustomTabBarDataSource, Cu
         
         self.customTabBar.tabBarButtons[2].isEnabled = false
         self.customTabBar.tabBarButtons[3].isEnabled = false
+        self.customTabBar.customTabBarItems[2].alpha = 0.5
+        self.customTabBar.customTabBarItems[3].alpha = 0.5
         
         self.customTabBar.tabBarButtons[2].alpha = 0.2
         self.customTabBar.tabBarButtons[3].alpha = 0.2
@@ -54,6 +57,25 @@ class CustomTabBarViewController: UITabBarController, CustomTabBarDataSource, Cu
         self.customTabBar.autoresizingMask = .flexibleTopMargin;
         self.view.addSubview(self.customTabBar)
         self.customTabBar.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 20).isActive = true
+    }
+    
+    func videoStartPlaying() {
+        self.customTabBar.tabBarButtons[1].isEnabled = false
+        self.customTabBar.tabBarButtons[4].isEnabled = false
+        self.customTabBar.customTabBarItems[1].alpha = 0.5
+        self.customTabBar.customTabBarItems[4].alpha = 0.5
+        
+        self.customTabBar.tabBarButtons[1].alpha = 0.2
+        self.customTabBar.tabBarButtons[4].alpha = 0.2
+    }
+    
+    func videoEndedPlaying() {
+        self.customTabBar.tabBarButtons[1].isEnabled = true
+        self.customTabBar.tabBarButtons[4].isEnabled = true
+        self.customTabBar.customTabBarItems[1].alpha = 1.0
+        self.customTabBar.customTabBarItems[4].alpha = 1.0
+        self.customTabBar.tabBarButtons[1].alpha = 1.0
+        self.customTabBar.tabBarButtons[4].alpha = 1.0
     }
     
     // MARK: - CustomTabBarDataSource
@@ -80,6 +102,10 @@ class CustomTabBarViewController: UITabBarController, CustomTabBarDataSource, Cu
     // MARK: - CustomTabBarDelegate
     
     func didSelectViewController(_ tabBarView: CustomTabBar, atIndex index: Int) {
+        
+        if self.selectedIndex != index {
+            customTabBar.hidePinView()
+        }
         self.selectedIndex = index
         self.setNeedsStatusBarAppearanceUpdate()
         //self.prefersStatusBarHidden

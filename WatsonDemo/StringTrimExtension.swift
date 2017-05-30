@@ -3,7 +3,7 @@
 //  WatsonDemo
 //
 //  Created by RAHUL on 3/21/17.
-//  Copyright © 2017 Etay Luz. All rights reserved.
+//  Copyright © 2017 RAHUL. All rights reserved.
 //
 
 import Foundation

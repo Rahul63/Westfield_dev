@@ -3,8 +3,8 @@
 //  SpeechToTextService.swift
 //  WatsonDemo
 //
-//  Created by Etay Luz on 11/15/16.
-//  Copyright © 2016 Etay Luz. All rights reserved.
+//  Created by RAHUL on 11/15/16.
+//  Copyright © 2016 RAHUL. All rights reserved.
 //
 
 import Foundation
@@ -28,14 +28,6 @@ class SpeechToTextService {
     // MARK: - Init
     init(delegate: SpeechToTextServiceDelegate) {
         self.delegate = delegate
-
-//        speechToTextSession.onResults = { results in print(results.bestTranscript)
-//            if let bestTranscript = results.bestTranscript as String? {
-//                print("my textttt>>>>>>>\(bestTranscript)")
-//                //let truncated = bestTranscript.substring(to: bestTranscript.index(before: bestTranscript.endIndex))
-//                delegate.didFinishTranscribingSpeech(withText: bestTranscript)
-//            }
-//        }
     }
 
     func startRecording() {
@@ -63,8 +55,6 @@ class SpeechToTextService {
                 print("my textttt>>>>>>>\(bestTranscript)")
                 
                 let trimmedString = bestTranscript.trimmingCharacters(in: .whitespacesAndNewlines)
-                //print(trimmedString)
-                //let truncated = bestTranscript.substring(to: bestTranscript.index(before: bestTranscript.endIndex))
                 self.delegate?.didFinishTranscribingSpeech(withText: trimmedString)
             }
         }

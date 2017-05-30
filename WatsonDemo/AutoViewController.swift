@@ -3,11 +3,12 @@
 //  WatsonDemo
 //
 //  Created by RAHUL on 4/4/17.
-//  Copyright © 2017 Etay Luz. All rights reserved.
+//  Copyright © 2017 RAHUL. All rights reserved.
 //
 
 import UIKit
 import BoxContentSDK
+import WebImage
 
 protocol AutoViewDelegate
 {
@@ -41,8 +42,7 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         helpViewBG.backgroundColor = UIColor.darkGray
         
         indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
-        //indicatorView.sizeThatFits(CGSize(width:150,height:150))
-        indicatorView.center = CGPoint(x: self.view.frame.size.width/2,y: self.view.frame.size.height/2-100)//CGPoint(x:self.view.center,y:self.view)
+        indicatorView.center = CGPoint(x: self.view.frame.size.width/2,y: self.view.frame.size.height/2-100)
         indicatorView.lineWidth = 5.0
         indicatorView.strokeColor = UIColor(red: 0.0/255, green: 122.0/255, blue: 255.0/255, alpha: 1)
         self.view.addSubview(helpViewBG)
@@ -88,18 +88,11 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let getVideoFiles = boxContent?.folderItemsRequest(withID: "23235938001")
         //let shared = boxContent
         getVideoFiles?.perform(completion: {item in
-           // print(" MY Value.Video.\(item.0)")
             if item.0 != nil {
                 self.videoValue = item.0! as! [BOXItem]
-                
             }
             self.addHandouts()
         })
-        
-        //let searchFile = boxContent?.searchRequest(withQuery: "All", in: NSMakeRange(0, 1000))
-        
-        //searchFile?.ancestorFolderIDs = ["0"]
-        //searchFile?.fileExtensions = [".pdf","jpg","png"]
         
     }
     
@@ -114,7 +107,6 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 if self.videoValue.count > 0{
                     for item in 0..<self.videoValue.count{
                         self.sharedInstnce.itemValue.append(self.videoValue[item])
-                       // print("VIDEOOOOO>>\(self.videoValue[item].jsonData)")
                     }
                 }
                 
@@ -125,43 +117,8 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 self.present(alert, animated: true, completion: nil)
             }
             
-            print(self.sharedInstnce.itemValue)
+           // print(self.sharedInstnce.itemValue)
             self.autoTableView.reloadData()
-            for item in 0..<self.sharedInstnce.itemValue.count{
-                
-                let itemData = self.sharedInstnce.itemValue[item]
-                print(itemData)
-                if self.sharedInstnce.itemValue[item].isFile{
-                    print(self.sharedInstnce.itemValue[item].name)
-                    print("my URL link..\(self.sharedInstnce.itemValue[item].sharedLink)")
-                    
-                    if self.sharedInstnce.itemValue[item].sharedLink != nil{
-                        let bxLink = self.sharedInstnce.itemValue[item].sharedLink as BOXSharedLink
-                        print("myShare UUUURRRLL\(bxLink.url)")
-                    }
-                    
-                    
-                    
-                    print(self.sharedInstnce.itemValue[item].jsonData)
-                }
-                else if self.sharedInstnce.itemValue[item].isBookmark{
-                    print(self.sharedInstnce.itemValue[item].name)
-                    
-                    let bookMarkItem =  self.sharedInstnce.itemValue[item] as? BOXBookmark
-                    
-                    if let currentURL = bookMarkItem?.url.absoluteString {
-                        
-                        print(currentURL)
-                        
-                    } else {
-                        
-                        // request is nil ...
-                        
-                    }
-                    //let descr = ((BOXBookmark)self.itemValue[item]).URL.absoluteString
-                    //print(self.itemValue[item].sharedLink)
-                }
-            }
             
             
         })
@@ -190,7 +147,6 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             SearchData=self.sharedInstnce.itemValue
             autoTableView.reloadData()
         }
-        
         
     }
     
@@ -223,23 +179,37 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     listCell = (tableView.dequeueReusableCell(withIdentifier: "AutoViewCell") as? AutoViewCell)!
                 }
                 listCell.selectionStyle = UITableViewCellSelectionStyle.none
-                listCell.titleLbl.text = self.SearchData[indexPath.row].name
+                //<img:src>https://ibm.box.com/shared/static/fhnw37n5vu3aj67gn1gz27xvipnkslux.jpg</img:src>
+                var nameStr : NSString? = self.SearchData[indexPath.row].name as NSString
+                listCell.isUserInteractionEnabled = true
+                if (nameStr?.contains("<img:src>"))! {
+                    let rangeImage = nameStr?.range(of:"<img:src>(.*?)</img:src>", options:.regularExpression)
+                    if (rangeImage != nil) {
+                        
+                        var optionsString = nameStr?.substring(with: rangeImage!)
+                        nameStr = nameStr?.replacingOccurrences(of: optionsString!, with: "") as NSString?
+                        optionsString = optionsString?.replacingOccurrences(of: "<img:src>", with: "")
+                        optionsString = optionsString?.replacingOccurrences(of: "</img:src>", with: "")
+                        listCell.thumbImageVw.setShowActivityIndicator(true)
+                        listCell.thumbImageVw.contentMode = .scaleAspectFit
+                        print("IMMMAAAGGEEE : \(optionsString)")
+                        listCell.thumbImageVw.sd_setImage(with: URL(string : optionsString!)) { (image, error, imageCacheType, imageUrl) in
+                            if image != nil {
+                                
+                            }else
+                            {
+                                print("image not found")
+                            }
+                        }
+                    }
+                }else{
+                    listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display4")
+                }
+                
+                listCell.titleLbl.text = nameStr! as String
                 listCell.descriptionLbl.text = self.SearchData[indexPath.row].itemDescription ?? "No description Available"
                 listCell.thumbImageVw.isHidden = false
-                listCell.star1ImageVw.isHidden = false
-                listCell.star2ImageVw.isHidden = false
-                listCell.star3ImageVw.isHidden = false
-                listCell.star4ImageVw.isHidden = false
-                listCell.star5ImageVw.isHidden = false
                 listCell.lineImage.isHidden = false
-                
-                if indexPath.row%2 == 0 {
-                    listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display3")//UIImage(named:#imageLiteral(resourceName: "display3"))
-                }else if indexPath.row%3 == 0 {
-                    listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display4")//UIImage(named:#imageLiteral(resourceName: "display3"))
-                }else{
-                    listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display2")
-                }
                 
                 return listCell
                 
@@ -251,12 +221,8 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 listCell.titleLbl.text = "No Record Found"
                 listCell.descriptionLbl.text = ""
                 listCell.thumbImageVw.isHidden = true
-                listCell.star1ImageVw.isHidden = true
-                listCell.star2ImageVw.isHidden = true
-                listCell.star3ImageVw.isHidden = true
-                listCell.star4ImageVw.isHidden = true
-                listCell.star5ImageVw.isHidden = true
                 listCell.lineImage.isHidden = true
+                listCell.isUserInteractionEnabled = false
                 
                 return listCell
             }
@@ -266,17 +232,35 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 listCell = (tableView.dequeueReusableCell(withIdentifier: "AutoViewCell") as? AutoViewCell)!
             }
             listCell.selectionStyle = UITableViewCellSelectionStyle.none
-            listCell.titleLbl.text = self.sharedInstnce.itemValue[indexPath.row].name
-            listCell.descriptionLbl.text = self.sharedInstnce.itemValue[indexPath.row].itemDescription ?? "No description Available"
-            
-            if indexPath.row%2 == 0 {
-                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display3")//UIImage(named:#imageLiteral(resourceName: "display3"))
-            }else if indexPath.row%3 == 0 {
-                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display4")//UIImage(named:#imageLiteral(resourceName: "display3"))
+            listCell.isUserInteractionEnabled = true
+            var nameStr : NSString? = self.sharedInstnce.itemValue[indexPath.row].name as NSString
+            listCell.thumbImageVw.contentMode = .scaleAspectFit
+            if (nameStr?.contains("<img:src>"))! {
+                let rangeImage = nameStr?.range(of:"<img:src>(.*?)</img:src>", options:.regularExpression)
+                if (rangeImage != nil) {
+                    
+                    var optionsString = nameStr?.substring(with: rangeImage!)
+                    nameStr = nameStr?.replacingOccurrences(of: optionsString!, with: "") as NSString?
+                    optionsString = optionsString?.replacingOccurrences(of: "<img:src>", with: "")
+                    optionsString = optionsString?.replacingOccurrences(of: "</img:src>", with: "")
+                    listCell.thumbImageVw.setShowActivityIndicator(true)
+                    
+                    //print("IMMMAAAGGEEE : \(optionsString)")
+                    listCell.thumbImageVw.sd_setImage(with: URL(string : optionsString!)) { (image, error, imageCacheType, imageUrl) in
+                        if image != nil {
+                        
+                        }else
+                        {
+                            print("image not found")
+                        }
+                    }
+                }
             }else{
-                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display2")
+                listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display4")
             }
             
+            listCell.titleLbl.text = nameStr! as String//self.sharedInstnce.itemValue[indexPath.row].name
+            listCell.descriptionLbl.text = self.sharedInstnce.itemValue[indexPath.row].itemDescription ?? "No description Available"
             
             
             return listCell
@@ -305,8 +289,6 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 }else{
                     showAlert()
                 }
-                
-                
             }
             else if itemData.isBookmark{
                 print(itemData.name)
@@ -364,36 +346,6 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
         
         
-        
-        
-//        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-//        let detailVc = storyBoard.instantiateViewController(withIdentifier: "ToolBoxDetailViewController") as! ToolBoxDetailViewController
-//        
-//       
-//        
-//        detailVc.view.frame = CGRect(x:0,y:0,width: detailVc.view.frame.width,height:detailVc.view.frame.height)
-//        
-//        let left = CGAffineTransform(translationX: -0, y: 0)
-//        let right = CGAffineTransform(translationX: 0, y: 0)
-//        let top = CGAffineTransform(translationX: 0, y: -300)
-        
-        //UIView.animate(withDuration: <#T##TimeInterval#>, delay: <#T##TimeInterval#>, options: <#T##UIViewAnimationOptions#>, animations: <#T##() -> Void#>, completion: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
-        
-//        UIView.animate(withDuration: 0.4, delay: 0.0, options: [], animations: {
-//            // Add the transformation in this block
-//            // self.container is your view that you want to animate
-//            detailVc.view.transform = left
-           // self.view.addSubview(detailVc.view)
-      //  })
-        
-       // self.tabBarController?.tabBar.isHidden = true
-        
-       /// CustomTabBarViewController.tabBar(self)
-        //detailVc.urlStr = url
-        
-        
-        
-        //self.navigationController?.pushViewController(detailVc, animated: true)
     }
     
     
@@ -436,14 +388,5 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+   
 }

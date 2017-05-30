@@ -2,8 +2,8 @@
 //  VideoChatViewCell.swift
 //  WatsonDemo
 //
-//  Created by Etay Luz on 12/7/16.
-//  Copyright © 2016 Etay Luz. All rights reserved.
+//  Created by RAHUL on 12/7/16.
+//  Copyright © 2016 RAHUL. All rights reserved.
 //
 
 import Foundation
@@ -55,8 +55,6 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
     /// - Parameter message: Message instance
     func configure(withMessage message: Message) {
         self.message = message
-        //SignOutNotification
-        //self.removeFromSuperview()
         for view in self.subviews
         {
             self.ytplayer.stopVideo()
@@ -65,8 +63,6 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
          print(Array(Set(videoUrls)))
 
         let urlString: String = message.videoUrl!.absoluteString
-        print("VVVVIIIDDDDDEEOOO\(urlString)")
-        
         let videoId = self.extractYoutubeIdFromLink(link: urlString)
         
         if videoId == nil {
@@ -85,7 +81,6 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
             self.addSubview(playerViewController.view)
             print(Array(Set(videoUrls)))
             if videoUrls.contains(message.videoUrl!) == false {
-                print("BOx playing..")
                 playerViewController.player?.play()
                 playerViewController.player?.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 3), queue: DispatchQueue.main) { [weak self] time in
                     self?.handlePlayerStatus(time: time)
@@ -106,7 +101,6 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
                 
                
                 print(message.videoUrl ?? "")
-                print("playing..YOUTUBE..>>>video")
                 ytplayer.playVideo()
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "videoPlayingNotification"), object:self)
                 //videoUrls.append(message.videoUrl!)
@@ -115,42 +109,6 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
             
         }
         
-        
-        
-//        self.ytplayer.loadVideo(byURL:urlString, startSeconds: 0.0, suggestedQuality: YTPlaybackQuality.auto)
-        //self.ytplayer.playVideo()
-        
-
-
-//        let player = AVPlayer(url: message.videoUrl!)
-//
-//        playerViewController = AVPlayerViewController()
-//        playerViewController.player = player
-//        #if DEBUG
-//            playerViewController.player?.volume = 0
-//        #endif
-//        playerViewController.view.frame = CGRect(x: 20,
-//                                                 y: 0,
-//                                                 width: frame.size.width - 40,
-//                                                 height: frame.size.height - 35)
-//        self.addSubview(playerViewController.view)
-//
-//        if videoUrls.contains(message.videoUrl!) == false {
-//            playerViewController.player?.play()
-//            videoUrls.append(message.videoUrl!)
-//        }
-
-       
-
-
-//        let player = AVPlayer(url: message.videoUrl!)
-//        let playerLayer = AVPlayerLayer(player: player)
-//        playerLayer.frame = self.bounds
-//        layer.addSublayer(playerLayer)
-//        player.play()
-//        #if DEBUG
-//            player.volume = 0
-//        #endif
     }
     
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {
@@ -162,7 +120,6 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
             break
         case .unstarted:
             if watsonSpeaking == false{
-                print("PlayyyingYoutube")
                 ytplayer.playVideo()
             }
         default:
@@ -178,37 +135,24 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
             }else{
                 playerViewController.player?.play()
             }
-            // buffering is finished, the player is ready to play
-           // print("playing")
         }
         else if playerViewController.player?.status == .unknown{
-            print("Buffering")
         }
         else{
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "videoEndedPlayingNotification"), object:self)
-            print("eerrrrorPlaying")
         }
     }
     
     
     func startPlayback(){
-        //if ytplayer.i{
-       // print(Array(Set(videoUrls)))
-        //print(message?.videoUrl! ?? "")
         if videoUrls.contains((message?.videoUrl!)!) == false {
             
             if (currentVideoType == "BOX"){
-                print("PlayeeddBox")
                 playerViewController.player?.play()
             }
             else{
-                print("PlayyyeeddYoutube")
                 ytplayer.playVideo()
             }
-                //videoUrls.append(message.videoUrl!)
-            //ytplayer.playVideo()
-        
-        //}
         }
         
     }
@@ -221,45 +165,30 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
     }
     
     func watsonSpeakingNotif() {
-        //NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue : "watsonSpeakingNotification"), object: nil)
-        print("WATSONNNNNN Start.....")
         watsonSpeaking = true
         if (currentVideoType == "BOX"){
-            //print("StopeddddBox")
             let currentPlayer = playerViewController.player
             if (currentPlayer?.isPlaying)!{
-                print("BOx STOOPPEDD..")
                 playerViewController.player?.pause()
             }
             
         }else{
             ytplayer.stopVideo()
-            print("StopeddddYoutube")
         }
         
-        //
     }
     
     func watsonStopSpeakingNotif() {
         
-        print("WATSONNNNNN STOPPEDDD")
         watsonSpeaking = false
         if videoUrls.contains((message?.videoUrl!)!) == false {
             
             if (currentVideoType == "BOX"){
-                print("PlayeeddBox")
                 playerViewController.player?.play()
-               // NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue : "watsonStopSpeakingNotification"), object: nil)
             }
             else{
-                print("PlayyyeeddYoutube")
                 ytplayer.playVideo()
-               // NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue : "watsonStopSpeakingNotification"), object: nil)
             }
-            //videoUrls.append(message.videoUrl!)
-            //ytplayer.playVideo()
-            
-            //}
         }
         
         //
@@ -272,13 +201,11 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
             //print("StopeddddBox")
             let currentPlayer = playerViewController.player
             if (currentPlayer?.isPlaying)!{
-                 print("BOx STOOPPEDD..")
                 playerViewController.player?.pause()
             }
             
         }else{
             ytplayer.stopVideo()
-            print("StopeddddYoutube")
         }
         
     }
@@ -312,9 +239,6 @@ class VideoViewCell: UITableViewCell,YTPlayerViewDelegate {
         let url = message?.videoUrl!
         videoUrls.append(url!)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
-       // print(url!)
-        //print(Array(Set(videoUrls)))
-        print("videooooooEEENNDDEEDD")
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "videoEndedPlayingNotification"), object:self)
         if chatViewController?.messages.last?.type == message?.type {
             chatViewController?.conversationService.sendMessage(withText: "-2")

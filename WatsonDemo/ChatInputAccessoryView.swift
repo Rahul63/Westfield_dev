@@ -2,8 +2,8 @@
 //  ChatInputAccessoryView.swift
 //  WatsonDemo
 //
-//  Created by Etay Luz on 11/14/16.
-//  Copyright © 2016 Etay Luz. All rights reserved.
+//  Created by RAHUL on 11/14/16.
+//  Copyright © 2016 RAHUL. All rights reserved.
 //
 
 import UIKit
@@ -22,7 +22,6 @@ class ChatInputAccessoryView: NSObject {
     // MARK: - View Lifecycle
     override init() {
         super.init()
-       // NotificationCenter.default.addObserver(self, selector: #selector(updateChatField), name: NSNotification.Name(rawValue: "ChatfieldShouldRefresh"), object: nil)
         setupNib()
     }
 
@@ -36,9 +35,6 @@ class ChatInputAccessoryView: NSObject {
         
         inputTextField.text = notification.value(forKey: "object") as! String!
         
-        //let userMessage = Message(type: MessageType.User, text: messsage, options: nil)
-       // self.chatViewController.appendChat(withMessage: userMessage)
-        //sendMessage()
     }
 
     // MARK: - Private
@@ -59,6 +55,7 @@ class ChatInputAccessoryView: NSObject {
         let when = DispatchTime.now()
         DispatchQueue.main.asyncAfter(deadline: when + 0.3) {
             self.inputTextField.resignFirstResponder()
+            self.chatViewController.chatTableBottomConstraint.constant = 10
         }
     }
 
@@ -81,18 +78,6 @@ extension ChatInputAccessoryView: UITextFieldDelegate {
             return true
         }
         
-//        if let _ = string.rangeOfCharacter(from: whitespaceSet) {
-//            return false
-//        }
-//        else {
-//            return true
-//        }
-    //}
-//        if string == " " {
-//            return false
-//        }
-//        
-//        return true
         
     }
     

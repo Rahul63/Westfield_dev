@@ -3,7 +3,7 @@
 //  WatsonDemo
 //
 //  Created by RAHUL on 4/3/17.
-//  Copyright © 2017 Etay Luz. All rights reserved.
+//  Copyright © 2017 RAHUL. All rights reserved.
 //
 
 import UIKit
@@ -39,7 +39,6 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate,AutoViewDeleg
         SearchTxt.delegate = self
         
         super.viewDidLoad()
-        let boxContent = BOXContentClient.default()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         self.headerView.frame = CGRect(x:0,y:0,width:self.view.frame.size.width,height:self.headerView.frame.size.height)
@@ -47,88 +46,8 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate,AutoViewDeleg
         
         NotificationCenter.default.addObserver(self,selector: #selector(self.playerDidFinishPlaying),name:NSNotification.Name.UIWindowDidBecomeHidden,object:nil)
         
-        
- //       let folderInforequrest = boxContent?.fileInfoRequest(withID: "23139323816")
-        
-//        boxContent?.authenticate(completionBlock:{(file: BOXUser?, err:Error?) -> Void in
-//            if (err == nil) {
-//                print("logged In\(file?.login)")
-//            }else{
-//                //print(err)
-//            }
-//        })
-        
-//        [[BOXContentClient defaultClient] authenticateWithCompletionBlock:^(BOXUser *user, NSError *error) {
-//            if (error == nil) {
-//            NSLog(@"Logged in user: %@", user.login);
-//            }
-//            } cancelBlock:nil];
-        
-        //let folderVc = BOXFolderViewController
-        
-//        folderInforequrest?.perform(completion: {(file: BOXFile?, err:Error?) -> Void in
-//        
-//            print(file ?? "not found")
-//            print(err ?? "")
-//        
-//        })
-        
-        
-      /*  let searchFile = boxContent?.searchRequest(withQuery: "All", in: NSMakeRange(0, 1000))
-        
-        searchFile?.ancestorFolderIDs = ["0"]
-        //searchFile?.fileExtensions = [".pdf","jpg","png"]
-        searchFile?.perform(completion: {item in
-        
-            print(" MY Value..\(item.0)")
-            
-            self.itemValue = item.0! as! [BOXItem]
-            print(self.itemValue)
-            
-            for item in 0..<self.itemValue.count{
-                
-                let itemData = self.itemValue[item]
-                print(itemData)
-                if self.itemValue[item].isFile{
-                    
-                    
-                    
-                    print(self.itemValue[item].name)
-                    print(self.itemValue[item].itemDescription)
-                }
-                else if self.itemValue[item].isBookmark{
-                    print(self.itemValue[item].name)
-                    
-                let bookMarkItem =  self.itemValue[item] as? BOXBookmark
-                    
-                if let currentURL = bookMarkItem?.url.absoluteString {
-                        
-                        print(currentURL)
-                        
-                    } else {
-                        
-                        // request is nil ...
-                        
-                    } 
-                    
-                    
-                    //let descr = ((BOXBookmark)self.itemValue[item]).URL.absoluteString
-                    //print(self.itemValue[item].sharedLink)
-                }
-            }
-            
-            
-        })*/
         self.loadViewUIConstruct()
         
-       // NSArray *items, NSUInteger totalCount, NSRange range, NSError *error
-//        BOXContentClient *contentClient = [BOXContentClient defaultClient];
-//        BOXFolderRequest *folderInfoRequest = [contentClient folderInfoRequestWithID:@"folder-id"];
-//        [folderInfoRequest performRequestWithCompletion:^(BOXFolder *folder, NSError *error) {
-        // If successful, folder will be non-nil; otherwise, error will be non-nil.
-   //     }];
-
-        // Do any additional setup after loading the view.
     }
     
     
@@ -138,7 +57,6 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate,AutoViewDeleg
             self.headerView.setNeedsDisplay()
         }
        
-       // print("ppppppppppppp>>>>>>>>>>>PPPPPPPPlayeeeerrrrrrrMethod")
     }
     
     func loadViewUIConstruct()  {
@@ -275,9 +193,6 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate,AutoViewDeleg
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isSignOut = false
-        // self.view.frame(CGRect(x:0,y:0,width:self.view.frame.size.width, height:self.view.frame.size.height))
-        //self.view.frame = CGRect(x:0,y:100,width:self.view.frame.size.width, height:self.view.frame.size.height-100)
-        // [self.view setFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height)];
         self.view.setNeedsDisplay()
     }
     
@@ -310,19 +225,6 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate,AutoViewDeleg
         vc.searchedWithValue(with: search)
         
         print(search)
-//        let predicate=NSPredicate(format: "SELF.name CONTAINS[cd] %@", search)
-//        let arr=(AllData as NSArray).filtered(using: predicate)
-//        
-//        if arr.count > 0
-//        {
-//            SearchData.removeAll(keepingCapacity: true)
-//            SearchData=arr as! Array<Dictionary<String,String>>
-//        }
-//        else
-//        {
-//            SearchData=AllData
-//        }
-//        ListTable.reloadData()
         return true
     }
     

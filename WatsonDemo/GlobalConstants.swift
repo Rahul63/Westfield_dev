@@ -2,8 +2,8 @@
 //  GlobalConstants.swift
 //  WatsonDemo
 //
-//  Created by Etay Luz on 11/15/16.
-//  Copyright © 2016 Etay Luz. All rights reserved.
+//  Created by RAHUL on 11/15/16.
+//  Copyright © 2016 RAHUL. All rights reserved.
 //
 
 import Foundation
@@ -73,19 +73,6 @@ struct GlobalConstants {
    // https://westfiledlossadvisornodejsorchestrator.mybluemix.net
     
     
-//        {
-//            "url": "https://stream.watsonplatform.net/speech-to-text/api",
-//            "username": "ab6cd6d8-1c8c-487b-aa50-9bd2b94bcacc",
-//            "password": "lfCUSAiQbj6g"
-//        }
-//        
-//        
-//        
-//    {
-//        "url": "https://stream.watsonplatform.net/text-to-speech/api",
-//        "username": "7d80a6ad-74ee-4564-9f5f-3bc54324028e",
-//        "password": "tYVex8dIA4xy"
-//    }
     
     
 

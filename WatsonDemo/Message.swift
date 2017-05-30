@@ -2,8 +2,8 @@
 //  Message.swift
 //  WatsonDemo
 //
-//  Created by Etay Luz on 11/14/16.
-//  Copyright © 2016 Etay Luz. All rights reserved.
+//  Created by RAHUL on 11/14/16.
+//  Copyright © 2016 RAHUL. All rights reserved.
 //
 
 import Foundation
@@ -30,12 +30,6 @@ public struct Message {
     var selectedOption: String?
     
 
-    /// Initialize Message instance
-    ///
-    /// - Parameters:
-    ///   - type: type of message
-    ///   - text: text of message
-    ///   - options: button options
     init(type: MessageType, text: String?, options: [String]?, enableButton:Bool,selectedOption: String? ) {
         self.type = type
         self.text = text

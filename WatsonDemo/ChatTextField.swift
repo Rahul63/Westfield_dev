@@ -2,8 +2,8 @@
 //  ChatTextField.swift
 //  WatsonDemo
 //
-//  Created by Etay Luz on 11/14/16.
-//  Copyright © 2016 Etay Luz. All rights reserved.
+//  Created by RAHUL on 11/14/16.
+//  Copyright © 2016 RAHUL. All rights reserved.
 //
 
 import UIKit
@@ -44,7 +44,7 @@ extension ChatTextField: UITextFieldDelegate {
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        setupSimulator()
+        //setupSimulator()
 
         /// Setup the chat text field with an input accessory view of InputAccessoryView
         chatInputAccessoryView.chatViewController = chatViewController
@@ -64,53 +64,5 @@ extension ChatTextField: UITextFieldDelegate {
         }
     }
 
-
-    private func setupSimulator() {
-        #if DEBUG
-//            chatInputAccessoryView.inputTextField.text = "Testing testing testing testing testing testing Testing testing testing testing testing testing"
-//            return
-            if (debugChatIndex == 1) {
-                chatInputAccessoryView.inputTextField.text = "Etay"
-                debugChatIndex = debugChatIndex + 1
-            }
-            else if (debugChatIndex == 2) {
-                chatInputAccessoryView.inputTextField.text = "OK"
-                debugChatIndex = debugChatIndex + 1
-            }
-            else if (debugChatIndex == 3) {
-                chatInputAccessoryView.inputTextField.text = "OK"
-                debugChatIndex = debugChatIndex + 1
-            }
-            else if (debugChatIndex == 4) {
-                chatInputAccessoryView.inputTextField.text = "OK"
-                debugChatIndex = debugChatIndex + 1
-            }
-            else if (debugChatIndex == 5) {
-                chatInputAccessoryView.inputTextField.text = "OK"
-                debugChatIndex = debugChatIndex + 1
-            }
-            else if (debugChatIndex == 6) {
-                chatInputAccessoryView.inputTextField.text = "Will I have to pay a fee for taking cash out"
-                debugChatIndex = debugChatIndex + 1
-            }
-            else if (debugChatIndex == 7) {
-                chatInputAccessoryView.inputTextField.text = "What are the exchange rates"
-                debugChatIndex = debugChatIndex + 1
-            }
-            else if (debugChatIndex == 8) {
-                chatInputAccessoryView.inputTextField.text = "Yea"
-                debugChatIndex = debugChatIndex + 1
-            }
-            else if (debugChatIndex == 9) {
-                chatInputAccessoryView.inputTextField.text = "Thanks for the advice"
-                debugChatIndex = debugChatIndex + 1
-            }
-            else if (debugChatIndex == 10) {
-                chatInputAccessoryView.inputTextField.text = "Thanks for the advice"
-                debugChatIndex = debugChatIndex + 1
-            }
-        #endif
-
-    }
     
 }

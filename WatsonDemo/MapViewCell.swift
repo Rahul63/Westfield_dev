@@ -2,8 +2,8 @@
 //  MapViewCell.swift
 //  WatsonDemo
 //
-//  Created by Etay Luz on 11/21/16.
-//  Copyright © 2016 Etay Luz. All rights reserved.
+//  Created by RAHUL on 11/21/16.
+//  Copyright © 2016 RAHUL. All rights reserved.
 //
 
 import Foundation
@@ -28,28 +28,16 @@ class MapViewCell: UITableViewCell {
                 self.imageSizeScale = 1.0
             }
             
-            //self.mapImageView.frame = CGRect(x:10,y:10)
             mapImageView.setShowActivityIndicator(true)
-            //mapImageView.contentMode = .scaleAspectFit
-            //mapImageView.intrinsicContentSize = mapImageView.frame.size*imageSizeScale
-            //mapImageView.frame = (mapImageView.frame.size)*imageSizeScale
             mapImageView.sd_setImage(with: imageUrl) { (image, error, imageCacheType, imageUrl) in
                 if image != nil {
-                    //print("imageSizeScale..\(self.imageSizeScale)")
-//                    let size = CGSize(width:(image?.size.width)!*self.imageSizeScale,height:(image?.size.height)!*self.imageSizeScale)
-//                    self.mapImageView.image = self.resizeImage(image: image!, targetSize: size)
                     self.mapImageView.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: (image?.size.width)!*self.imageSizeScale, maxHeight: (image?.size.height)!*self.imageSizeScale)
                     self.mapImageView.sizeToFit()
-                    //self.mapImageView.frame.size = CGSize(width:50,height:50)
-                    //image?.ratio = imageSizeScale
-                   // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "CellDidLoadImageDidLoadNotification"), object:self)
-                    //print("image found")
                 }else
                 {
                     print("image not found")
                 }
-            }            //mapImageView.downloadedFrom(link: String(describing: imageUrl))//sd_setImage(with: imageUrl)
-           // self.downloadedFrom(url: imageUrl)
+            }            
         }
     }
     

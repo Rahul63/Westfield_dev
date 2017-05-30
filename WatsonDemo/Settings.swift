@@ -3,7 +3,7 @@
 //  WatsonDemo
 //
 //  Created by RAHUL on 3/27/17.
-//  Copyright © 2017 Etay Luz. All rights reserved.
+//  Copyright © 2017 RAHUL. All rights reserved.
 //
 
 import Foundation
@@ -81,11 +81,9 @@ class distributionListModel
     
     static func createDataForPeopleView(_ featuresDataJson:NSMutableArray) -> [distributionListModel]
     {
-        print(">>>>>>>>>>\(featuresDataJson)")
         var distributionListData : [distributionListModel]=[]
         for  i in 0 ..< featuresDataJson.count {
             let featuresDataArray = featuresDataJson[i]
-            print(">>>>>>>>>>\(featuresDataArray)")
             do {
                 let featuresData =
                     distributionListModel(lastName:(featuresDataArray as AnyObject).value(forKey: "lastname")! as! String,firstName:(featuresDataArray as AnyObject).value(forKey: "firstname")! as! String,email:(featuresDataArray as AnyObject).value(forKey: "email")! as! String,phoneNumber:(featuresDataArray as AnyObject).value(forKey: "cellphone")! as! String)

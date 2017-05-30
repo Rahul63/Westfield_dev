@@ -3,7 +3,7 @@
 //  WatsonDemo
 //
 //  Created by RAHUL on 4/13/17.
-//  Copyright © 2017 Etay Luz. All rights reserved.
+//  Copyright © 2017 RAHUL. All rights reserved.
 //
 
 import UIKit
@@ -16,11 +16,13 @@ protocol ToolBoxDetailViewDelegate
 
 class ToolBoxDetailViewController: UIViewController {
 
+    var documentController : UIDocumentInteractionController!
     @IBOutlet weak var starButton1: UIButton!
     @IBOutlet weak var starButton2: UIButton!
     @IBOutlet weak var starButton3: UIButton!
     @IBOutlet weak var starButton4: UIButton!
     @IBOutlet weak var starButton5: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var loadDataWebView: UIWebView!
     @IBOutlet weak var headerView: UIView!
     var helpViewBG = UIView()
@@ -77,6 +79,11 @@ class ToolBoxDetailViewController: UIViewController {
         
         //let image = UIImage(named: "watson_icon")
         
+        
+//        let fileURL = Bundle.main.path(forResource: "Movie1", ofType: "mp4")
+//        documentController = UIDocumentInteractionController.init(url: URL.init(fileURLWithPath: fileURL))
+//        documentController.presentOptionsMenu(from: self.shareButton.frame, in: self.view, animated: true)
+        
         // set up activity view controller
         let itemToShare = [ loadUrlStr! ]
         let activityViewController = UIActivityViewController(activityItems: itemToShare, applicationActivities: nil)
@@ -88,6 +95,33 @@ class ToolBoxDetailViewController: UIViewController {
         
         // present the view controller
         self.present(activityViewController, animated: true, completion: nil)
+        
+        activityViewController.completionWithItemsHandler = { (activity, success, items, error) in
+            
+            // Return if cancelled
+            if (!success) {
+                print("user clicked cancel")
+                return
+            }
+            
+            if activity == UIActivityType.mail {
+                print("share throgh mail")
+            }
+            else if activity == UIActivityType.message {
+                print("share trhought Message IOS")
+            }
+        
+            else if activity! == UIActivityType(rawValue :"net.whatsapp.WhatsApp.ShareExtension") {
+                print("activity type is whatsapp")
+            }
+            else if activity! == UIActivityType(rawValue :"com.google.Gmail.ShareExtension") {
+                print("activity type is Gmail")
+            }
+            else {
+                // You can add this activity type after getting the value from console for other apps.
+                print("activity type is: \(activity)")
+            }}
+    
     }
     
     
@@ -115,6 +149,31 @@ class ToolBoxDetailViewController: UIViewController {
     }
     
     
+    func load(url: URL, to localUrl: URL, completion: @escaping () -> ()) {
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        let request = URLRequest(url: url)
+        
+        let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+            if let tempLocalUrl = tempLocalUrl, error == nil {
+                // Success
+                if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                    print("Success: \(statusCode)")
+                }
+                
+                do {
+                    try FileManager.default.copyItem(at: tempLocalUrl, to: localUrl)
+                    completion()
+                } catch (let writeError) {
+                    print("error writing file \(localUrl) : \(writeError)")
+                }
+                
+            } else {
+                print("Failure: %@", error?.localizedDescription ?? "");
+            }
+        }
+        task.resume()
+    }
     
     
     

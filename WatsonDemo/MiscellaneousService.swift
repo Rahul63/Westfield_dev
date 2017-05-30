@@ -3,7 +3,7 @@
 //  WatsonDemo
 //
 //  Created by RAHUL on 3/22/17.
-//  Copyright © 2017 Etay Luz. All rights reserved.
+//  Copyright © 2017 RAHUL. All rights reserved.
 //
 
 import Foundation
@@ -185,9 +185,7 @@ class MiscellaneousService {
         
         var request3 = URLRequest(url: URL(string: urlStr)!)
         request3.httpMethod = "GET"//ServiceTypeConstants.httpMethodGet
-        //print("Send Msg called with request Body..\(request3)")
         let taskUser = URLSession.shared.dataTask(with: request3) { data, response, error in
-            // check for fundamental networking error
             DispatchQueue.main.async { [weak self] in
                 guard let data = data, error == nil else {
                     print("error=\(error)")
@@ -196,7 +194,6 @@ class MiscellaneousService {
                 }
                 if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode !=
                     ServiceTypeConstants.statusCodeOK {
-                    //print("Failed with status code: \(httpStatus.statusCode)")
                 }
                 
                 let responseString = String(data: data, encoding: .utf8)
@@ -205,12 +202,6 @@ class MiscellaneousService {
                     do {
                         
                         if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject] {
-                            print("JSON Value.For profile..")
-                            
-                            //let jsonData = json as! [[String:AnyObject]]
-                            
-                            //let completeData = (jsonData as AnyObject).mutableCopy()
-                            
                             self?.parseJsonProfile(json: json)
                         }
                         
@@ -224,7 +215,6 @@ class MiscellaneousService {
         let when2 = DispatchTime.now()
         
         DispatchQueue.main.asyncAfter(deadline: when2 + 0.3) {
-            
             taskUser.resume()
             
         }
@@ -262,8 +252,6 @@ class MiscellaneousService {
         }else{
             self.delegate?.didReceiveMessage(withText:false)
         }
-        //self.value = json["docs"] as! [String]
-//        let text = json["docs"] as! NSArray
         
         
     }

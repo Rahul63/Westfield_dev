@@ -3,7 +3,7 @@
 //  WatsonDemo
 //
 //  Created by RAHUL on 3/15/17.
-//  Copyright © 2017 Etay Luz. All rights reserved.
+//  Copyright © 2017 RAHUL. All rights reserved.
 //
 
 import UIKit
@@ -17,12 +17,7 @@ protocol userCellDelegate
 
 
 class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDelegate {
-//    @IBOutlet weak var fullNameLbl: UILabel!
-//    @IBOutlet weak var phoneLbl: UILabel!
-//    @IBOutlet weak var policyNumLbl: UILabel!
-//    @IBOutlet weak var emailLbl: UILabel!
-//    @IBOutlet weak var firstNameLbl: UILabel!
-//    @IBOutlet weak var userImageVw: UIImageView!
+
     
     var delegate: userCellDelegate!
     weak var activeTextfield : UITextField!
@@ -78,7 +73,6 @@ class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDele
             isVoiceOn = "off"
         }
         
-        //userUpdateService.serviceCallforUserUpdate(withText:  self.firstNameFld.text!, and: self.lastNameFld.text!, and: self.idValue)
         
         if (self.firstNameFld.text?.characters.count)! > 0  {
             if (self.mobileNumFld.text?.characters.count)! < 12{
@@ -95,24 +89,12 @@ class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDele
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        // self.serviceCallforUserUpdate(withText: self.firstNameFld.text!, and: self.lastNameFld.text!)
-        
         if textField==self.firstNameFld {
             if (self.firstNameFld.text == "") || (self.firstNameFld.text == " "){
                 self.delegate.nameFieldIsEmpty()
             }
-            
-            //self.lastNameFld.becomeFirstResponder()
         }
-//        else if textField == self.lastNameFld{
-//            self.mobileNumFld.becomeFirstResponder()
-//        }
-//        else if textField == self.mobileNumFld{
-//            self.emailFld.becomeFirstResponder()
-//        }
-//        else{
             textField.resignFirstResponder()
-       // }
         
         return true
     }
@@ -161,13 +143,6 @@ class UserViewCell: UITableViewCell,MiscellaneousServiceDelegate,UITextFieldDele
         self.scrollView.scrollIndicatorInsets = contentInsets
         self.endEditing(true)
         self.scrollView.isScrollEnabled = false
-//        if self.firstNameFld.text != ""  || self.firstNameFld.text != " "{
-//            //deregisterFromKeyboardNotifications()
-//            serviceCallUserUdate()
-//            
-//        }else{
-//            delegate.nameFieldIsEmpty()
-//        }
         
     }
     

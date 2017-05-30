@@ -3,7 +3,7 @@
 //  WatsonDemo
 //
 //  Created by RAHUL on 3/28/17.
-//  Copyright © 2017 Etay Luz. All rights reserved.
+//  Copyright © 2017 RAHUL. All rights reserved.
 //
 
 import UIKit
@@ -86,7 +86,7 @@ class CustomTabBar: UIView {
     func createTabBarItemSelectionOverlayMask(_ containers: [CGRect]) {
         
         tabBarItemWidth = self.frame.width / CGFloat(tabBarItems.count)
-        let leftOverlaySlidingMultiplier = CGFloat(1) * tabBarItemWidth
+       // let leftOverlaySlidingMultiplier = CGFloat(1) * tabBarItemWidth
 
         maskImgViewL = UIImageView(frame: CGRect(x: 0, y: -40, width: 40, height: 60))
         maskImgViewL.image = UIImage(named : "pin")
@@ -120,8 +120,8 @@ class CustomTabBar: UIView {
         
         self.customTabBarItems[0].iconView.image = UIImage(named : "advice_selected")
         self.customTabBarItems[0].titleLbl.textColor = UIColor.brown
-        self.customTabBarItems[2].iconView.alpha = 0.5
-        self.customTabBarItems[3].iconView.alpha = 0.5
+//        self.customTabBarItems[2].iconView.alpha = 0.5
+//        self.customTabBarItems[3].iconView.alpha = 0.5
     }
     
     func createTabBarItemContainers() -> [CGRect] {

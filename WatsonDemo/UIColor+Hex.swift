@@ -1,7 +1,7 @@
 //
 //  UIColor+Hex.swift
 //
-//  Created by Etay Luz on 8/09/16.
+//  Created by RAHUL on 8/09/16.
 //
 
 import UIKit

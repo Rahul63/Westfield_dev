@@ -3,7 +3,7 @@
 //  WatsonDemo
 //
 //  Created by RAHUL on 3/10/17.
-//  Copyright © 2017 Etay Luz. All rights reserved.
+//  Copyright © 2017 RAHUL. All rights reserved.
 //
 
 import UIKit
@@ -24,38 +24,17 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     
     lazy var logInService: MiscellaneousService = MiscellaneousService(delegate:self)
     
-    // var logInService = MiscellaneousService(delegate: MiscellaneousServiceDelegate.self as! MiscellaneousServiceDelegate) //= MiscellaneousService(delegate:self as! MiscellaneousServiceDelegate)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let string = " this text has spaces before and after "
-//        let trimmedString = string.trimmingCharacters(in: .whitespacesAndNewlines)
-//        print(trimmedString)
         
         userNameField.attributedPlaceholder = NSAttributedString(string: "User Name", attributes: [NSForegroundColorAttributeName : UIColor.white])
         passwordField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName : UIColor.white])
         
         self.registerForKeyboardNotifications()
-       // NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
-        
-//        button.addTarget(self, action: #selector(manualAction(sender:)), for: .touchUpInside)
-//        button.outerCircleColor = UIColor.red
-//        self.view.addSubview(button)
-//        label2.text = "Not Selected"
-//        self.view.addSubview(label2)
-        
-//         userValue = UserDefaults.standard.value(forKey: "UserDetail") as? NSArray
-//        if userValue.count>0 {
-          // self.logInUser()
-//        }
-        
         self.signInButton.layer.cornerRadius = 3.0
         self.view.backgroundColor = UIColor(netHex:0xd89c54)
 
-//        self.userNameField.text = "a"
-//        self.passwordField.text = "b"
-        // Do any additional setup after loading the view.
     }
     
     func manualAction (sender: KGRadioButton) {
@@ -68,7 +47,6 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        print("viewDisapper call>>>>>>")
         super.viewDidDisappear(animated)
         self.deregisterFromKeyboardNotifications()
     }
@@ -91,10 +69,6 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
             }else{
                 logInNetworkError()
             }
-            
-            
-            
-            
             
         }
         
@@ -161,10 +135,6 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     }
     
     func logInNetworkError() {
-//        signInButton.isEnabled = true
-//        self.userNameField.isEnabled = true
-//        self.passwordField.isEnabled = true
-//        signInButton.alpha = 1.0
         let alert = UIAlertController(title: "Error", message: "Network is not available. Please try again once connected to network.", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -173,7 +143,6 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     func logInUser() {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let BaseTabVc = storyBoard.instantiateViewController(withIdentifier: "tabbarVC") as! UITabBarController
-        // UITabBar.appearance().tintColor = UIColor.lightGrayColor()
         UITabBar.appearance().barTintColor = UIColor(netHex:0xd89c54)
         
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.blue], for:.selected)
@@ -276,9 +245,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
     
     func StartAnimating() {
         
-        //signInButton.backgroundColor = UIColor(red: 0.0/255, green: 122.0/255, blue: 255.0/255, alpha: 1)
         indicatorView.frame = CGRect(x:0,y:0,width:50,height:50)
-        //indicatorView.sizeThatFits(CGSize(width:150,height:150))
         indicatorView.center = self.view.center//CGPoint(x:self.view.center,y:self.view)
         indicatorView.lineWidth = 5.0
         indicatorView.strokeColor = UIColor(red: 0.0/255, green: 122.0/255, blue: 255.0/255, alpha: 1)
@@ -304,88 +271,9 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         
     }
     
+
+}
     
-//    func keyboardNotification(notification: NSNotification) {
-//        if let userInfo = notification.userInfo {
-//            let endFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-//            let duration:TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
-//            let animationCurveRawNSN = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
-//            let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIViewAnimationOptions.curveEaseInOut.rawValue
-//            let animationCurve:UIViewAnimationOptions = UIViewAnimationOptions(rawValue: animationCurveRaw)
-//            if (endFrame?.origin.y)! >= UIScreen.main.bounds.size.height {
-//                self.keyboardHeightLayoutConstraint?.constant = 0.0
-//            } else {
-//                self.keyboardHeightLayoutConstraint?.constant = endFrame?.size.height ?? 0.0
-//            }
-//            UIView.animate(withDuration: duration,
-//                           delay: TimeInterval(0),
-//                           options: animationCurve,
-//                           animations: { self.view.layoutIfNeeded() },
-//                           completion: nil)
-//        }
-//    }
-    
-    
-//    func keyboardWillShow(notification: NSNotification) {
-//        
-//       // let userInfo: [NSObject : AnyObject] = notification.userInfo! as [NSObject : AnyObject]
-//        
-//        let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
-//        
-//        //let keyboardSize: CGSize = userInfo[UIKeyboardFrameBeginUserInfoKey]!.CGRectValue.size
-//        let offset = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-//        
-//        if keyboardSize?.height == offset?.height {
-//            UIView.animate(withDuration: 0.1, animations: { () -> Void in
-//                self.view.frame.origin.y += (keyboardSize?.height)!
-//            })
-//        } else {
-//            UIView.animate(withDuration: 0.1, animations: { () -> Void in
-//                self.view.frame.origin.y -= (keyboardSize?.height)! - (offset?.height)!
-//            })
-//        }
-//        var translation:CGFloat = 0
-//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-////            if detailsField.isEditing{
-////                translation = CGFloat(-keyboardSize.height)
-////            }else if priceField.isEditing{
-////                translation = CGFloat(-keyboardSize.height / 3.8)
-////            }
-//        }
-//        UIView.animate(withDuration: 0.2) {
-//            self.view.transform = CGAffineTransform(translationX: 0, y: translation)
-//        }
-    }
-    
-//    
-//    func keyboardWillHide(notification: NSNotification) {
-//        UIView.animate(withDuration: 0.2) {
-//            self.view.transform = CGAffineTransform(translationX: 0, y: 0)
-//        } 
-//    }
-//    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-
-
-
-
-
-
-
-
-
-
 
 
 extension UIColor {

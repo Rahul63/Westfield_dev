@@ -1,7 +1,7 @@
 ////
 ////  CustomLabel.swift
 ////
-////  Created by Etay Luz on 8/23/16.
+////  Created by RAHUL on 8/23/16.
 ////
 //
 //
