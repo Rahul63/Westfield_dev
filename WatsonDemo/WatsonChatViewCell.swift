@@ -30,7 +30,7 @@ class WatsonChatViewCell: UITableViewCell {
     // MARK: - Doc
     private struct Doc {
         
-        static var linkUrl = ""
+        static var linkUrl = [String]()
         static let employerPolicy = "https://drive.google.com/file/d/0B-UVZVvBHs8uUjJiSXJlS2NXRGxOd3YtX1cxbExhYXhfUXlz/view?usp=sharing"
         static let driverTraining = "https://drive.google.com/file/d/0B-UVZVvBHs8uQ1puaXhBYS11SFdfUHZEWXZqSFN2T29xSmMw/view?usp=sharing"
         static let vehicleInspection = "https://drive.google.com/file/d/0B-UVZVvBHs8ueVVDOHkza2hKNVNyanNZSXFUTkFpZldnSEdR/view?usp=sharing"
@@ -45,6 +45,8 @@ class WatsonChatViewCell: UITableViewCell {
     @IBOutlet weak var heightLable: UILabel!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     var optionData = [String]()
+    var linkUrlArr = [String]()
+    var regexArr = [NSRange]()
     var isbuttonEnable : Bool = true
     var selectedButtonTitle : String? = ""
     
@@ -112,28 +114,42 @@ class WatsonChatViewCell: UITableViewCell {
             
         }
         var range1: NSRange? = nil
+        self.linkUrlArr.removeAll()
+        self.regexArr.removeAll()
+        
         text = text.replacingOccurrences(of: "<br>", with: "\n")
         optionData.removeAll()
         text = text.replacingOccurrences(of: "\",\"", with: "\n\n")
-
+        
+        
         let nsString = text as NSString
         let regex = try! NSRegularExpression(pattern: "([hH][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])")
-        
-        if let result = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).last {
-            var optionsString = nsString.substring(with: result.range)
-            optionsString = optionsString.replacingOccurrences(of: "\\", with: "")
-            Doc.linkUrl = optionsString
-            text = text.replacingOccurrences(of: optionsString, with: "")
-            let range = text.range(of:"<a[^>]*>(.*?)</a>", options:.regularExpression)
-            if range != nil {
-                let found = text.substring(with: range!)
-                let foundStr = found.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                text = text.replacingOccurrences(of: found, with: foundStr)
-                let nsText = text as NSString
-                range1 = nsText.range(of: foundStr)
+        for textN in regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)) {
+            print(textN.numberOfRanges)
+            for i in 0..<textN.numberOfRanges{
+                let  rangg = textN.rangeAt(i)
+                
+                var stringST = nsString.substring(with: rangg)
+                stringST = stringST.replacingOccurrences(of: "\"", with: "")
+                stringST = stringST.replacingOccurrences(of: "\\", with: "")
+                if self.linkUrlArr.contains(stringST) == false {
+                    self.linkUrlArr.append(stringST)
+                }
+                text = text.replacingOccurrences(of: stringST, with: "")
+                let range = text.range(of:"<a[^>]*>(.*?)</a>", options:.regularExpression)
+                if range != nil {
+                    let found = text.substring(with: range!)
+                    let foundStr = found.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                    text = text.replacingOccurrences(of: found, with: foundStr)
+                    let nsText = text as NSString
+                    range1 = nsText.range(of: foundStr)
+                    self.regexArr.append(range1!)
+                }
+                
             }
         }
         
+
         var foundNew = text
         
         let rangeNew = foundNew.range(of:"(?=<)[^.]+(?=>)", options:.regularExpression)
@@ -156,9 +172,18 @@ class WatsonChatViewCell: UITableViewCell {
         foundNew = foundNew.replacingOccurrences(of: ">", with: "")
         foundNew = foundNew.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         messageLabel.text = foundNew
-        if range1 != nil{
-            messageLabel.addLink(to: URL(string: Doc.linkUrl) , with: range1!)
+        
+        
+        if self.linkUrlArr.count > 0 {
+            for i in 0..<self.linkUrlArr.count{
+                messageLabel.addLink(to: URL(string: self.linkUrlArr[i]), with: self.regexArr[i])
+            }
+            
         }
+        
+//        if range1 != nil{
+//            messageLabel.addLink(to: URL(string: Doc.linkUrl) , with: range1!)
+//        }
         
     
     }
@@ -179,7 +204,7 @@ class WatsonChatViewCell: UITableViewCell {
             let lable = makeTextLableWithText(index: i)
             
             let btnTitle = optionData[i]
-            if btnTitle.contains(self.selectedButtonTitle!){
+            if btnTitle == self.selectedButtonTitle!{
                 button.isSelected = true
             }
             
