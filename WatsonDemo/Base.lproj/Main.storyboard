@@ -1263,11 +1263,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="383" height="97"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="display1" translatesAutoresizingMaskIntoConstraints="NO" id="6da-QB-Gie">
-                                                    <rect key="frame" x="0.0" y="0.0" width="120" height="92"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="display1" translatesAutoresizingMaskIntoConstraints="NO" id="6da-QB-Gie">
+                                                    <rect key="frame" x="14" y="0.0" width="112" height="92"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="92" id="CkP-vN-W0E"/>
-                                                        <constraint firstAttribute="width" constant="120" id="wzd-DU-8UU"/>
+                                                        <constraint firstAttribute="width" constant="112" id="wzd-DU-8UU"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBn-IY-bF5">
@@ -1343,12 +1343,12 @@
                                                 <constraint firstAttribute="topMargin" secondItem="OBn-IY-bF5" secondAttribute="top" constant="6" id="JS6-TQ-NRB"/>
                                                 <constraint firstItem="BC4-ql-KPn" firstAttribute="top" secondItem="pQD-zQ-qiV" secondAttribute="bottom" id="MCw-gP-Res"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="OBn-IY-bF5" secondAttribute="trailing" constant="10" id="R35-Vw-gWV"/>
-                                                <constraint firstItem="BC4-ql-KPn" firstAttribute="leading" secondItem="6da-QB-Gie" secondAttribute="trailing" constant="8" id="SRA-cg-NEL"/>
+                                                <constraint firstItem="BC4-ql-KPn" firstAttribute="leading" secondItem="6da-QB-Gie" secondAttribute="trailing" constant="2" id="SRA-cg-NEL"/>
                                                 <constraint firstItem="od3-GX-oni" firstAttribute="top" secondItem="pQD-zQ-qiV" secondAttribute="bottom" id="Vbb-1G-BIH"/>
-                                                <constraint firstItem="pQD-zQ-qiV" firstAttribute="leading" secondItem="6da-QB-Gie" secondAttribute="trailing" constant="8" id="XHR-1p-77E"/>
+                                                <constraint firstItem="pQD-zQ-qiV" firstAttribute="leading" secondItem="6da-QB-Gie" secondAttribute="trailing" constant="2" id="XHR-1p-77E"/>
                                                 <constraint firstItem="pQD-zQ-qiV" firstAttribute="top" secondItem="xUJ-rG-k1h" secondAttribute="topMargin" constant="18" id="aHH-xF-Rzx"/>
-                                                <constraint firstItem="OBn-IY-bF5" firstAttribute="leading" secondItem="6da-QB-Gie" secondAttribute="trailing" constant="8" id="aad-oJ-LbX"/>
-                                                <constraint firstItem="6da-QB-Gie" firstAttribute="leading" secondItem="xUJ-rG-k1h" secondAttribute="leadingMargin" constant="-8" id="fcc-51-8Pa"/>
+                                                <constraint firstItem="OBn-IY-bF5" firstAttribute="leading" secondItem="6da-QB-Gie" secondAttribute="trailing" constant="2" id="aad-oJ-LbX"/>
+                                                <constraint firstItem="6da-QB-Gie" firstAttribute="leading" secondItem="xUJ-rG-k1h" secondAttribute="leadingMargin" constant="6" id="fcc-51-8Pa"/>
                                                 <constraint firstItem="YaM-u7-VHh" firstAttribute="top" secondItem="pQD-zQ-qiV" secondAttribute="bottom" id="ohC-m9-WUa"/>
                                                 <constraint firstItem="00e-gt-u6R" firstAttribute="leading" secondItem="od3-GX-oni" secondAttribute="trailing" constant="8" id="qXE-Vv-a2e"/>
                                                 <constraint firstItem="6da-QB-Gie" firstAttribute="top" secondItem="xUJ-rG-k1h" secondAttribute="topMargin" constant="-8" id="sYu-OS-K7x"/>
@@ -2127,8 +2127,12 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="CDJ-bK-S2h">
                                                     <rect key="frame" x="80" y="10" width="258" height="120"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is intial text to shown for constrant height and width" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZG-tf-AMs" customClass="TTTAttributedLabel">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FNh-rD-tgq">
                                                             <rect key="frame" x="0.0" y="0.0" width="258" height="120"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is intial text to shown for constrant height and width" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZG-tf-AMs" customClass="TTTAttributedLabel">
+                                                            <rect key="frame" x="0.0" y="120" width="258" height="0.0"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>

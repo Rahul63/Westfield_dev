@@ -187,13 +187,15 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
     
     @IBAction func HelpButtonPressed(_ sender: Any) {
         let screenSize: CGRect = UIScreen.main.bounds
-        helpView = UIView(frame: CGRect(x: 10, y: screenSize.height/2-50, width: screenSize.width - 20, height: 80))
+        helpView = UIView(frame: CGRect(x: 10, y: 50, width: screenSize.width - 20, height: screenSize.height-120))
         helpView.layer.cornerRadius = 10
         helpViewBG = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width , height: screenSize.height))
         helpViewBG.backgroundColor = UIColor.gray
         helpViewBG.alpha = 0.4
         helpView.backgroundColor = UIColor.white
         
+        let scrollView = UIScrollView(frame: CGRect(x: 0, y: 35, width: helpView.frame.width , height: helpView.frame.height-40))
+        helpView.addSubview(scrollView)
         
         let cancelButton = UIButton(frame : CGRect(x: screenSize.width-55, y: 0, width: 35, height: 35))
         cancelButton.setImage(#imageLiteral(resourceName: "cancelBtn"), for: .normal)
@@ -202,16 +204,20 @@ class ChatViewController: UIViewController,watsonChatCellDelegate,AVAudioPlayerD
         cancelButton.addTarget(self, action: #selector(self.pressed(sender:)), for: .touchUpInside)
         helpView.addSubview(cancelButton)
         
-        let label = UILabel(frame: CGRect(x: 10, y: 25, width: screenSize.width - 50, height: 100))
+        let label = UILabel(frame: CGRect(x: 10, y: 0, width: scrollView.frame.width - 15, height: 100))
         label.numberOfLines = 0
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.textAlignment = .left
-        label.text = "Advice help text is under review, will display Soon"
-        label.sizeToFit()
         label.textColor = UIColor.black
-        helpView.addSubview(label)
-        //helpView.heightAnchor.constraint(equalTo: label.heightAnchor, multiplier: 1.5)
+        label.font = UIFont.boldSystemFont(ofSize: 13.0)
+        label.text = "- Using the Microphone\nTo use the microphone press the microphone logo within the Dialog section. As the microphone logo turns green, voice capturing begins. When you are done speaking, simply press the microphone logo again. The logo will then revert to its original color and voice capturing will cease.\n\n- Updating First Name\nIf you have captured your first name during the introductory dialog and it is not correct, it is possible to update your name.To change your name please visit the Settings section in the app.There you will see your first name as it was captured.Edit as desired.The change will be immediate and future dialog will repeat the name as displayed in the Settings section.\n\n- Sharing Toolbox Content\nVisit the Toolbox section in the app to see the currently available content.Here you can view, send or download content, as desired.\n\n- Turning Voice On/Off\nTo turn Voice on or off simply visit the Settings section. Here you will find a Voice toggle that will allow you to easily enable or disable voice. Jump back to the Dialog section to see the change has taken effect immediately."
+        label.sizeToFit()
         
+        //label.clipsToBounds = true
+        scrollView.addSubview(label)
+        //scrollView.clipsToBounds = true
+        scrollView.contentSize = CGSize(width:screenSize.width-20, height: label.frame.size.height)
+        //helpView.heightAnchor.constraint(equalTo: label.heightAnchor, multiplier: 1.5)
         helpView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
         UIView.animate(withDuration: 1.0, delay: 0.5, options: .curveEaseOut, animations: {() -> Void in
             self.helpView.transform = CGAffineTransform.identity

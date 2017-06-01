@@ -21,6 +21,7 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var delegate: AutoViewDelegate?
     var helpViewBG = UIView()
     var  indicatorView = ActivityView()
+    var imageSizeScale : CGFloat = 0.7
     var cIndex : Int! = 0
     //var itemValue = [BOXItem]()
     var videoValue = [BOXItem]()
@@ -248,6 +249,8 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     //print("IMMMAAAGGEEE : \(optionsString)")
                     listCell.thumbImageVw.sd_setImage(with: URL(string : optionsString!)) { (image, error, imageCacheType, imageUrl) in
                         if image != nil {
+                            listCell.thumbImageVw.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: (image?.size.width)!*self.imageSizeScale, maxHeight: (image?.size.height)!*self.imageSizeScale)
+                            listCell.thumbImageVw.sizeToFit()
                         
                         }else
                         {
@@ -258,7 +261,8 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }else{
                 listCell.thumbImageVw.image = UIImage.init(imageLiteralResourceName: "display4")
             }
-            
+            listCell.thumbImageVw.isHidden = false
+            listCell.lineImage.isHidden = false
             listCell.titleLbl.text = nameStr! as String//self.sharedInstnce.itemValue[indexPath.row].name
             listCell.descriptionLbl.text = self.sharedInstnce.itemValue[indexPath.row].itemDescription ?? "No description Available"
             
@@ -362,8 +366,45 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
 
     
+    func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage
+    {
+        let oldWidth = image.size.width;
+        let oldHeight = image.size.height;
+        
+        let scaleFactor = (oldWidth > oldHeight) ? width / oldWidth : height / oldHeight;
+        
+        let newHeight = oldHeight * scaleFactor;
+        let newWidth = oldWidth * scaleFactor;
+        let newSize = CGSize(width:newWidth, height:newHeight);
+        
+        return resizeImage(image: image, targetSize: newSize)//(image, size: newSize);
+    }
     
-    
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / image.size.width
+        let heightRatio = targetSize.height / image.size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width:size.width * heightRatio, height:size.height * heightRatio)
+        } else {
+            newSize = CGSize(width:size.width * widthRatio,  height:size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(x:0, y:0, width:newSize.width, height:newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
     
     func StartAnimating() {
         helpViewBG.isHidden = false

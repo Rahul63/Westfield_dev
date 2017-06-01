@@ -50,6 +50,11 @@ class ToolBoxViewController: UIViewController,CAPSPageMenuDelegate,AutoViewDeleg
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.SearchTxt.text = ""
+    }
+    
     
     func playerDidFinishPlaying() {
         if isSignOut == false{
