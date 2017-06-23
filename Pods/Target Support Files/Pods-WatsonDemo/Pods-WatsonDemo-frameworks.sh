@@ -89,10 +89,14 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/CryptoSwift/CryptoSwift.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/JSONWebToken/JWT.framework"
   install_framework "$BUILT_PRODUCTS_DIR/box-ios-sdk/BoxContentSDK.framework"
   install_framework "$BUILT_PRODUCTS_DIR/youtube-ios-player-helper/youtube_ios_player_helper.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/CryptoSwift/CryptoSwift.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/JSONWebToken/JWT.framework"
   install_framework "$BUILT_PRODUCTS_DIR/box-ios-sdk/BoxContentSDK.framework"
   install_framework "$BUILT_PRODUCTS_DIR/youtube-ios-player-helper/youtube_ios_player_helper.framework"
 fi

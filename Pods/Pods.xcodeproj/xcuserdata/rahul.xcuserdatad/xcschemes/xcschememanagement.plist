@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>CryptoSwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>JSONWebToken.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-WatsonDemo.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,12 +37,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>05616065925CBEC26FA86E36554D5E1D</key>
+		<key>007C29FF2E91C04E733843531A12F91E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1B6DD5F7BFF8C03F512C9DD631552EBF</key>
+		<key>023E59C89C66F684D878636FD6CC8740</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>05616065925CBEC26FA86E36554D5E1D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -42,7 +57,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>68CFD693F3CB1FD0015A5733C7EEA30E</key>
+		<key>6BB1C1403B2419F911818DA8413FDA07</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EA10659E79BE64E38684D20528998020</key>
 		<dict>
 			<key>primary</key>
 			<true/>

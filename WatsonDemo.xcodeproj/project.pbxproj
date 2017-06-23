@@ -66,6 +66,7 @@
 		B78E7A991E93C8E9005D3825 /* AutoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78E7A981E93C8E9005D3825 /* AutoViewController.swift */; };
 		B78E7A9B1E93C90B005D3825 /* LiabilityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78E7A9A1E93C90B005D3825 /* LiabilityViewController.swift */; };
 		B78E7A9D1E93C92B005D3825 /* PropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78E7A9C1E93C92B005D3825 /* PropertyViewController.swift */; };
+		B796E5961EF851930080C8BB /* Objective-CBridgingHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B796E5951EF851930080C8BB /* Objective-CBridgingHeader.m */; };
 		B79D3A201E8146840035133B /* AttributedLable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79D3A1F1E8146840035133B /* AttributedLable.swift */; };
 		B79D3A261E814CCA0035133B /* ActiveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79D3A211E814CCA0035133B /* ActiveType.swift */; };
 		B79D3A271E814CCA0035133B /* ActiveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79D3A221E814CCA0035133B /* ActiveLabel.swift */; };
@@ -165,6 +166,8 @@
 		B78E7A981E93C8E9005D3825 /* AutoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoViewController.swift; sourceTree = "<group>"; };
 		B78E7A9A1E93C90B005D3825 /* LiabilityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiabilityViewController.swift; sourceTree = "<group>"; };
 		B78E7A9C1E93C92B005D3825 /* PropertyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyViewController.swift; sourceTree = "<group>"; };
+		B796E5941EF851920080C8BB /* WatsonDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WatsonDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		B796E5951EF851930080C8BB /* Objective-CBridgingHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Objective-CBridgingHeader.m"; sourceTree = "<group>"; };
 		B79D3A1F1E8146840035133B /* AttributedLable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedLable.swift; sourceTree = "<group>"; };
 		B79D3A211E814CCA0035133B /* ActiveType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveType.swift; sourceTree = "<group>"; };
 		B79D3A221E814CCA0035133B /* ActiveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveLabel.swift; sourceTree = "<group>"; };
@@ -234,7 +237,6 @@
 				B78A6F6C1E7927540081CFE1 /* SettingsViewController.swift */,
 				B7873FD01E7BD58000935479 /* UserDetailViewController.swift */,
 				B7A50BE91E826F5E00D82A84 /* WatsonChatDetailViewController.swift */,
-				B7A50BF11E852C8400D82A84 /* DistDetailViewController.swift */,
 				B7A50BF31E852CC100D82A84 /* AddDistViewController.swift */,
 				B709678F1E92624A0097AEFE /* ToolBoxViewController.swift */,
 				B78E7A961E93C8D7005D3825 /* GeneralSafetyViewController.swift */,
@@ -328,6 +330,7 @@
 				B4D160FA1DDBF19D00D436F1 /* SpeechToTextService.swift */,
 				B48B18781DDB7025008CE7C2 /* TextToSpeechService.swift */,
 				B7A50BEB1E82812C00D82A84 /* MiscellaneousService.swift */,
+				B7A50BF11E852C8400D82A84 /* DistDetailViewController.swift */,
 				B7A50BED1E83E7E500D82A84 /* DistributionListService.swift */,
 				B7757F091EC3617A008A57CB /* Reachability.swift */,
 			);
@@ -379,6 +382,8 @@
 				B48B185F1DD92AE9008CE7C2 /* Storyboards */,
 				B48B18751DDB6EE0008CE7C2 /* Frameworks */,
 				B48B18601DD92B02008CE7C2 /* Supporting Files */,
+				B796E5951EF851930080C8BB /* Objective-CBridgingHeader.m */,
+				B796E5941EF851920080C8BB /* WatsonDemo-Bridging-Header.h */,
 			);
 			path = WatsonDemo;
 			sourceTree = "<group>";
@@ -466,6 +471,7 @@
 					B4CBCF901DD91EA70003074A = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = T9K55A3DQ5;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -577,6 +583,7 @@
 				B78A6F701E79483C0081CFE1 /* UserViewCell.swift in Sources */,
 				B7A50BF41E852CC100D82A84 /* AddDistViewController.swift in Sources */,
 				B4D160FB1DDBF19D00D436F1 /* SpeechToTextService.swift in Sources */,
+				B796E5961EF851930080C8BB /* Objective-CBridgingHeader.m in Sources */,
 				B79D3A2A1E814CCA0035133B /* StringTrimExtension.swift in Sources */,
 				B78A6F6D1E7927540081CFE1 /* SettingsViewController.swift in Sources */,
 				B7A471C61EA0C77C00B10E22 /* ToolBoxDetailView.swift in Sources */,
@@ -743,6 +750,7 @@
 			baseConfigurationReference = 7AB931FD30A6559E63E8B1B3 /* Pods-WatsonDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = T9K55A3DQ5;
@@ -757,6 +765,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "WatsonDemo/WatsonDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -767,6 +777,7 @@
 			baseConfigurationReference = F12B45487CFEA67EC7AB8F09 /* Pods-WatsonDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = T9K55A3DQ5;
@@ -781,6 +792,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "WatsonDemo/WatsonDemo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -19,8 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaults = UserDefaults.standard
         let defaultValues = ["":"UserDetail"]
         
-        _ = BOXContentClient.self.setClientID("2y3f7wr99x1emxgwuaufiwku9km19kna", clientSecret: "5xCJXqmPgliUNZbFCd87R859d1OURER2")
-
+        _ = BOXContentClient.self.setClientID("usn8nf8li1e7filj5nqwkz4vzb8j27wf", clientSecret: "V9WnBBlb5EjiHY1WUvl0G6mCkm3SD5Lw")
+        
         defaults.register(defaults: defaultValues)
         //defaults.registerDefaults(defaultValues)
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)

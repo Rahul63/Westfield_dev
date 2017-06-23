@@ -68,7 +68,18 @@ struct GlobalConstants {
     
     static let getProfileData = "https://westfiledlossadvisornodejsorchestrator.mybluemix.net/userprofile/%@"
     static let updateDistributionList = "http://westfiledlossadvisorpilot.mybluemix.net/userdistributionlist"
-    
+    static let issValue = "usn8nf8li1e7filj5nqwkz4vzb8j27wf"//"2y3f7wr99x1emxgwuaufiwku9km19kna"
+    static let sub = "16404750"
+    static let boxSubType = "enterprise"
+    static let audValue = "https://api.box.com/oauth2/token"
+    static let typeValue = "JWT"
+    static let algValue = "RS256"
+    static let kidValue = "k74gw4la"//"ytevi8tw"
+    static let jtiValue = "M4yeY3W63TxHa9jFek85"
+    static let grantType = "urn:ietf:params:oauth:grant-type:jwt-bearer"
+    static let clientSecret = "5xCJXqmPgliUNZbFCd87R859d1OURER2"
+    static let tokenUrl = "https://api.box.com/oauth2/token"
+    static let userTokenUrl = "http://box-integration-auth.mybluemix.net/appuser"
     
    // https://westfiledlossadvisornodejsorchestrator.mybluemix.net
     

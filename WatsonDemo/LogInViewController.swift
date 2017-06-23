@@ -30,7 +30,7 @@ class LogInViewController: UIViewController,MiscellaneousServiceDelegate{
         
         userNameField.attributedPlaceholder = NSAttributedString(string: "User Name", attributes: [NSForegroundColorAttributeName : UIColor.white])
         passwordField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName : UIColor.white])
-        
+        //self.logInUser()
         self.registerForKeyboardNotifications()
         self.signInButton.layer.cornerRadius = 3.0
         self.view.backgroundColor = UIColor(netHex:0xd89c54)

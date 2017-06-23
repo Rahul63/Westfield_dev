@@ -17,12 +17,14 @@ protocol AutoViewDelegate
     
 }
 
-class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,ToolBoxSearchDelegate {
+class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,ToolBoxSearchDelegate,BOXAPIAccessTokenDelegate,MiscellaneousServiceDelegate {
+    lazy var tokenService: MiscellaneousService = MiscellaneousService(delegate:self)
     var delegate: AutoViewDelegate?
     var helpViewBG = UIView()
     var  indicatorView = ActivityView()
     var imageSizeScale : CGFloat = 0.7
     var cIndex : Int! = 0
+    var boxContent = BOXContentClient()
     //var itemValue = [BOXItem]()
     var videoValue = [BOXItem]()
     @IBOutlet weak var autoTableView: UITableView!
@@ -31,6 +33,7 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var SearchData:[BOXItem] = []
     var isDetailClicked : Bool = false
     let sharedInstnce = watsonSingleton.sharedInstance
+    var tokan : String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,16 +53,7 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         helpViewBG.addSubview(indicatorView)
         helpViewBG.isHidden = true
         ToolBxV.delegate = self
-        let boxContent = BOXContentClient.default()
-        boxContent?.authenticate(completionBlock:{(file: BOXUser?, err:Error?) -> Void in
-            if (err == nil) {
-                print("logged In\(file?.login)")
-            }else{
-                //print(err)
-            }
-        })
         
-
         // Do any additional setup after loading the view.
     }
     
@@ -69,7 +63,8 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if sharedInstnce.isToolBoxDetailClicked == false {
            // self.sharedInstnce.itemValue.removeAll()
             StartAnimating()
-            self.getToolBoxData()
+//            self.getToolBoxData()
+            tokenService.getUserAccessTokenForBox()
         }else{
             self.isDetailClicked = false
             sharedInstnce.isToolBoxDetailClicked = false
@@ -77,20 +72,53 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
     }
     
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.stopAnimating()
     }
     
+    //https://account.box.com/api/oauth2/authorize?response_type=code&client_id=2y3f7wr99x1emxgwuaufiwku9km19kna&redirect_uri=boxsdk-2y3f7wr99x1emxgwuaufiwku9km19kna://boxsdkoauth2redirect&state=security_token%3DKnhMJatFipTAnM0nHlZA
+    
+    func didReceiveMessage(withText text: Any){
+        self.tokan = text as! String
+        //self.tokan = "HdFX02CbVAJHxWtsyAr5ZUjxAJPN6VZj"
+        //stopAnimating()
+        self.boxContent = BOXContentClient.default()
+        boxContent.accessTokenDelegate = self
+        boxContent.authenticate(completionBlock:{(file: BOXUser?, err:Error?) -> Void in
+            if (err == nil) {
+                //print("logged In\(file?.login)")
+                //self.StartAnimating()
+                self.getToolBoxData()
+            }else{
+                //print(err)
+            }
+        })
+    }
+    
+    
+    
+    func parseJsonProfile(json: [String:AnyObject]) {
+        //
+    }
+    
+    
+    public func fetchAccessToken(completion: ((String?, Date?, Error?) -> Void)!) {
+        //print("ACESSSSS Token fetcheddd>>>>>>>>>>\(completion)")
+        completion(tokan,NSDate.init(timeIntervalSinceNow: 100) as Date,nil)
+    }
+    
+
     
     func getToolBoxData() {
-        let boxContent = BOXContentClient.default()
+        
         //let getHandoutFiles = boxContent?.folderItemsRequest(withID: "23235938513")
-        let getVideoFiles = boxContent?.folderItemsRequest(withID: "23235938001")
-        //let shared = boxContent
+        let getVideoFiles = self.boxContent.folderItemsRequest(withID: "23235938001")
         getVideoFiles?.perform(completion: {item in
             if item.0 != nil {
                 self.videoValue = item.0! as! [BOXItem]
+               // print(self.videoValue)
             }
             self.addHandouts()
         })
@@ -98,10 +126,9 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     func addHandouts()  {
-        let boxContent = BOXContentClient.default()
-        let getHandoutFiles = boxContent?.folderItemsRequest(withID: "23235938513")
+        let getHandoutFiles = self.boxContent.folderItemsRequest(withID: "23235938513")
         getHandoutFiles?.perform(completion: {item in
-            //print(" MY Value..\(item.0)")
+            //print(" MY Value..\(item)")
             if item.0 != nil {
                 self.stopAnimating()
                 self.sharedInstnce.itemValue = item.0! as! [BOXItem]
@@ -193,7 +220,7 @@ class AutoViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                         optionsString = optionsString?.replacingOccurrences(of: "</img:src>", with: "")
                         listCell.thumbImageVw.setShowActivityIndicator(true)
                         listCell.thumbImageVw.contentMode = .scaleAspectFit
-                        print("IMMMAAAGGEEE : \(optionsString)")
+                        //print("IMMMAAAGGEEE : \(optionsString)")
                         listCell.thumbImageVw.sd_setImage(with: URL(string : optionsString!)) { (image, error, imageCacheType, imageUrl) in
                             if image != nil {
                                 

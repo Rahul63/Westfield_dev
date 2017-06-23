@@ -6,6 +6,7 @@ target 'WatsonDemo' do
   use_frameworks!
   pod 'box-ios-sdk'
   pod "youtube-ios-player-helper", "~> 0.1.4"
+  pod 'JSONWebToken'
 
   # Pods for WatsonDemo
 

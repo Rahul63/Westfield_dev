@@ -174,7 +174,7 @@ class WatsonChatViewCell: UITableViewCell {
         messageLabel.text = foundNew
         
         
-        if self.linkUrlArr.count > 0 {
+        if self.linkUrlArr.count > 0 && self.regexArr.count>0 {
             for i in 0..<self.linkUrlArr.count{
                 messageLabel.addLink(to: URL(string: self.linkUrlArr[i]), with: self.regexArr[i])
             }
